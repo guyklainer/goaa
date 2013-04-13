@@ -2,7 +2,7 @@
 // -- Global settings
 var settings = {
     'siteName' : 'Goaa',
-    'sessionSecret' : 'sessionSecret',
+    'sessionSecret' : 'SDFsdf34dfffsdfFSf',
     'uri' : 'http://localhost', // Without trailing /
     'port' : process.env.PORT || 3000,
     'debug' : 0,

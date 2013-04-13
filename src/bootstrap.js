@@ -1,10 +1,32 @@
 
 // -- Module dependencies
-var express = require('express');
+var express         = require('express'),
+    passport        = require('passport'),
+    LocalStrategy   = require('passport-local').Strategy,
+    mongoose        = require('mongoose'),
+    User            = mongoose.model('User'),
+    conf            = require('./settings/config'),
+    settings        = conf.settings;
 
 // -- Global paths
 var views = __dirname + '/views',
     static_root = __dirname + '/public';
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
+
 
 /**
  * Express base configuration 
@@ -38,6 +60,12 @@ module.exports.boot = function(app) {
          app.use(express.favicon());
          app.use(express.static(static_root));
          
+         //Sessions
+         app.use(express.session( { secret: settings.sessionSecret } ));
+
+         // Passport
+         app.use(passport.initialize());
+         app.use(passport.session());
 
          // -- 500 status
          app.use(function(err, req, res, next) {

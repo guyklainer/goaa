@@ -3,7 +3,8 @@
 var express     = require('express'),
     http        = require('http'),
     logo        = require('./lib/logo'),
-    color       = require('colors');
+    color       = require('colors'),
+    DB 			= require('./settings/db');
 
 // -- Create Express instance and export
 var app         = express(),
