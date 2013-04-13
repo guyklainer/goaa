@@ -19,7 +19,7 @@ This project uses a number of bits and bobs:
 * [Less](http://lesscss.org/) Node dynamic css language.
 * [Connect Assets](https://github.com/TrevorBurnham/connect-assets) A Rails 3.1-style asset pipeline for Node.js
 
-Install
+Install 
 -------
 
 Install dependencies:
