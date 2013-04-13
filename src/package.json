@@ -1,15 +1,16 @@
 {
-    "name": "node-express-3.0-html5-boilerplate", 
-    "version": "0.2.0", 
-    "private": true, 
-    "dependencies": {
-        "express": "3.x", 
-        "jade": "0.x",
-        "less": "1.x",
-        "connect-assets": "2.x",
-        "colors": "0.x"
-    },
-    "engines": {
-        "node": "~0.8.x"
-    }
+  "name": "node-express-3.0-html5-boilerplate",
+  "version": "0.2.0",
+  "private": true,
+  "dependencies": {
+    "express": "3.x",
+    "jade": "0.x",
+    "less": "1.x",
+    "connect-assets": "2.x",
+    "colors": "0.x",
+    "ejs": "~0.8.3"
+  },
+  "engines": {
+    "node": "~0.8.x"
+  }
 }

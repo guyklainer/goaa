@@ -7,7 +7,11 @@ module.exports = function(app) {
 
     app.get('/', function(req, res){
         res.render('home', { 
-            title: 'Node.js Test app homepage' 
+            title: 'Welcome To Goaa' ,
+            model: {
+                name: 'oryan',
+                count: 99
+            }
         });
     });
 

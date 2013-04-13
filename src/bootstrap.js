@@ -19,7 +19,7 @@ module.exports.boot = function(app) {
 
          // -- Define view engine with its options
          app.set('views', views);
-         app.set('view engine', 'jade');
+         app.set('view engine', 'ejs');
          
          // -- Set uncompressed html output and disable layout templating
          app.locals({
