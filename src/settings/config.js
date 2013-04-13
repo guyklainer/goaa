@@ -1,12 +1,13 @@
 
 // -- Global settings
 var settings = {
-    'siteName' : 'yoursitename',
+    'siteName' : 'Goaa',
     'sessionSecret' : 'sessionSecret',
     'uri' : 'http://localhost', // Without trailing /
     'port' : process.env.PORT || 3000,
     'debug' : 0,
-    'profile' : 0
+    'profile' : 0,
+    'db' : 'mongodb://localhost/goaa'
 };
 
 /**
