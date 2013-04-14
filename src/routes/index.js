@@ -24,10 +24,11 @@ module.exports = function(app) {
     });
 
     app.post('/login',
-        passport.authenticate('local'),
-        function( req, res ) {
-            res.redirect( '/' );
-    });
+        passport.authenticate( 'local',
+            { successRedirect: '/', failureRedirect: '/login' }
+        )
+
+    );
 
     app.get('/signup', function( req, res ){
         res.render( 'signup', { 
@@ -36,10 +37,11 @@ module.exports = function(app) {
     });
 
     app.post('/signup', function( req, res ){
-        if( req.body.password == req.body.confirm_password ) {
-            
-            var user = new User( req.body )
-                .save( function( err, user, count ){
+        if( req.body.passwordHash == req.body.confirm_password ) {
+
+            var user = new User( req.body );
+            user.password = req.body.passwordHash;
+            user.save( function( err, user, count ){
                     res.redirect( '/login' );
                 });
         } else {

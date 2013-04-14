@@ -12,27 +12,42 @@ var express         = require('express'),
 var views = __dirname + '/views',
     static_root = __dirname + '/public';
 
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
-    });
-  }
-));
-
-
 /**
  * Express base configuration 
  * Bootstrap
  */
 module.exports.boot = function(app) {
+
+    // Setting for passport
+    passport.serializeUser( function( user, done ) {
+        done( null, user._id );
+    });
+
+    passport.deserializeUser( function( _id, done ) {
+        User.findById( _id, function( err, user ) {
+            done( err, user );
+        });
+    });
+
+
+    passport.use( new LocalStrategy(
+          
+        function( username, password, done ) {
+            User.findOne({ username: username }, function ( err, user ) {
+
+                if( err ) { 
+                    return done( err ); 
+                }
+                if( !user ) {
+                    return done( null, false, { message: 'Incorrect username.' } );
+                }
+                if( !user.authenticate( password ) ) {
+                    return done( null, false, { message: 'Incorrect password.' } );
+                }
+                return done( null, user );
+            });
+        }
+    ));
 
     /**
      * Global configuration
@@ -50,11 +65,9 @@ module.exports.boot = function(app) {
          });
          
          // -- Parses x-www-form-urlencoded request bodies (and json)
+         app.use(express.cookieParser());
          app.use(express.bodyParser());
          app.use(express.methodOverride());
-         
-         // -- Express routing
-         app.use(app.router);
          
          // -- Static ressources
          app.use(express.favicon());
@@ -66,6 +79,9 @@ module.exports.boot = function(app) {
          // Passport
          app.use(passport.initialize());
          app.use(passport.session());
+
+         // -- Express routing
+         app.use(app.router);
 
          // -- 500 status
          app.use(function(err, req, res, next) {
