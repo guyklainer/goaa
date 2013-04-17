@@ -3,15 +3,23 @@ var mongoose    = require( 'mongoose' ),
     User        = mongoose.model('User');
 
 module.exports.login = function( req, res ) {
-    res.render( 'login', {
-        title: "Goaa - Login"
-    });
+    if( req.isAuthenticated() )
+        res.redirect( '/profile' );
+    else
+        res.render( 'login', {
+            title: "Goaa - Login"
+        });
 }
 
 module.exports.signup = function( req, res ) {
     res.render( 'signup', {
         title: "Goaa - Signup"
     });
+}
+
+module.exports.logout = function( req, res ) {
+    req.logout();
+    res.redirect( '/login' );
 }
 
 module.exports.makeSignup = function( req, res ) {
