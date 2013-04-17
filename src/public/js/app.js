@@ -1,8 +1,13 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives']).
+angular.module('App', ['myApp.filters', 'myApp.services', 'myApp.directives']).
   config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+
+        $routeProvider.when('/test', {
+            controller: TestCtrl,
+            template: '<h1> {{ test }} </h1>'
+        });
     $routeProvider.
       when('/', {
         templateUrl: 'partials/index',
@@ -29,3 +34,16 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives'])
       });
     $locationProvider.html5Mode(true);
   }]);
+
+//angular.module('App', []).config(function ($routeProvider) {
+//
+//    $routeProvider.when('/', {
+//        controller: TestCtrl,
+//        template: '<h1> {{ test }} </h1>'
+//    });
+//
+//});
+//
+function TestCtrl($scope) {
+    $scope.test = "Works!";
+}

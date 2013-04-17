@@ -58,6 +58,13 @@ module.exports = function(app) {
         }
     });
 
+    // redirect all others to the index (HTML5 history)
+    app.get('*', function(req, res){
+        res.render('index', {
+            title: 'Goaa'
+        });
+    });
+
     /*
      * Errors
      */

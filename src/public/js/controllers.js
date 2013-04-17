@@ -7,6 +7,7 @@ function IndexCtrl($scope) {
     success(function(data, status, headers, config) {
       $scope.posts = data.posts;
     });*/
+    $scope.msg="hello";
     $scope.items = [{title:"title1", number: 1}, {title:"title2", number:2}, {title:"title3", number:3}];
 }
 
