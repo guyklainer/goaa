@@ -2,17 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9649ed3d-8af8-421b-8316-98f6028bdaba" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/css/bootstrap.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/public/js/controllers.js" afterPath="$PROJECT_DIR$/src/public/js/controllers.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/footer.ejs" afterPath="$PROJECT_DIR$/src/views/footer.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/head.ejs" afterPath="$PROJECT_DIR$/src/views/head.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/header.ejs" afterPath="$PROJECT_DIR$/src/views/header.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/partials/index.ejs" afterPath="$PROJECT_DIR$/src/views/partials/index.ejs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Goaa.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="9649ed3d-8af8-421b-8316-98f6028bdaba" time="1366294782661" ignored="false" />
+    <file path="/Dummy.txt" changelist="9649ed3d-8af8-421b-8316-98f6028bdaba" time="1366305778921" ignored="false" />
     <file path="/home.ejs" changelist="9649ed3d-8af8-421b-8316-98f6028bdaba" time="1366188536197" ignored="false" />
     <file path="/a.dummy" changelist="9649ed3d-8af8-421b-8316-98f6028bdaba" time="1366220175743" ignored="false" />
     <file path="/index.ejs" changelist="9649ed3d-8af8-421b-8316-98f6028bdaba" time="1366304380895" ignored="false" />
@@ -24,6 +19,7 @@
     <file path="/index.js" changelist="9649ed3d-8af8-421b-8316-98f6028bdaba" time="1366190303578" ignored="false" />
     <file path="/app.js" changelist="9649ed3d-8af8-421b-8316-98f6028bdaba" time="1366239897049" ignored="false" />
     <file path="$PROJECT_DIR$/../angular-express-blog/app.js" changelist="9649ed3d-8af8-421b-8316-98f6028bdaba" time="1366235287900" ignored="false" />
+    <file path="/.gitignore" changelist="9649ed3d-8af8-421b-8316-98f6028bdaba" time="1366305794692" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +51,7 @@
       <file leaf-file-name="index.ejs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/partials/index.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="48" selection-start="351" selection-end="351" vertical-scroll-proportion="-8.75">
+            <state line="14" column="48" selection-start="351" selection-end="351" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -64,16 +60,25 @@
       <file leaf-file-name="bottom.ejs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/bottom.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="59" selection-start="759" selection-end="759" vertical-scroll-proportion="-9.375">
+            <state line="15" column="59" selection-start="759" selection-end="759" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="controllers.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="controllers.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/public/js/controllers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="30" selection-start="343" selection-end="343" vertical-scroll-proportion="0.3482972">
+            <state line="15" column="30" selection-start="343" selection-end="343" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="5" selection-start="108" selection-end="108" vertical-scroll-proportion="0.37151703">
               <folding />
             </state>
           </provider>
@@ -97,7 +102,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/public/js/libs/angular.min.js" />
         <option value="$PROJECT_DIR$/src/app.js" />
         <option value="$PROJECT_DIR$/src/routes/index.js" />
         <option value="$PROJECT_DIR$/src/public/js/services.js" />
@@ -113,6 +117,7 @@
         <option value="$PROJECT_DIR$/src/views/bottom.ejs" />
         <option value="$PROJECT_DIR$/src/views/partials/index.ejs" />
         <option value="$PROJECT_DIR$/src/public/js/controllers.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -148,6 +153,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -328,18 +334,17 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="editor" />
     <property name="recentsLimit" value="5" />
+    <property name="options.lastSelected" value="editor" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../angular-express-blog" />
     <property name="FullScreen" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -472,37 +477,22 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="43" selection-start="287" selection-end="287" vertical-scroll-proportion="0.21327014">
-          <folding />
-        </state>
+        <state line="9" column="43" selection-start="287" selection-end="287" vertical-scroll-proportion="0.21327014" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/public/js/services.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="18" selection-start="136" selection-end="136" vertical-scroll-proportion="0.16253869">
-          <folding />
-        </state>
+        <state line="7" column="18" selection-start="136" selection-end="136" vertical-scroll-proportion="0.16253869" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/public/js/filters.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="18" selection-start="48" selection-end="48" vertical-scroll-proportion="0.09287926">
-          <folding />
-        </state>
+        <state line="4" column="18" selection-start="48" selection-end="48" vertical-scroll-proportion="0.09287926" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/public/js/directives.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="18" selection-start="52" selection-end="52" vertical-scroll-proportion="0.116099074">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="16" selection-start="32" selection-end="32" vertical-scroll-proportion="0.09287926">
-          <folding />
-        </state>
+        <state line="5" column="18" selection-start="52" selection-end="52" vertical-scroll-proportion="0.116099074" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/public/js/app.js">
@@ -514,72 +504,63 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/public/js/libs/bootstrap.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="6" selection-start="123" selection-end="123" vertical-scroll-proportion="0.11848341">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
+        <state line="5" column="6" selection-start="123" selection-end="123" vertical-scroll-proportion="0.11848341" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/header.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/footer.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/public/css/bootstrap.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6158" column="0" selection-start="130824" selection-end="130824" vertical-scroll-proportion="0.9526066">
-          <folding />
-        </state>
+        <state line="6158" column="0" selection-start="130824" selection-end="130824" vertical-scroll-proportion="0.9526066" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/public/css/bootstrap-responsive.min.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="67" selection-start="16849" selection-end="16849" vertical-scroll-proportion="0.21327014">
-          <folding />
-        </state>
+        <state line="9" column="67" selection-start="16849" selection-end="16849" vertical-scroll-proportion="0.21327014" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/head.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="45" selection-start="529" selection-end="529" vertical-scroll-proportion="0.24630542">
-          <folding />
-        </state>
+        <state line="10" column="45" selection-start="529" selection-end="529" vertical-scroll-proportion="0.24630542" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="29" selection-start="97" selection-end="116" vertical-scroll-proportion="0.12057878">
-          <folding />
-        </state>
+        <state line="5" column="29" selection-start="97" selection-end="116" vertical-scroll-proportion="0.12057878" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/bottom.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="59" selection-start="759" selection-end="759" vertical-scroll-proportion="-9.375">
+        <state line="15" column="59" selection-start="759" selection-end="759" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/partials/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="48" selection-start="351" selection-end="351" vertical-scroll-proportion="-8.75">
+        <state line="14" column="48" selection-start="351" selection-end="351" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/public/js/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="30" selection-start="343" selection-end="343" vertical-scroll-proportion="0.3482972">
+        <state line="15" column="30" selection-start="343" selection-end="343" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="5" selection-start="108" selection-end="108" vertical-scroll-proportion="0.37151703">
           <folding />
         </state>
       </provider>
