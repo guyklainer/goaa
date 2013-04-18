@@ -1,15 +1,4 @@
 
-// -- Global settings
-var settings = {
-    'siteName' : 'Goaa',
-    'sessionSecret' : 'SDFsdf34dfffsdfFSfASDasd311ksevvf',
-    'uri' : 'http://localhost', // Without trailing /
-    'port' : process.env.PORT || 3000,
-    'debug' : 0,
-    'profile' : 0,
-    'db' : 'mongodb://localhost/goaa'
-};
-
 /**
  * Default configuration manager
  * Inject app and express reference
@@ -27,6 +16,17 @@ module.exports = function(app, express, env) {
         require("./production")(app, express);
     }
 
-};
+}
 
-module.exports.settings = settings;
+// -- Global settings
+module.exports.settings = {
+    'siteName' : 'Goaa',
+    'sessionSecret' : 'SDFsdf34dfffsdfFSfASDasd311ksevvf',
+    'uri' : 'http://localhost', // Without trailing /
+    'port' : process.env.PORT || 3000,
+    'debug' : 0,
+    'profile' : 0,
+    'db' : 'mongodb://localhost/goaa'
+}
+
+
