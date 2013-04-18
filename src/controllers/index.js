@@ -1,8 +1,14 @@
 
 module.exports.home = function( req, res ) {
-    res.render('home', {
-        title: 'Welcome To Goaa'
+    res.render('index', {
+        title: 'Goaa'
     });
+}
+
+module.exports.partials = function( req, res ) {
+    var name = req.params.name;
+    res.render('partials/' + name);
+
 }
 
 module.exports.e404 = function( req, res, next ) {
