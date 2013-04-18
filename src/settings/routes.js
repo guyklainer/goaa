@@ -12,6 +12,7 @@ module.exports = function( app, passport ) {
     // Home
     //*****************************
     app.get('/', index.home );
+    app.get('/partials/:name', index.partials );
 
 
     //*****************************
@@ -36,5 +37,8 @@ module.exports = function( app, passport ) {
      app.get( '/404', index.e404 );
      app.get( '/403', index.e403 );
      app.get( '/500', index.e500 );
+
+    //default route
+    app.get('*', index.home );
 
 }
