@@ -6,7 +6,7 @@ function IndexCtrl($scope) {
   /*$http.get('/api/posts').
     success(function(data, status, headers, config) {
       $scope.posts = data.posts;
-    });*/
+    });//*/
     $scope.form = {
         email: "",
         password: "",
