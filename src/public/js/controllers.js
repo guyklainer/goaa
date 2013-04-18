@@ -7,8 +7,17 @@ function IndexCtrl($scope) {
     success(function(data, status, headers, config) {
       $scope.posts = data.posts;
     });*/
-    $scope.msg="hello";
-    $scope.items = [{title:"title1", number: 1}, {title:"title2", number:2}, {title:"title3", number:3}];
+    $scope.form = {
+        email: "",
+        password: "",
+        remeberme: false
+    };
+    $scope.login = function(){
+        log("login for email: " + $scope.form.email);
+        //todo: login here
+
+    }
+
 }
 
 //function AddPostCtrl($scope, $http, $location) {

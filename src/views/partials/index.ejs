@@ -1,5 +1,28 @@
-<p>Hello From Index</p>
-<!--<div ng-repeat="item in items">-->
-    <!--<h4>{{item.title}}</h4>-->
-    <!--<p>{{item.number}}</p>-->
-<!--</div>-->
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <a class="brand offset5" href="#">Goaa</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+
+    <form class="form-signin" ng-submit="login()">
+        <input type="text" class="input-block-level" placeholder="Email address" ng-model="form.email">
+        <input type="password" class="input-block-level" placeholder="Password" ng-model="form.password">
+        <label class="checkbox">
+            <input type="checkbox" value="remember-me" ng-model="form.remeberme"> Remember me
+        </label>
+        <button class="btn btn-large btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+
+    <div class="row-fluid">
+        <h4>New here?</h4>
+        <button class="btn btn-large btn-success btn-block">Create New Account</button>
+    </div>
+</div>
