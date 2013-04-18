@@ -1,8 +1,4 @@
 
-/*
- * Routes
- */
-
 var mongoose    = require('mongoose'),
     User        = mongoose.model('User'),
     index       = require('../controllers/index'),
@@ -30,7 +26,7 @@ module.exports = function( app, passport ) {
 
 
     //*****************************
-    // TODO
+    // API
     //*****************************
 
 
