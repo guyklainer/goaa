@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-function IndexCtrl($scope) {
+function LoginCtrl($scope) {
   /*$http.get('/api/posts').
     success(function(data, status, headers, config) {
       $scope.posts = data.posts;
@@ -18,6 +18,25 @@ function IndexCtrl($scope) {
 
     }
 
+}
+
+function SignupCtrl($scope) {
+    //varibles
+    $scope.form = {
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        password: "",
+        confirm_password: ""
+    };
+
+    //functions
+    $scope.signup = function(){
+        log("signup for: ");
+        log($scope.form);
+        //todo: signup here
+    }
 }
 
 //function AddPostCtrl($scope, $http, $location) {

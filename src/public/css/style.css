@@ -1,0 +1,7 @@
+/* import you bastard  */
+/*@import 'bacon';*/
+
+body { padding-top: 60px; }                 /*added by oryan for navbar space */
+@media screen and (max-width: 768px) {      /*added by oryan for navbar space */
+  body { padding-top: 0px; }
+}
