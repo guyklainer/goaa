@@ -1,12 +1,11 @@
 'use strict';
 
 /* Controllers */
-
-function LoginCtrl($scope) {
-  /*$http.get('/api/posts').
-    success(function(data, status, headers, config) {
-      $scope.posts = data.posts;
-    });//*/
+angular.module('App').controller('LoginCtrl', ['$scope', 'loggedInUser', function($scope, loggedInUser){
+    /*$http.get('/api/posts').
+     success(function(data, status, headers, config) {
+     $scope.posts = data.posts;
+     });//*/
     $scope.form = {
         email: "",
         password: "",
@@ -17,10 +16,9 @@ function LoginCtrl($scope) {
         //todo: login here
 
     }
+}]);
 
-}
-
-function SignupCtrl($scope) {
+angular.module('App').controller('SignupCtrl', ['$scope', function($scope){
     //varibles
     $scope.form = {
         firstName: "",
@@ -37,7 +35,7 @@ function SignupCtrl($scope) {
         log($scope.form);
         //todo: signup here
     }
-}
+}]);
 
 //function AddPostCtrl($scope, $http, $location) {
 //  $scope.form = {};
