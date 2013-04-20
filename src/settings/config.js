@@ -26,7 +26,6 @@ module.exports.settings = {
     'port' : process.env.PORT || 3000,
     'debug' : 0,
     'profile' : 0,
-    'db' : 'mongodb://localhost/goaa'
+    'db' : 'mongodb://goaa:goaa@dharma.mongohq.com:10039/Goaa'
 }
-
 
