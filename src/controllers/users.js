@@ -30,10 +30,10 @@ module.exports.makeSignup = function( req, res ) {
         isPasswordValid: true
     };
 
-    if( req.body.passwordHash == req.body.confirm_password ) {
+    if( req.body.password == req.body.confirm_password ) {
 
         var user = new User( req.body );
-        user.password = req.body.passwordHash;
+        user.password = req.body.password;
         console.log(req.body);
         result = validateSignupRequest( req.body );
         console.log(result);
@@ -53,17 +53,22 @@ module.exports.makeSignup = function( req, res ) {
     res.json( result );
 }
 
-module.exports.validateUsername = function( req, res ) {
+module.exports.userExist = function( req, res ) {
     var username = req.body.username;
     var result = { result: false };
 
     if( username !== "undefined" ) {
         User.findOne({ username: username }, function( err, user ){
-            result.result = true;
-        });
-    }
+            if( user != null ){
+                result.result = true;
+            }
 
-    res.json( result );
+            res.json( result );
+        });
+
+    } else {
+        res.json( result );
+    }   
 }
 
 function validateSignupRequest( params ) {

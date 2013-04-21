@@ -104,9 +104,9 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', function($sco
             })
             .success(function(data, status, headers, config) {
                 log(data);
-                if (data != null && data.data != null){
-                    $scope.usernameInvalid = data.data; // true only if exist
-                    result = data.data;
+                if (data != null && data.result != null){
+                    $scope.usernameInvalid = data.result; // true only if exist
+                    result = data.result;
                 }
             });
 
