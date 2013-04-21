@@ -37,3 +37,18 @@ module.exports.makeSignup = function( req, res ) {
         });
     }
 }
+
+module.exports.validateUsername = function( req, res ) {
+    console.log(req.params.user);
+    if( req.params.username !== "undefined" ) {
+        User.findOne({ username: req.params.user }, function( err, user ){
+            if( user == null ) {
+                res.json( { data: false } );
+            } else {
+                res.json( { data: true } );
+            }
+        });
+    } else {
+        res.json( { data: false } );
+    }
+}
