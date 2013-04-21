@@ -1,6 +1,7 @@
 
 var mongoose    = require( 'mongoose' ),
-    User        = mongoose.model('User');
+    User        = mongoose.model('User'),
+    utils       = require('../utils/utils');
 
 module.exports.login = function( req, res ) {
     if( req.isAuthenticated() )
@@ -23,34 +24,64 @@ module.exports.logout = function( req, res ) {
 }
 
 module.exports.makeSignup = function( req, res ) {
+    var result = {
+        result: true,
+        isUsernameValid: true,
+        isPasswordValid: true
+    };
+
     if( req.body.passwordHash == req.body.confirm_password ) {
 
         var user = new User( req.body );
         user.password = req.body.passwordHash;
-        user.save( function( err, user, count ){
-            res.redirect( '/login' );
-        });
+        console.log(req.body);
+        result = validateSignupRequest( req.body );
+        console.log(result);
+        if( result.result ){ 
+            user.save( function( err, user, count ){
+                if( err ){
+                    result.result = false;
+                }
+            });
+        }
+
     } else {
-        res.render( 'signup', {
-            title: "Goaa - Signup",
-            model: res.body
-        });
+        result.isPasswordValid = false;
+        result.result = false;
     }
+
+    res.json( result );
 }
 
 module.exports.validateUsername = function( req, res ) {
-    console.log(req.body.username);
     var username = req.body.username;
+    var result = { result: false };
 
     if( username !== "undefined" ) {
         User.findOne({ username: username }, function( err, user ){
-            if( user == null ) {
-                res.json( { data: false } );
-            } else {
-                res.json( { data: true } );
-            }
+            result.result = true;
         });
-    } else {
-        res.json( { data: false } );
     }
+
+    res.json( result );
+}
+
+function validateSignupRequest( params ) {
+    var result = {
+        result: true,
+        isUsernameValid: true,
+        isPasswordValid: true
+    };
+    console.log(params);
+    if( !utils.isNullOrEmpty( params ).status ) {
+        User.findOne({ username: params.username }, function( err, user ){
+            result.result = false;
+            result.isUsernameValid = false;
+        });
+
+    } else {
+        result.result = false;
+    }
+
+    return result;
 }
