@@ -18,9 +18,14 @@ angular.module('App').controller('LoginCtrl', ['$scope', 'loggedInUser', functio
     }
 }]);
 
+// callback funcation to handle http errors
+function httpErrorCallback(data, status, headers, config) {
+    log("Http Error!");
+}
+
 angular.module('App').controller('SignupCtrl', ['$scope', function($scope){
     //varibles
-    $scope.form = {
+    var form = {
         firstName: "",
         lastName: "",
         username: "",
@@ -29,12 +34,41 @@ angular.module('App').controller('SignupCtrl', ['$scope', function($scope){
         confirm_password: ""
     };
 
+    $scope.form = form;
+
     //functions
-    $scope.signup = function(){
+    var signup = function(){
         log("signup for: ");
         log($scope.form);
-        //todo: signup here
+
+        if (validateUserName(form.username)){
+//            $http.post('/checkIsUserExist', form.username)
+//                .error(httpErrorCallback)
+//                .success(function(data, status, headers, config) {
+//                    log(data);
+//                });
+        }
     }
+    ,
+    validateUserName = function(username){
+        log("validateUserName");
+        var result = false;
+
+        $http.post('/checkIsUserExist', form.username)
+            .error(function(data, status, headers, config){
+                httpErrorCallback(data, status, headers, config);
+            })
+            .success(function(data, status, headers, config) {
+                log(data);
+                $scope.usernameInvalid = data.data; // true only if exist
+                result = data.data;
+            });
+
+        return result;
+    };
+
+    $scope.signup = signup;
+    $scope.validateUserName = validateUserName;
 }]);
 
 //function AddPostCtrl($scope, $http, $location) {
