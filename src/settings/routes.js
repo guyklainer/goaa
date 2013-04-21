@@ -21,7 +21,7 @@ module.exports = function( app, passport ) {
 //    app.get( '/login', users.login );
 //    app.get( '/signup', users.signup );
 //    app.get( '/logout', users.logout );
-
+        
 //    app.post( '/login', passport.authenticate( 'local', { successRedirect: '/', failureRedirect: '/login' } ) );
 //    app.post( '/signup', users.makeSignup );
 
@@ -29,7 +29,7 @@ module.exports = function( app, passport ) {
     //*****************************
     // API
     //*****************************
-
+    app.get( '/api/username/:user', users.validateUsername );
 
     //*****************************
     // Errors
