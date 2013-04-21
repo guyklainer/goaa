@@ -1,18 +1,20 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-angular.module('App', ['myApp.filters', 'myApp.services', 'myApp.directives']).
+angular.module('App', []).
   config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 
-        $routeProvider.when('/test', {
-            controller: TestCtrl,
-            template: '<h1> {{ test }} </h1>'
-        });
+    $locationProvider.html5Mode(true);
+
     $routeProvider.
-      when('/', {
-        templateUrl: 'partials/index',
-        controller: IndexCtrl
-      }).
+        when('/', {
+            templateUrl: 'partials/login',
+            controller: 'LoginCtrl'
+        }).
+        when('/signup', {
+            templateUrl: 'partials/signup',
+            controller: 'SignupCtrl'
+        }).
 //      when('/addPost', {
 //        templateUrl: 'partials/addPost',
 //        controller: AddPostCtrl
@@ -29,21 +31,7 @@ angular.module('App', ['myApp.filters', 'myApp.services', 'myApp.directives']).
 //        templateUrl: 'partials/deletePost',
 //        controller: DeletePostCtrl
 //      }).
-      otherwise({
+    otherwise({
         redirectTo: '/'
-      });
-    $locationProvider.html5Mode(true);
+    });
   }]);
-
-//angular.module('App', []).config(function ($routeProvider) {
-//
-//    $routeProvider.when('/', {
-//        controller: TestCtrl,
-//        template: '<h1> {{ test }} </h1>'
-//    });
-//
-//});
-//
-function TestCtrl($scope) {
-    $scope.test = "Works!";
-}

@@ -18,12 +18,12 @@ module.exports = function( app, passport ) {
     //*****************************
     // Login & Signup
     //*****************************
-    app.get( '/login', users.login );
-    app.get( '/signup', users.signup );
-    app.get( '/logout', users.logout );
+//    app.get( '/login', users.login );
+//    app.get( '/signup', users.signup );
+//    app.get( '/logout', users.logout );
 
-    app.post( '/login', passport.authenticate( 'local', { successRedirect: '/', failureRedirect: '/login' } ) );
-    app.post( '/signup', users.makeSignup );
+//    app.post( '/login', passport.authenticate( 'local', { successRedirect: '/', failureRedirect: '/login' } ) );
+//    app.post( '/signup', users.makeSignup );
 
 
     //*****************************
