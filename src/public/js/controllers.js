@@ -39,15 +39,50 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', function($sco
     //functions
     var signup = function(){
         log("signup for: ");
-        log($scope.form);
+        log(form);
 
-        if (validateUserName(form.username)){
-//            $http.post('/checkIsUserExist', form.username)
-//                .error(httpErrorCallback)
-//                .success(function(data, status, headers, config) {
-//                    log(data);
-//                });
+        // checking that the password matches
+        if (!isPasswordMatch()){
+            $scope.confirmPasswordInvalid = true;
+        } else if (!$scope.usernameInvalid){
+
+            // clearing the ui errors notifications
+            setFormToValid();
+
+            // posting the user to the server
+            $http.post('/signup', form)
+                .error(httpErrorCallback)
+                .success(function(data, status, headers, config) {
+                    log(data);
+
+                    // checking the user was created
+                    if (data != null && data.result){ // case success
+                        log("success");
+
+                        // redirecting the Login page
+                        $location.path('/');
+
+                    } else { // case failure
+                        log("failure");
+
+                        // notify the form error
+                        $scope.formInvalid = true;
+                        $scope.usernameInvalid = data.isUsernameValid;
+                        $scope.confirmPasswordInvalid = data.isPasswordValid;
+                    }
+                });
         }
+    }
+    ,
+    setFormToValid = function(){
+        $scope.confirmPasswordInvalid = false;
+        $scope.usernameInvalid = false;
+        $scope.formInvalid = true;
+    }
+    ,
+    isPasswordMatch = function(){
+        log(form.password == form.confirm_password);
+        return form.password == form.confirm_password;
     }
     ,
     validateUserName = function(username){
@@ -64,8 +99,10 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', function($sco
             })
             .success(function(data, status, headers, config) {
                 log(data);
-                $scope.usernameInvalid = data.data; // true only if exist
-                result = data.data;
+                if (data != null && data.data != null){
+                    $scope.usernameInvalid = data.data; // true only if exist
+                    result = data.data;
+                }
             });
 
         return result;
