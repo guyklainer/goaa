@@ -29,7 +29,7 @@ module.exports = function( app, passport ) {
     //*****************************
     // API
     //*****************************
-    app.post( '/api/username', users.validateUsername );
+    app.post( '/api/validateUsername', users.validateUsername );
 
     //*****************************
     // Errors

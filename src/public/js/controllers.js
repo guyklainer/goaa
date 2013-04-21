@@ -58,7 +58,7 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', function($sco
             username: form.username
         };
 
-        $http.post('/api/username', params)
+        $http.post('/api/validateUsername', params)
             .error(function(data, status, headers, config){
                 httpErrorCallback(data, status, headers, config);
             })
