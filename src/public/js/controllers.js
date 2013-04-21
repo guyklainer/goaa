@@ -23,7 +23,7 @@ function httpErrorCallback(data, status, headers, config) {
     log("Http Error!");
 }
 
-angular.module('App').controller('SignupCtrl', ['$scope', function($scope){
+angular.module('App').controller('SignupCtrl', ['$scope', '$http', function($scope, $http){
     //varibles
     var form = {
         firstName: "",
@@ -54,7 +54,11 @@ angular.module('App').controller('SignupCtrl', ['$scope', function($scope){
         log("validateUserName");
         var result = false;
 
-        $http.post('/checkIsUserExist', form.username)
+        var params = {
+            username: form.username
+        };
+
+        $http.post('/api/username', params)
             .error(function(data, status, headers, config){
                 httpErrorCallback(data, status, headers, config);
             })
