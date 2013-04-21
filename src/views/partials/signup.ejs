@@ -6,6 +6,8 @@
 <div class="container-fluid">
 
     <form name="signupForm" class="form-signin" ng-submit="signup()">
+        <p ng-show="formInvalid" style="color:red;">Some fields are incorrect.</p>
+
         <input autofocus="autofocus" type="text" required ng-model="form.firstName" class="input-block-level" integer placeholder="First Name">
         <input type="text" required ng-model="form.lastName" class="input-block-level" placeholder="Last Name">
 

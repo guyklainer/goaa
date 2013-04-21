@@ -38,6 +38,11 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', function($sco
 
     //functions
     var signup = function(){
+//            var data = {
+//                result: false,
+//                isUsernameValid: false,
+//                isPasswordValid: false
+//            };
         log("signup for: ");
         log(form);
 
@@ -67,8 +72,8 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', function($sco
 
                         // notify the form error
                         $scope.formInvalid = true;
-                        $scope.usernameInvalid = data.isUsernameValid;
-                        $scope.confirmPasswordInvalid = data.isPasswordValid;
+                        $scope.usernameInvalid = !data.isUsernameValid;
+                        $scope.confirmPasswordInvalid = !data.isPasswordValid;
                     }
                 });
         }
