@@ -1,11 +1,13 @@
 
 // -- Module dependencies
-var express         = require('express'),
-    LocalStrategy   = require('passport-local').Strategy,
-    mongoose        = require('mongoose'),
-    User            = mongoose.model('User'),
-    conf            = require('./config'),
+var express         = require( 'express' ),
+    LocalStrategy   = require( 'passport-local' ).Strategy,
+    metersSimulator = require( '../utils/metersSimulator' )
+    mongoose        = require( 'mongoose' ),
+    User            = mongoose.model('User' ),
+    conf            = require( './config' ),
     settings        = conf.settings;
+
 
 // -- Global paths
 var views = __dirname + '/../views',
@@ -17,6 +19,9 @@ var views = __dirname + '/../views',
  */
 module.exports.boot = function( app, passport ) {
 
+    // start meters simulator
+    metersSimulator.startSimulator();
+
     // Setting for passport
     passport.serializeUser( function( user, done ) {
         done( null, user._id );
@@ -27,7 +32,6 @@ module.exports.boot = function( app, passport ) {
             done( err, user );
         });
     });
-
 
     passport.use( new LocalStrategy(
 
