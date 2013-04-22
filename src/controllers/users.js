@@ -30,13 +30,13 @@ module.exports.makeSignup = function( req, res ) {
         isPasswordValid: true
     };
 
-    if( req.body.password == req.body.confirm_password ) {
+    if( req.body.password == req.body.confirm_password
+        && !utils.isNullOrEmpty( req.body.password ).status ) {
 
         var user = new User( req.body );
         user.password = req.body.password;
-        console.log(req.body);
+
         result = validateSignupRequest( req.body );
-        console.log(result);
         if( result.result ){ 
             user.save( function( err, user, count ){
                 if( err ){
@@ -54,21 +54,17 @@ module.exports.makeSignup = function( req, res ) {
 }
 
 module.exports.userExist = function( req, res ) {
+
     var username = req.body.username;
     var result = { result: false };
 
-    if( username !== "undefined" ) {
-        User.findOne({ username: username }, function( err, user ){
-            if( user != null ){
-                result.result = true;
-            }
+    isUserExist( username, function( msg ){
+        if( msg ){
+            result.result = true;
+        }
 
-            res.json( result );
-        });
-
-    } else {
         res.json( result );
-    }   
+    });
 }
 
 function validateSignupRequest( params ) {
@@ -77,16 +73,25 @@ function validateSignupRequest( params ) {
         isUsernameValid: true,
         isPasswordValid: true
     };
-    console.log(params);
+
     if( !utils.isNullOrEmpty( params ).status ) {
-        User.findOne({ username: params.username }, function( err, user ){
-            result.result = false;
-            result.isUsernameValid = false;
+        isUserExist( params.username, function( msg ){
+            if( msg ){
+                result.result = false;
+                result.isUsernameValid = false;
+            }
         });
+
 
     } else {
         result.result = false;
     }
 
     return result;
+}
+
+function isUserExist( username, callback ) {
+    User.findOne({ username: username }, function( err, user ){
+        callback( user != null );
+    });
 }

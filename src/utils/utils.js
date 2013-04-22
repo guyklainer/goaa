@@ -9,13 +9,18 @@ module.exports.ensureAuthenticated = function( req, res, next )  {
 module.exports.isNullOrEmpty = function( obj ) {
 	var keys = [];
 	var key;
-	
-	for( key in Object.keys( obj ) )
-		keys.push( key );
+	if( typeof obj == "object" ){
+        for( key in Object.keys( obj ) )
+            keys.push( key );
 
-	for( key in keys )
-		if( key === "undefined" || key == "" || key === null )
-			return { status: true, empty: key };
-	console.log(obj);
+        for( key in keys )
+            if( key === "undefined" || key == "" || key === null )
+                return { status: true, empty: key };
+
+    } else {
+        if( obj === "undefined" || obj == "" || obj === null )
+            return { status: true, empty: obj };
+    }
+
 	return { status: false };
 } 
