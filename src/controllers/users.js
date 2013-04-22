@@ -29,14 +29,16 @@ module.exports.makeSignup = function( req, res ) {
         isUsernameValid: true,
         isPasswordValid: true
     };
+    var params = req.body;
 
-    if( req.body.password == req.body.confirm_password
-        && !utils.isNullOrEmpty( req.body.password ).status ) {
+    if( params.password == params.confirm_password
+        && !utils.isNullOrEmpty( params.password ).status ) {
 
-        var user = new User( req.body );
-        user.password = req.body.password;
+        params.createdOn = new Date();
+        var user = new User( params );
+        user.password = params.password;
 
-        result = validateSignupRequest( req.body );
+        result = validateSignupRequest( params );
         if( result.result ){ 
             user.save( function( err, user, count ){
                 if( err ){
@@ -81,7 +83,6 @@ function validateSignupRequest( params ) {
                 result.isUsernameValid = false;
             }
         });
-
 
     } else {
         result.result = false;
