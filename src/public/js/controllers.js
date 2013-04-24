@@ -23,8 +23,10 @@ function httpErrorCallback(data, status, headers, config) {
     log("Http Error!");
 }
 
-angular.module('App').controller('SignupCtrl', ['$scope', '$http', function($scope, $http){
-    //varibles
+angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', '$dialog',
+    function($scope, $http, $location, $dialog){
+
+    // varibles
     var form = {
         firstName: "",
         lastName: "",
@@ -36,7 +38,44 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', function($sco
 
     $scope.form = form;
 
-    //functions
+    // Inlined template for demo
+    var t = '<div class="modal-header">'+
+        '<h1>This is the title</h1>'+
+        '</div>'+
+        '<div class="modal-body">'+
+        '<p>Enter a value to pass to <code>close</code> as the result: <input ng-model="result" /></p>'+
+        '</div>'+
+        '<div class="modal-footer">'+
+        '<button ng-click="close(result)" class="btn btn-primary" >Close</button>'+
+        '</div>';
+
+    $scope.opts = {
+        backdrop: true,
+        keyboard: false,
+        backdropClick: false,
+        template:  t, // OR: templateUrl: 'path/to/view.html',
+        controller: 'SignupCtrl'
+    };
+
+    $scope.openDialog = function(){
+        var d = $dialog.dialog($scope.opts);
+        d.open().then(function(result){
+            if(result)
+            {
+                alert('dialog closed with result: ' + result);
+            }
+        });
+    };
+
+        $scope.close = function(result){
+            log(result);
+            dialog.close(result);
+
+        };
+
+
+
+        // functions
     var signup = function(){
 //            var data = {
 //                result: false,
