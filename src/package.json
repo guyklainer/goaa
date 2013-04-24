@@ -1,6 +1,6 @@
 {
-  "name": "node-express-3.0-html5-boilerplate",
-  "version": "0.2.0",
+  "name": "Goaa",
+  "version": "0.2.0-1",
   "private": true,
   "dependencies": {
     "express": "3.x",
@@ -17,5 +17,9 @@
   },
   "engines": {
     "node": "~0.8.x"
+  },
+  "subdomain": "goaa",
+  "scripts": {
+    "start": "node app.js"
   }
 }

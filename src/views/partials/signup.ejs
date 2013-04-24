@@ -5,13 +5,19 @@
 
 <div class="container-fluid">
 
-    <form class="form-signin" ng-submit="signup()">
-        <input type="text" ng-model="form.firstName" class="input-block-level" placeholder="First Name">
-        <input type="text" ng-model="form.lastName" class="input-block-level" placeholder="Last Name">
-        <input type="text" ng-model="form.username" class="input-block-level" placeholder="Username">
-        <input type="text" ng-model="form.email" class="input-block-level" placeholder="Email Address">
-        <input type="password" ng-model="form.password" class="input-block-level" placeholder="Password">
-        <input type="password" ng-model="form.confirm_password" class="input-block-level" placeholder="Confirm Password">
+    <form name="signupForm" class="form-signin" ng-submit="signup()">
+        <p ng-show="formInvalid" style="color:red;">Some fields are incorrect.</p>
+
+        <input autofocus="autofocus" type="text" required ng-model="form.firstName" class="input-block-level" integer placeholder="First Name">
+        <input type="text" required ng-model="form.lastName" class="input-block-level" placeholder="Last Name">
+
+        <input type="text" name="username" ng-change="validateUserName(form.username)" required ng-model="form.username" class="input-block-level" placeholder="Username">
+        <p ng-show="usernameInvalid" style="color:red;">This username is in use, please enter a new one.</p>
+
+        <input type="email" required ng-model="form.email" class="input-block-level" placeholder="Email Address">
+        <input type="password" required ng-model="form.password" class="input-block-level" placeholder="Password">
+        <input type="password" required ng-model="form.confirm_password" class="input-block-level" placeholder="Confirm Password">
+        <p ng-show="confirmPasswordInvalid" style="color:red;">The passwords don't match</p>
 
         <button class="btn btn-large btn-primary btn-block" type="submit">Signup</button>
     </form>
