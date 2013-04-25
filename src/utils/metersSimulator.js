@@ -1,5 +1,8 @@
 
-var cronJob = require( 'cron' ).CronJob;
+var cronJob     = require( 'cron' ).CronJob,
+    mongoose    = require( 'mongoose' ),
+    _           = require( 'underscore'),
+    Meter       = mongoose.model('Meter');
 
 module.exports.startSimulator = function() {
 
@@ -7,9 +10,27 @@ module.exports.startSimulator = function() {
         cronTime: "*/1 * * * *", // Runs every minute
 
         onTick: function() {
-            console.log( 'check boiler' );
+            updateBoilers();
         },
 
         start: true //Start the job right now
     });
+}
+
+var updateBoilers = function(){
+    Meter.find({ meterName: "Boiler" }, function(err, docs){
+
+        _.each( docs, function( doc ){
+            if ( doc.status == "on" && doc.data < 60 ){
+                doc.data++;
+            }else if(doc.status == 'off' && doc.data > 30){
+                doc.data--;
+            }
+
+            Meter.update( { _id: doc._id }, { $set: { data: doc.data } }, function( err ){
+                //TODO send new status to client
+            });
+        });
+    });
+
 }
