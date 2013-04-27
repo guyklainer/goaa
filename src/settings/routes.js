@@ -2,7 +2,8 @@
 var mongoose    = require('mongoose'),
     User        = mongoose.model('User'),
     index       = require('../controllers/index'),
-    utils       = require('../utils/utils');
+    utils       = require('../utils/utils'),
+    uploader    = require('../utils/uploader');
 
 module.exports = function( app, passport ) {
 
@@ -29,6 +30,7 @@ module.exports = function( app, passport ) {
     // API
     //*****************************
     app.post( '/api/validateUsername', users.userExist );
+    app.post( '/api/upload', uploader.upload );
 
     //*****************************
     // Errors

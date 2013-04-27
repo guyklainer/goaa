@@ -23,7 +23,7 @@ var updateBoilers = function(){
         _.each( docs, function( doc ){
             if ( doc.status == "on" && doc.data < 60 ){
                 doc.data++;
-            }else if(doc.status == 'off' && doc.data > 30){
+            }else if( doc.status == 'off' && doc.data > 20 ){
                 doc.data--;
             }
 
