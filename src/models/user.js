@@ -1,13 +1,11 @@
 
 var mongoose 	= require( 'mongoose' ),
     Schema 		= mongoose.Schema,
-    conf        = require('../settings/config'),
-    crypto 		= require('crypto'),
-    _ 			= require('underscore'),
-    settings    = conf.settings;
+    crypto 		= require( 'crypto' ),
+    _ 			= require( 'underscore' ),
+    settings    = require( '../settings/config' ).settings;
 
 var User = new Schema({
-    id: 			String,
     firstName: 		String,
     lastName: 		String,
     username: 		String,
