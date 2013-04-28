@@ -4,8 +4,9 @@ var mongoose    = require( 'mongoose' ),
     utils       = require('../utils/utils');
 
 module.exports.login = function( req, res ) {
-    if( req.isAuthenticated() )
+    if( req.isAuthenticated() ) {
         res.json( { result: true, user: req.user } );
+    }
 }
 
 module.exports.signup = function( req, res ) {
