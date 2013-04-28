@@ -1,5 +1,6 @@
 
 module.exports.home = function( req, res ) {
+    res.cookie('user', req.isAuthenticated() ? req.user : null);
     res.render( 'index', {
         title: 'Goaa',
         user: req.isAuthenticated() ? req.user : null
