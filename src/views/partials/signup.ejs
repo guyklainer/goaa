@@ -8,7 +8,7 @@
     <form name="signupForm" class="form-signin" ng-submit="signup()">
         <p ng-show="formInvalid" style="color:red;">Some fields are incorrect.</p>
 
-        <input autofocus="autofocus" type="text" required ng-model="form.firstName" class="input-block-level" integer placeholder="First Name">
+        <input type="text" required ng-model="form.firstName" class="input-block-level" integer placeholder="First Name">
         <input type="text" required ng-model="form.lastName" class="input-block-level" placeholder="Last Name">
 
         <input type="text" name="username" ng-change="validateUserName(form.username)" required ng-model="form.username" class="input-block-level" placeholder="Username">
@@ -20,5 +20,6 @@
         <p ng-show="confirmPasswordInvalid" style="color:red;">The passwords don't match</p>
 
         <button class="btn btn-large btn-primary btn-block" type="submit">Signup</button>
+        <button class="btn btn-large btn-primary btn-block" ng-click="openDialog()" type="button">Test</button>
     </form>
 </div>
