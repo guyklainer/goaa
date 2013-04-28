@@ -1,30 +1,7 @@
 'use strict';
 
-/* Controllers */
-angular.module('App').controller('LoginCtrl', ['$scope', 'loggedInUser', function($scope, loggedInUser){
-    /*$http.get('/api/posts').
-     success(function(data, status, headers, config) {
-     $scope.posts = data.posts;
-     });//*/
-    $scope.form = {
-        email: "",
-        password: "",
-        remeberme: false
-    };
-    $scope.login = function(){
-        log("login for email: " + $scope.form.email);
-        //todo: login here
-
-    }
-}]);
-
-// callback funcation to handle http errors
-function httpErrorCallback(data, status, headers, config) {
-    log("Http Error!");
-}
-
-angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', '$dialog',
-    function($scope, $http, $location, $dialog){
+angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 'blockui',
+    function($scope, $http, $location, blockui){
 
     // varibles
     var form = {
@@ -36,52 +13,11 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 
         confirm_password: ""
     };
 
+    // public vars
     $scope.form = form;
 
-    // Inlined template for demo
-    var t = '<div class="modal-header">'+
-        '<h1>This is the title</h1>'+
-        '</div>'+
-        '<div class="modal-body">'+
-        '<p>Enter a value to pass to <code>close</code> as the result: <input ng-model="result" /></p>'+
-        '</div>'+
-        '<div class="modal-footer">'+
-        '<button ng-click="close(result)" class="btn btn-primary" >Close</button>'+
-        '</div>';
-
-    $scope.opts = {
-        backdrop: true,
-        keyboard: false,
-        backdropClick: false,
-        template:  t, // OR: templateUrl: 'path/to/view.html',
-        controller: 'SignupCtrl'
-    };
-
-    $scope.openDialog = function(){
-        var d = $dialog.dialog($scope.opts);
-        d.open().then(function(result){
-            if(result)
-            {
-                alert('dialog closed with result: ' + result);
-            }
-        });
-    };
-
-        $scope.close = function(result){
-            log(result);
-            dialog.close(result);
-
-        };
-
-
-
-        // functions
+    // functions
     var signup = function(){
-//            var data = {
-//                result: false,
-//                isUsernameValid: false,
-//                isPasswordValid: false
-//            };
         log("signup for: ");
         log(form);
 
@@ -89,13 +25,15 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 
         if (!isPasswordMatch()){
             $scope.confirmPasswordInvalid = true;
         } else if (!$scope.usernameInvalid){
-
             // clearing the ui errors notifications
             setFormToValid();
 
             // posting the user to the server
+            blockui.block();
             $http.post('/signup', form)
-                .error(httpErrorCallback)
+                .error(function(data, status, headers, config){
+                    httpErrorCallback(data, status, headers, config);
+                })
                 .success(function(data, status, headers, config) {
                     log(data);
 
@@ -104,10 +42,14 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 
                         log("success");
 
                         // redirecting the Login page
-                        $location.path('/');
+                        blockui.unblock();
+                        setTimeout(function(){
+                            $location.path('/');
+                        },1000);
 
                     } else { // case failure
                         log("failure");
+                        blockui.unblock();
 
                         // notify the form error
                         $scope.formInvalid = true;
@@ -125,11 +67,10 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 
     }
     ,
     isPasswordMatch = function(){
-        log(form.password == form.confirm_password);
         return form.password == form.confirm_password;
     }
     ,
-    validateUserName = function(username){
+    validateUserName = function(){
         log("validateUserName");
         var result = false;
 
@@ -143,18 +84,22 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 
             })
             .success(function(data, status, headers, config) {
                 log(data);
-                if (data != null && data.result != null){
-                    $scope.usernameInvalid = data.result; // true only if exist
-                    result = data.result;
+                if (data != null
+                    && data.result != null) {
+
+                        $scope.usernameInvalid = data.result; // true only if exist
+                        result = data.result;
                 }
             });
 
         return result;
     };
 
+    // public functions
     $scope.signup = signup;
     $scope.validateUserName = validateUserName;
 }]);
+
 
 //function AddPostCtrl($scope, $http, $location) {
 //  $scope.form = {};

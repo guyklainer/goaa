@@ -2,21 +2,48 @@
 
 /* Services */
 
+angular.module('App').factory('blockui', ['$dialog', function($dialog){
 
-// Demonstrate how to register services
-// In this case it is a simple value service.
-//angular.module('myApp.services', []).
-//  value('version', '0.1');
+    var diagOptions = {
+        backdrop: true,
+        keyboard: false,
+        backdropClick: false,
+        templateUrl:  'partials/blockui.ejs'
+    },
+    blockui = $dialog.dialog(diagOptions)
+    ,
+    isOpen = false
+    ,
+    timeout = 15 * 1000 // in millisec
+    ,
+    block = function() {
+        log("block");
+        if (isOpen) {
+            log("modal allready opened");
+        } else {
+            blockui.open();
+            isOpen = true;
 
-
-angular.module('App').factory('loggedInUser', function(){
-
-    var model = {
-        id: null
+            // unblock after timeout
+            setTimeout(function() {
+                if (isOpen) {
+                    log("timeout over - unblocking");
+                    unblock();
+                }
+            }, timeout);
+        }
+    }
+    ,
+    unblock = function(){
+        log("unblock");
+        blockui.close();
+        isOpen = false;
     };
+
 
     // Public API here
     return {
-        model: model
+        block: block,
+        unblock: unblock
     };
-});
+}]);
