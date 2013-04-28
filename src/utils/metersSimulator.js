@@ -7,7 +7,7 @@ var cronJob     = require( 'cron' ).CronJob,
 module.exports.startSimulator = function() {
 
     var job = new cronJob({
-        cronTime: "*/1 * * * *", // Runs every minute
+        cronTime: "*/2 * * * *", // Runs every 2 minutes
 
         onTick: function() {
             updateBoilers();

@@ -1,11 +1,62 @@
-var Imager          = require( 'imager' )
-    imagerConfig    = require('../settings/imager-config.js'),
-    imager          = new Imager( imagerConfig, 'S3' );
+var fs      = require( 'fs' ),
+    config  = require( '../settings/config'),
+    utils   = require( './utils'),
+    knox    = require( 'knox'),
+    path    = require('path'),
+    os      = require('os'),
+    tempDir = path.normalize( os.tmpDir() + path.sep );
+
+var S3Credentials = {
+    key     : config.settings.S3Key,
+    secret  : config.settings.S3Secret,
+    bucket  : config.settings.S3Bucket
+};
 
 module.exports.upload = function( req, res ){
-    imager.upload([req.files.image], function( err, cdnUri, files ){
-        console.log(err);
-        console.log(cdnUri);
-        console.log(files);
-    }, 'items');
+    var user = req.user ? req.user.username : 'tmp';
+
+    fs.readFile( req.files.image.path, function( err, data ){
+        if( data.length > 1000000 )
+            res.end( "Size limit is 1MB" );
+
+        else if( !utils.isImage( req.files.image.name ) )
+            res.end( "Only images allowed" );
+
+        else
+        pushToS3( req.files.image.name, data.length, req.files.image.path, req.files.image.type, user, function( err, imageURL ){
+            if ( err )
+                console.log( err );
+
+            else
+                res.end( config.settings.S3ImagePrefix + imageURL );
+        });
+
+    });
 }
+
+function pushToS3( fileName, fileLength, filePath, type, user, callback ) {
+    var client = knox.createClient( S3Credentials );
+
+    var headers = {
+        'Content-Type': type,
+        'Content-Length': fileLength
+    };
+
+    var fileStream = fs.createReadStream( filePath );
+
+    var uploadStream = client.putStream( fileStream, '/' + user + '/' + fileName, headers, function( err, res ){
+        if ( err )
+            return callback( err );
+
+        // remove the file after successful upload
+        fs.unlink( tempDir + fileName );
+
+        console.log( fileName + ' uploaded' );
+        callback( err, '/' + user + '/' + fileName );
+    });
+
+    uploadStream.on( 'progress', function( status ){
+        console.log( status );
+    });
+}
+

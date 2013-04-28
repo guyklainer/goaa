@@ -23,4 +23,23 @@ module.exports.isNullOrEmpty = function( obj ) {
     }
 
 	return { status: false };
-} 
+}
+
+module.exports.isImage = function( filename ) {
+    var ext = getExtension( filename );
+    switch ( ext.toLowerCase() ) {
+        case 'jpg':
+        case 'gif':
+        case 'bmp':
+        case 'png':
+            //etc
+            return true;
+    }
+    return false;
+}
+
+function getExtension( filename ) {
+    var parts = filename.split( '.' );
+    return parts[parts.length - 1];
+}
+
