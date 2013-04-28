@@ -5,11 +5,7 @@ var mongoose    = require( 'mongoose' ),
 
 module.exports.login = function( req, res ) {
     if( req.isAuthenticated() )
-        res.redirect( '/profile' );
-    else
-        res.render( 'login', {
-            title: "Goaa - Login"
-        });
+        res.json( { result: true, user: req.user } );
 }
 
 module.exports.signup = function( req, res ) {
