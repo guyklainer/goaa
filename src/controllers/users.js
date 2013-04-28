@@ -25,7 +25,8 @@ module.exports.logout = function( req, res ) {
 
 module.exports.makeSignup = function( req, res ) {
 
-    var params = req.body;
+    var result = {},
+        params = req.body;
 
     if( params.password == params.confirm_password
         && utils.isAllFieldsAreNotNullOrEmpty( params.password ).result ) {
@@ -35,7 +36,7 @@ module.exports.makeSignup = function( req, res ) {
         user.password = params.password;
 
         result = validateSignupRequest( params );
-        if( result.result ){ 
+        if( result.result ){
             user.save( function( err, user, count ){
                 if( err ){
                     result.result   = false;
