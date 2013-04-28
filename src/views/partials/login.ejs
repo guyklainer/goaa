@@ -11,7 +11,8 @@
         <label class="checkbox">
             <input type="checkbox" value="remember-me" ng-model="form.remeberme"> Remember me
         </label>
-        <button class="btn btn-large btn-primary btn-block" type="submit">Sign in</button>
+        <p ng-show="loginFailed" style="color:red; text-align: center;"><strong>Username or password are incorrect</strong></p>
+        <button class="btn btn-large btn-primary btn-block" type="submit">Sign In</button>
     </form>
 
     <div class="row-fluid">

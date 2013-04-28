@@ -11,12 +11,9 @@ angular.module('App', ["ui.bootstrap"]).
             templateUrl: 'partials/login',
             controller: 'LoginCtrl'
         }).
-        when('/login-failed', {
-            templateUrl: 'partials/failed'
-        }).
-        when('/login-success', {
-            templateUrl: 'partials/signup',
-            controller: 'SignupCtrl'
+        when('/home', {
+            templateUrl: 'partials/home',
+            controller: 'HomeCtrl'
         }).
         when('/signup', {
             templateUrl: 'partials/signup',
