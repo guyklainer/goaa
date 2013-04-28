@@ -24,15 +24,11 @@ module.exports.logout = function( req, res ) {
 }
 
 module.exports.makeSignup = function( req, res ) {
-    var result = {
-        result: true,
-        isUsernameValid: true,
-        isPasswordValid: true
-    };
+
     var params = req.body;
 
     if( params.password == params.confirm_password
-        && !utils.isNullOrEmpty( params.password ).status ) {
+        && utils.isAllFieldsAreNotNullOrEmpty( params.password ).result ) {
 
         params.createdOn = new Date();
         var user = new User( params );
@@ -42,14 +38,20 @@ module.exports.makeSignup = function( req, res ) {
         if( result.result ){ 
             user.save( function( err, user, count ){
                 if( err ){
-                    result.result = false;
+                    result.result   = false;
+                    result.data     = err;
+                    result.msg      = "userNotSavedToDB";
+
+                } else {
+                    result.data     = user;
+                    result.msg      = "userSavedToDB";
                 }
             });
         }
 
     } else {
-        result.isPasswordValid = false;
-        result.result = false;
+        result.result   = false;
+        result.msg      = "passwordsNotEqual";
     }
 
     res.json( result );
@@ -57,12 +59,14 @@ module.exports.makeSignup = function( req, res ) {
 
 module.exports.userExist = function( req, res ) {
 
-    var username = req.body.username;
-    var result = { result: false };
+    var username    = req.body.username;
+    var result      = { result: false, msg: "userNotExist" };
 
-    isUserExist( username, function( msg ){
+    isUserExist( username, function( msg, user ){
         if( msg ){
-            result.result = true;
+            result.result   = true;
+            result.data     = user;
+            result.msg      = "userExist";
         }
 
         res.json( result );
@@ -70,22 +74,16 @@ module.exports.userExist = function( req, res ) {
 }
 
 function validateSignupRequest( params ) {
-    var result = {
-        result: true,
-        isUsernameValid: true,
-        isPasswordValid: true
-    };
+    var result = utils.isAllFieldsAreNotNullOrEmpty( params );
 
-    if( !utils.isNullOrEmpty( params ).status ) {
-        isUserExist( params.username, function( msg ){
+    if( result.result ) {
+        isUserExist( params.username, function( msg, user ){
             if( msg ){
-                result.result = false;
-                result.isUsernameValid = false;
+                result.result   = false;
+                result.data     = user;
+                result.msg      = "userExist";
             }
         });
-
-    } else {
-        result.result = false;
     }
 
     return result;
@@ -93,6 +91,6 @@ function validateSignupRequest( params ) {
 
 function isUserExist( username, callback ) {
     User.findOne({ username: username }, function( err, user ){
-        callback( user != null );
+        callback( user != null, user );
     });
 }

@@ -6,7 +6,8 @@ var mongoose 	= require( 'mongoose' ),
 var Group = new Schema({
     groupName: 		String,
     createdOn: 		Date,
-    address: 		{ city: String, Street: String, House: Number, Apartment: Number }
+    address  : 		{ city: String, Street: String, House: Number, Apartment: Number },
+    image    :      String
 });
 
 mongoose.model( 'Group', Group );

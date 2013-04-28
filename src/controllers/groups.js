@@ -22,7 +22,7 @@ module.exports.makeGroup = function( req, res ) {
     params.createdOn = new Date();
     var group = new Group( params );
 
-    //result = validateSignupRequest( params );
+    result = validateGroupRequest( params );
     if( result.result ){
         group.save( function( err, group, count ){
             if( err ){
@@ -38,4 +38,26 @@ function isGroupExist( name, callback ) {
     Group.findOne({ groupName: name }, function( err, group ){
         callback( group != null );
     });
+}
+
+function validateGroupRequest ( params ){
+    var result = {
+        result: true,
+        isUsernameValid: true,
+        isPasswordValid: true
+    };
+
+    if( !utils.isNullOrEmpty( params ).status ) {
+        isUserExist( params.username, function( msg ){
+            if( msg ){
+                result.result = false;
+                result.isUsernameValid = false;
+            }
+        });
+
+    } else {
+        result.result = false;
+    }
+
+    return result;
 }

@@ -1,9 +1,9 @@
 var fs      = require( 'fs' ),
     config  = require( '../settings/config'),
     utils   = require( './utils'),
-    knox    = require( 'knox'),
-    path    = require('path'),
-    os      = require('os'),
+    knox    = require( 'knox' ),
+    path    = require( 'path' ),
+    os      = require( 'os' ),
     tempDir = path.normalize( os.tmpDir() + path.sep );
 
 var S3Credentials = {
@@ -17,18 +17,18 @@ module.exports.upload = function( req, res ){
 
     fs.readFile( req.files.image.path, function( err, data ){
         if( data.length > 1000000 )
-            res.json( { success: false, error: "Size limit is 1MB" } );
+            res.json( { result: false, msg: "tooBig" } );
 
         else if( !utils.isImage( req.files.image.name ) )
-            res.json( { success: false, error: "Only images allowed" } );
+            res.json( { result: false, msg: "notImage" } );
 
         else
         pushToS3( req.files.image.name, data.length, req.files.image.path, req.files.image.type, user, function( err, imageURL ){
             if ( err )
-                res.json( { success: false, error: "err" } );
+                res.json( { result: false, data: err, msg: "S3Problem" } );
 
             else
-                res.json( { success: true, data: config.settings.S3ImagePrefix + imageURL } );
+                res.json( { result: true, data: { imgURL: config.settings.S3ImagePrefix + imageURL }, msg: "imageSaved" } );
         });
 
     });
