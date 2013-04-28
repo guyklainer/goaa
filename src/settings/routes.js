@@ -22,7 +22,7 @@ module.exports = function( app, passport ) {
 //    app.get( '/login', users.login );
 //    app.get( '/logout', users.logout );
         
-//    app.post( '/login', passport.authenticate( 'local', { successRedirect: '/', failureRedirect: '/login' } ) );
+    app.post( '/login', passport.authenticate( 'local' ), users.login );
     app.post( '/signup', users.makeSignup );
 
 

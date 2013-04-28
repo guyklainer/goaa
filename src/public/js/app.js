@@ -11,6 +11,10 @@ angular.module('App', ["ui.bootstrap"]).
             templateUrl: 'partials/login',
             controller: 'LoginCtrl'
         }).
+        when('/home', {
+            templateUrl: 'partials/home',
+            controller: 'HomeCtrl'
+        }).
         when('/signup', {
             templateUrl: 'partials/signup',
             controller: 'SignupCtrl'

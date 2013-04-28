@@ -43,9 +43,8 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 
 
                         // redirecting the Login page
                         blockui.unblock();
-                        setTimeout(function(){
-                            $location.path('/');
-                        },1000);
+                        log("redirecting to login");
+                        $location.path('/');
 
                     } else { // case failure
                         log("failure");
