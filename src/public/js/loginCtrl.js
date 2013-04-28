@@ -1,8 +1,8 @@
 
-angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', function($scope, blockui){
+angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', function($scope, blockui, $http){
 
     var form = {
-        email: "",
+        username: "",
         password: "",
         remeberme: false
     };
@@ -12,10 +12,17 @@ angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', function($sc
 
     var login = function() {
 
-        log("login for email: " + form.email);
-        //todo: login here
+        log("login for username: " + form.username);
+
         blockui.block();
 
+        $http.post('/login', form)
+            .error(function(data, status, headers, config){
+                httpErrorCallback(data, status, headers, config);
+            })
+            .success(function(data, status, headers, config) {
+                log(data);
+            });
     };
 
     // public functions
