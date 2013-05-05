@@ -16,8 +16,10 @@ module.exports.signup = function( req, res ) {
 }
 
 module.exports.logout = function( req, res ) {
+    console.log("logout");
     req.logout();
-    res.redirect( '/login' );
+    res.json( { result: true } );
+//    res.redirect( '/login' );
 }
 
 module.exports.makeSignup = function( req, res ) {

@@ -3,10 +3,22 @@
 /* Directives */
 
 //
-//angular.module('myApp.directives', []).
-//  directive('appVersion', ['version', function(version) {
-//    return function(scope, elm, attrs) {
-//      elm.text(version);
+//angular.module('App').directive('logoff', ['$http', '$location', function($http, $location) {
+//    return function(scope, element, attrs) {
+//        log('directive');
+//        log(element);
+//        element.bind('click',function(){
+//            log("logout click");
+//            $http.post('/logout', {})
+//                .error(function(data, status, headers, config){
+//                    httpErrorCallback(data, status, headers, config);
+//                })
+//                .success(function(data, status, headers, config) {
+//                    log("logout success");
+//                    log(data);
+//                    $location.path('/');
+//                });
+//        });
 //    };
 //  }]);
 
