@@ -54,7 +54,7 @@ module.exports.removeUserFromGroup = function( user, group ){
 
         } else if( !groupIsEmpty.result ){
             var isAdminRes = isAdmin( user, group );
-            
+
             if( isAdminRes.result ){
                 result = changeAdmin( group );
 

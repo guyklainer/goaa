@@ -61,47 +61,48 @@ module.exports.editGroup = function( req, res ) {
 
 module.exports.makeGroup = function( req, res ) {
 
-    var params = req.body,
-        result = {};
+    var params = req.body;
 
     params.createdOn = new Date();
 
-    result = validateGroupRequest( params );
+    validateGroupRequest( params, function( result ){
+        if( result.result ){
+            params.address.country      = params.country;
+            params.address.city         = params.city;
+            params.address.street       = params.street;
+            params.address.house        = params.house;
+            params.address.apartment    = params.apartment;
 
-    if( result.result ){
-        params.address.country      = params.country;
-        params.address.city         = params.city;
-        params.address.street       = params.street;
-        params.address.house        = params.house;
-        params.address.apartment    = params.apartment;
+            delete params.country;
+            delete params.city;
+            delete params.street;
+            delete params.house;
+            delete params.apartment;
 
-        delete params.country;
-        delete params.city;
-        delete params.street;
-        delete params.house;
-        delete params.apartment;
+            var group = new Group( params );
+            group.save( function( err, group, count ){
+                if( err ){
+                    result.result   = false;
+                    result.data     = err;
+                    result.msg      = "groupNotSavedToDB";
 
-        var group = new Group( params );
-        group.save( function( err, group, count ){
-            if( err ){
-                result.result   = false;
-                result.data     = err;
-                result.msg      = "groupNotSavedToDB";
+                } else {
+                    result = GroupUsers.createUserGroupConnection( req.user._id, group._id, true );
 
-            } else {
-                result = GroupUsers.createUserGroupConnection( req.user._id, group._id, true );
+                }
 
-            }
+                res.json( result );
+            });
 
+        } else {
             res.json( result );
-        });
+        }
+    });
 
-    } else {
-        res.json( result );
-    }
+
 }
 
-function validateGroupRequest ( params ){
+function validateGroupRequest ( params, callback ){
 
     var result = utils.isAllFieldsAreNotNullOrEmpty( params );
 
@@ -113,11 +114,11 @@ function validateGroupRequest ( params ){
                 result.msg      = "groupExist";
             }
 
-            return result;
+            callback( result );
         });
 
     } else {
-        return result;
+        callback( result );
     }
 
 
@@ -125,7 +126,7 @@ function validateGroupRequest ( params ){
 
 function isGroupExist( name, callback ) {
     Group.findOne({ name: name }, function( err, group ){
-        callback( group != null );
+        callback( group != null, group );
     });
 }
 
