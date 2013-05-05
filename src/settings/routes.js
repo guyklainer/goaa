@@ -20,7 +20,7 @@ module.exports = function( app, passport ) {
     // Login & Signup
     //*****************************
 //    app.get( '/login', users.login );
-//    app.get( '/logout', users.logout );
+    app.post( '/logout', users.logout );
         
     app.post( '/login', passport.authenticate( 'local' ), users.login );
     app.post( '/signup', users.makeSignup );

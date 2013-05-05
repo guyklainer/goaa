@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 'blockui',
-    function($scope, $http, $location, blockui){
+angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 'blockui','account',
+    function($scope, $http, $location, blockui, account){
 
     // varibles
     var form = {
@@ -69,12 +69,12 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 
         return form.password == form.confirm_password;
     }
     ,
-    validateUserName = function(){
+    validateUserName = function(username){
         log("validateUserName");
         var result = false;
 
         var params = {
-            username: form.username
+            username: username
         };
 
         $http.post('/api/validateUsername', params)
@@ -97,6 +97,7 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 
     // public functions
     $scope.signup = signup;
     $scope.validateUserName = validateUserName;
+    $scope.logout = account.logout;
 }]);
 
 

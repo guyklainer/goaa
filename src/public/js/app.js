@@ -39,17 +39,17 @@ angular.module('App', ["ui.bootstrap", "ngCookies"]).
         redirectTo: '/'
     });
   }])
-    .run(function($rootScope, $location, $cookies) {
+    .run(function($rootScope, account, $location) {
 
-        log("userRole");
-        var user = $cookies.user || {};
-        user = user.substr(2,user.length);
-        log(user);
-        log(JSON.parse(user));
-//        log($cookies.get('user'));
-//        $rootScope.user = $cookieStore.get('user');// || {username: ""};
-//        log($rootScope.userRole);
+        log("application start");
 
-//        $cookieStore.remove('userRole');
+        account.update();
+        //log("isloggedin = ");
+        //log(account.isLoggedIn());
+        //redirect unautrize user to login
+        if(!account.isLoggedIn()){
+            log("user not loggedin redirect to login");
+            $location.path('/');
+        }
 
     });
