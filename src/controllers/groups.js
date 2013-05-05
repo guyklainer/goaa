@@ -3,21 +3,10 @@ var mongoose    = require( 'mongoose' ),
     Group        = mongoose.model( 'Group' ),
     utils       = require( '../utils/utils' );
 
-//module.exports.login = function( req, res ) {
-//    if( req.isAuthenticated() )
-//        res.redirect( '/profile' );
-//    else
-//        res.render( 'login', {
-//            title: "Goaa - Login"
-//        });
-//}
-
 module.exports.makeGroup = function( req, res ) {
-    var result = {
-        result: true,
-        isGroupNameValid: true
-    };
-    var params = req.body;
+
+    var params = req.body,
+        result = {};
 
     params.createdOn = new Date();
     var group = new Group( params );
@@ -27,37 +16,45 @@ module.exports.makeGroup = function( req, res ) {
         group.save( function( err, group, count ){
             if( err ){
                 result.result = false;
+                result.data     = err;
+                result.msg      = "groupNotSavedToDB";
+            } else {
+                result.data     = group;
+                result.msg      = "groupSavedToDB";
             }
-        });
-    }
 
-    res.json( result );
-}
-
-function isGroupExist( name, callback ) {
-    Group.findOne({ groupName: name }, function( err, group ){
-        callback( group != null );
-    });
-}
-
-function validateGroupRequest ( params ){
-    var result = {
-        result: true,
-        isUsernameValid: true,
-        isPasswordValid: true
-    };
-
-    if( !utils.isNullOrEmpty( params ).status ) {
-        isUserExist( params.username, function( msg ){
-            if( msg ){
-                result.result = false;
-                result.isUsernameValid = false;
-            }
+            res.json( result );
         });
 
     } else {
-        result.result = false;
+        res.json( result );
+    }
+}
+
+function validateGroupRequest ( params ){
+
+    var result = utils.isAllFieldsAreNotNullOrEmpty( params );
+
+    if( result.result ) {
+        isGroupExist( params.name, function( exist, group ){
+            if( exist ){
+                result.result   = false;
+                result.data     = group;
+                result.msg      = "groupExist";
+            }
+
+            return result;
+        });
+
+    } else {
+        return result;
     }
 
-    return result;
+
+}
+
+function isGroupExist( name, callback ) {
+    Group.findOne({ name: name }, function( err, group ){
+        callback( group != null );
+    });
 }

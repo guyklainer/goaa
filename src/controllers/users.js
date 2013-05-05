@@ -46,15 +46,21 @@ module.exports.makeSignup = function( req, res ) {
                     result.data     = user;
                     result.msg      = "userSavedToDB";
                 }
+
+                res.json( result );
             });
+
+        } else {
+            res.json( result );
+
         }
 
     } else {
         result.result   = false;
         result.msg      = "passwordsNotEqual";
-    }
 
-    res.json( result );
+        res.json( result );
+    }
 }
 
 module.exports.userExist = function( req, res ) {
@@ -62,8 +68,8 @@ module.exports.userExist = function( req, res ) {
     var username    = req.body.username;
     var result      = { result: false, msg: "userNotExist" };
 
-    isUserExist( username, function( msg, user ){
-        if( msg ){
+    isUserExist( username, function( exist, user ){
+        if( exist ){
             result.result   = true;
             result.data     = user;
             result.msg      = "userExist";
@@ -77,16 +83,19 @@ function validateSignupRequest( params ) {
     var result = utils.isAllFieldsAreNotNullOrEmpty( params );
 
     if( result.result ) {
-        isUserExist( params.username, function( msg, user ){
-            if( msg ){
+        isUserExist( params.username, function( exist, user ){
+            if( exist ){
                 result.result   = false;
                 result.data     = user;
                 result.msg      = "userExist";
             }
-        });
-    }
 
-    return result;
+            return result;
+        });
+
+    } else {
+        return result;
+    }
 }
 
 function isUserExist( username, callback ) {
