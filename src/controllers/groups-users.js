@@ -4,15 +4,7 @@ var mongoose    = require( 'mongoose' ),
     Group       = mongoose.model( 'Group'),
     utils       = require( '../utils/utils' );
 
-
-module.exports.joinGroup = function ( req, res ){
-    var params = req.body;
-
-    res.json(createUserGroupConnection( params.user, params.group, false));
-
-}
-
-module.exports.createUserGroupConnection = function( user, group, isAdmin ){
+module.exports.createUserGroupConnection = function( user, group, isAdmin, callback ){
     var params = {},
         result = {};
 
@@ -35,7 +27,7 @@ module.exports.createUserGroupConnection = function( user, group, isAdmin ){
 
         }
 
-        return result;
+        callback( result );
     });
 }
 
@@ -59,7 +51,7 @@ module.exports.removeUserFromGroup = function( user, group ){
                 result = changeAdmin( group );
 
             } else if( isAdminRes.msg == "dbError" ) {
-                result = utils.createResult( true, null, "dbError" );
+                result = utils.createResult( false, null, "dbError" );
 
             } else {
                 result = utils.createResult( true, null, "userRemoved" );
@@ -79,7 +71,15 @@ function changeAdmin( group ){
             return utils.createResult( false, err, "dbError" );
 
         } else {
-            return utils.createResult( true, { admin: groupUser }, "adminChanged" );
+            GroupUser.update( { _id: groupUser._id }, { $set: { isAdmin: true } }, function( err ){
+                if ( err ) {
+                    return utils.createResult( false, err, "dbError" );
+
+                } else {
+                    return utils.createResult( true, { admin: groupUser }, "adminChanged" );
+                }
+            });
+
         }
     });
 }

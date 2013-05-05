@@ -6,7 +6,7 @@ angular.module('App').controller('TestCtrl', ['$scope', '$http', '$location', 'a
         $scope.postTest = function(){
 
             var params = {
-                name     : 		'group1',
+                name     : 		'group4',
                 createdOn: 		new Date(),
                 address  : 		{ country: "IL", city: "TA", Street: "ST", House: 1, Apartment: 2 },
                 image    :      "http:/blabla"

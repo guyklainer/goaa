@@ -5,6 +5,14 @@ var mongoose    = require( 'mongoose' ),
     utils       = require( '../utils/utils');
 
 
+module.exports.joinGroup = function( req, res ){
+    var params = req.body;
+
+    GroupUsers.createUserGroupConnection( params.user, params.group, false, function( result ){
+        res.json( result );
+    });
+}
+
 module.exports.searchGroup = function ( req, res ){
     var groupName   = req.body.groupName,
         result      = {};
@@ -58,7 +66,6 @@ module.exports.editGroup = function( req, res ) {
     );
 }
 
-
 module.exports.makeGroup = function( req, res ) {
 
     var params = req.body;
@@ -86,12 +93,14 @@ module.exports.makeGroup = function( req, res ) {
                     result.data     = err;
                     result.msg      = "groupNotSavedToDB";
 
+                    res.json( result );
+
                 } else {
-                    result = GroupUsers.createUserGroupConnection( req.user._id, group._id, true );
+                    GroupUsers.createUserGroupConnection( req.user._id, group._id, true, function( result ){
+                        res.json( result );
+                    });
 
                 }
-
-                res.json( result );
             });
 
         } else {
