@@ -49,8 +49,14 @@ module.exports.isImage = function( filename ) {
     return false;
 }
 
+module.exports.createResult = function( result, data, msg ) {
+    return { result: result, data: data, msg: msg };
+}
+
 function getExtension( filename ) {
     var parts = filename.split( '.' );
     return parts[parts.length - 1];
 }
+
+
 
