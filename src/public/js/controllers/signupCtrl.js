@@ -97,7 +97,7 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 
     // public functions
     $scope.signup = signup;
     $scope.validateUserName = validateUserName;
-    $scope.logout = account.logout;
+    $scope.account = account;
 }]);
 
 
