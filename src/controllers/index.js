@@ -9,6 +9,7 @@ module.exports.home = function( req, res ) {
 
 module.exports.partials = function( req, res ) {
     var name = req.params.name;
+    res.cookie('user', req.isAuthenticated() ? req.user : null);
     res.render( 'partials/' + name, {
         user: req.isAuthenticated() ? req.user : null
     });
