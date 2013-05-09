@@ -14,7 +14,6 @@ module.exports.joinGroup = function( req, res ){
 }
 
 module.exports.getGroupsByUser = function( req, res ){
-    console.log("getGroupsByUser");
 
     var userID          = req.body.userID,
         groupIDsArray   = [],
@@ -25,8 +24,8 @@ module.exports.getGroupsByUser = function( req, res ){
             res.json( utils.createResult( false, err, "dbError" ) );
 
         else {
-            _.each( groupIDs, function( group ){
-                groupIDsArray.push( group.group );
+            _.each( groupIDs, function( groupObj ){
+                groupIDsArray.push( groupObj.group );
             });
 
             Group.find( { _id: { $in: groupIDsArray } }, function( err, groups ){
