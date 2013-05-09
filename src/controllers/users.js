@@ -101,7 +101,7 @@ function validateSignupRequest( params, callback ) {
 }
 
 function isUserExist( username, callback ) {
-    User.findOne({ username: username }, function( err, user ){
+    User.findOne( { username: username }, function( err, user ){
         callback( user != null, user );
     });
 }

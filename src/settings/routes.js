@@ -34,6 +34,7 @@ module.exports = function( app, passport ) {
 
     app.post( '/login', passport.authenticate( 'local' ), users.login );
     app.post( '/signup', users.makeSignup );
+    app.post( '/getgroups', groups.getGroupsByUser );
 
 
     //*****************************
