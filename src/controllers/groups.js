@@ -1,8 +1,8 @@
 
 var mongoose    = require( 'mongoose' ),
-    Group       = mongoose.model( 'Group' ),
     GroupUsers  = require( './groups-users' ),
-    utils       = require( '../utils/utils');
+    utils       = require( '../utils/utils'),
+    Group       = mongoose.model( 'Group' );
 
 
 module.exports.joinGroup = function( req, res ){
