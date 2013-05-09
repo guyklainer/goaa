@@ -1,4 +1,25 @@
 <!-- Header -->
 <%- include ../shared/header.ejs %>
 
-<h1>Home</h1>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+    <div class="span12">
+    <ul class="thumbnails">
+        <li class="thumbnail span12" ng-repeat="group in groups" style="margin-left:0px;">
+            <div class="row-fluid">
+                <div class="span2">
+                    <h3>
+                        {{group.name}}
+                    </h3>
+                </div>
+                <div class="span1">
+                    <!--<i class="icon-chevron-right"></i>-->
+                    <button>p</button>
+                </div>
+            </div>
+        </li>
+    </ul>
+    </div>
+    </div>
+</div>
