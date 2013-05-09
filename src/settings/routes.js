@@ -1,13 +1,13 @@
 
 var mongoose    = require('mongoose'),
-    User        = mongoose.model('User'),
     index       = require('../controllers/index'),
     utils       = require('../utils/utils'),
     uploader    = require('../utils/uploader');
 
 module.exports = function( app, passport ) {
 
-    var users = require( '../controllers/users' );
+    var users   = require( '../controllers/users'),
+        groups  = require( '../controllers/groups' );
 
     //*****************************
     // Home
@@ -24,6 +24,17 @@ module.exports = function( app, passport ) {
         
     app.post( '/login', passport.authenticate( 'local' ), users.login );
     app.post( '/signup', users.makeSignup );
+
+
+    //*****************************
+    // Groups
+    //*****************************
+//    app.get( '/login', users.login );
+    app.post( '/creategroup', groups.makeGroup );
+
+    app.post( '/login', passport.authenticate( 'local' ), users.login );
+    app.post( '/signup', users.makeSignup );
+    app.post( '/getgroups', groups.getGroupsByUser );
 
 
     //*****************************

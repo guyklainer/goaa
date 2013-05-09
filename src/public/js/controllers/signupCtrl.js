@@ -10,15 +10,25 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 
         username: "",
         email: "",
         password: "",
-        confirm_password: ""
+        confirm_password: "" ,
+        birthDay:""
     };
+        var birthDayParts={
+           Day:"" ,
+           Month:"",
+           Year:""
+        } ;
+
 
     // public vars
     $scope.form = form;
+    $scope.birthDayParts = birthDayParts;
 
     // functions
     var signup = function(){
+
         log("signup for: ");
+        form.birthDay=birthDayParts.Day+'/'+birthDayParts.Month+'/'+birthDayParts.Year;
         log(form);
 
         // checking that the password matches

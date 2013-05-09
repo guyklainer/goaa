@@ -1,9 +1,48 @@
 
 var mongoose    = require( 'mongoose' ),
-    Group       = mongoose.model( 'Group' ),
-    GroupUsers  = require( './groups-users' ),
-    utils       = require( '../utils/utils');
+    utils       = require( '../utils/utils' ),
+    _           = require( 'underscore'),
+    GroupUsers  = mongoose.model( 'GroupUser' ),
+    Group       = mongoose.model( 'Group' );
 
+module.exports.joinGroup = function( req, res ){
+    var params = req.body;
+
+    GroupUsers.createUserGroupConnection( params.user, params.group, false, function( result ){
+        res.json( result );
+    });
+}
+
+module.exports.getGroupsByUser = function( req, res ){
+    console.log("getGroupsByUser");
+
+    var userID          = req.body.userID,
+        groupIDsArray   = [],
+        result;
+
+    GroupUsers.find( { user: userID }, { group: 1, _id: 0 }, function( err, groupIDs ){
+        if( err )
+            res.json( utils.createResult( false, err, "dbError" ) );
+
+        else {
+            _.each( groupIDs, function( group ){
+                groupIDsArray.push( group.group );
+            });
+
+            Group.find( { _id: { $in: groupIDsArray } }, function( err, groups ){
+
+                if( err ){
+                    result = utils.createResult( false, err, "dbError" );
+                    return false;
+
+                } else
+                    result = utils.createResult( true, groups, "fetchGroupsByUser" );
+
+                res.json( result );
+            });
+        }
+    });
+}
 
 module.exports.searchGroup = function ( req, res ){
     var groupName   = req.body.groupName,
@@ -58,50 +97,52 @@ module.exports.editGroup = function( req, res ) {
     );
 }
 
-
 module.exports.makeGroup = function( req, res ) {
 
-    var params = req.body,
-        result = {};
+    var params = req.body;
 
     params.createdOn = new Date();
 
-    result = validateGroupRequest( params );
+    validateGroupRequest( params, function( result ){
+        if( result.result ){
+            params.address.country      = params.country;
+            params.address.city         = params.city;
+            params.address.street       = params.street;
+            params.address.house        = params.house;
+            params.address.apartment    = params.apartment;
 
-    if( result.result ){
-        params.address.country      = params.country;
-        params.address.city         = params.city;
-        params.address.street       = params.street;
-        params.address.house        = params.house;
-        params.address.apartment    = params.apartment;
+            delete params.country;
+            delete params.city;
+            delete params.street;
+            delete params.house;
+            delete params.apartment;
 
-        delete params.country;
-        delete params.city;
-        delete params.street;
-        delete params.house;
-        delete params.apartment;
+            var group = new Group( params );
+            group.save( function( err, group, count ){
+                if( err ){
+                    result.result   = false;
+                    result.data     = err;
+                    result.msg      = "groupNotSavedToDB";
 
-        var group = new Group( params );
-        group.save( function( err, group, count ){
-            if( err ){
-                result.result   = false;
-                result.data     = err;
-                result.msg      = "groupNotSavedToDB";
+                    res.json( result );
 
-            } else {
-                result = GroupUsers.createUserGroupConnection( req.user._id, group._id, true );
+                } else {
+                    GroupUsers.createUserGroupConnection( req.user._id, group._id, true, function( result ){
+                        res.json( result );
+                    });
 
-            }
+                }
+            });
 
+        } else {
             res.json( result );
-        });
+        }
+    });
 
-    } else {
-        res.json( result );
-    }
+
 }
 
-function validateGroupRequest ( params ){
+function validateGroupRequest ( params, callback ){
 
     var result = utils.isAllFieldsAreNotNullOrEmpty( params );
 
@@ -113,11 +154,11 @@ function validateGroupRequest ( params ){
                 result.msg      = "groupExist";
             }
 
-            return result;
+            callback( result );
         });
 
     } else {
-        return result;
+        callback( result );
     }
 
 
@@ -125,7 +166,7 @@ function validateGroupRequest ( params ){
 
 function isGroupExist( name, callback ) {
     Group.findOne({ name: name }, function( err, group ){
-        callback( group != null );
+        callback( group != null, group );
     });
 }
 

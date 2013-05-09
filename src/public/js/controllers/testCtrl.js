@@ -6,10 +6,13 @@ angular.module('App').controller('TestCtrl', ['$scope', '$http', '$location', 'a
         $scope.postTest = function(){
 
             var params = {
-                username: "oryan"
+                name     : 		'group4',
+                createdOn: 		new Date(),
+                address  : 		{ country: "IL", city: "TA", Street: "ST", House: 1, Apartment: 2 },
+                image    :      "http:/blabla"
             };
 
-            $http.post('/logout', params)
+            $http.post('/creategroup', params)
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
                 })

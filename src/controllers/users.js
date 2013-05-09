@@ -34,26 +34,28 @@ module.exports.makeSignup = function( req, res ) {
         var user = new User( params );
         user.password = params.password;
 
-        result = validateSignupRequest( params );
-        if( result.result ){
-            user.save( function( err, user, count ){
-                if( err ){
-                    result.result   = false;
-                    result.data     = err;
-                    result.msg      = "userNotSavedToDB";
+        validateSignupRequest( params, function( result ){
+            if( result.result ){
+                user.save( function( err, user, count ){
+                    if( err ){
+                        result.result   = false;
+                        result.data     = err;
+                        result.msg      = "userNotSavedToDB";
 
-                } else {
-                    result.data     = user;
-                    result.msg      = "userSavedToDB";
-                }
+                    } else {
+                        result.data     = user;
+                        result.msg      = "userSavedToDB";
+                    }
 
+                    res.json( result );
+                });
+
+            } else {
                 res.json( result );
-            });
 
-        } else {
-            res.json( result );
+            }
+        });
 
-        }
 
     } else {
         result.result   = false;
@@ -79,7 +81,7 @@ module.exports.userExist = function( req, res ) {
     });
 }
 
-function validateSignupRequest( params ) {
+function validateSignupRequest( params, callback ) {
     var result = utils.isAllFieldsAreNotNullOrEmpty( params );
 
     if( result.result ) {
@@ -90,16 +92,16 @@ function validateSignupRequest( params ) {
                 result.msg      = "userExist";
             }
 
-            return result;
+            callback( result );
         });
 
     } else {
-        return result;
+        callback( result );
     }
 }
 
 function isUserExist( username, callback ) {
-    User.findOne({ username: username }, function( err, user ){
+    User.findOne( { username: username }, function( err, user ){
         callback( user != null, user );
     });
 }
