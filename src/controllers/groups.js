@@ -1,7 +1,8 @@
 
 var mongoose    = require( 'mongoose' ),
-    GroupUsers  = require( './groups-users' ),
-    utils       = require( '../utils/utils'),
+    utils       = require( '../utils/utils' ),
+    _           = require( 'underscore'),
+    GroupUsers  = mongoose.model( 'GroupUser' ),
     Group       = mongoose.model( 'Group' );
 
 module.exports.joinGroup = function( req, res ){
@@ -13,28 +14,33 @@ module.exports.joinGroup = function( req, res ){
 }
 
 module.exports.getGroupsByUser = function( req, res ){
-    var userID  = req.body.userID,
+    console.log("getGroupsByUser");
+
+    var userID          = req.body.userID,
+        groupIDsArray   = [],
         result;
 
     GroupUsers.find( { user: userID }, { group: 1, _id: 0 }, function( err, groupIDs ){
         if( err )
-            result = utils.createResult( false, err, "dbError" );
+            res.json( utils.createResult( false, err, "dbError" ) );
 
         else {
-            _.each( groupIDs, function( groupID ){
-                Group.find( { _id: groupID }, function( err, groups ){
+            _.each( groupIDs, function( group ){
+                groupIDsArray.push( group.group );
+            });
 
-                    if( err ){
-                        result = utils.createResult( false, err, "dbError" );
-                        return false;
+            Group.find( { _id: { $in: groupIDsArray } }, function( err, groups ){
 
-                    } else
-                        result = utils.createResult( true, groups, "fetchGroupsByUser" );
-                });
+                if( err ){
+                    result = utils.createResult( false, err, "dbError" );
+                    return false;
+
+                } else
+                    result = utils.createResult( true, groups, "fetchGroupsByUser" );
+
+                res.json( result );
             });
         }
-
-        res.json( result );
     });
 }
 
