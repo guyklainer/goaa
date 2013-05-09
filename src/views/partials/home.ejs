@@ -1,25 +1,35 @@
 <!-- Header -->
 <%- include ../shared/header.ejs %>
 
+<div class="row-fluid headerBackground" id="toolbarDiv" style="display: none;">
+    <button class="btn btn-large span4"><i class="icon-plus-sign"></i> New</button>
+    <button class="btn btn-large span4"><i class="icon-pencil"></i> bllaaa</button>
+    <button class="btn btn-large span4"><i class="icon-pencil"></i> Compose</button>
+</div>
+<div class="row-fluid">&nbsp;</div>
 
+
+<!-- Content -->
 <div class="container-fluid">
     <div class="row-fluid">
-    <div class="span12">
-    <ul class="thumbnails">
-        <li class="thumbnail span12" ng-repeat="group in groups" style="margin-left:0px;">
-            <div class="row-fluid">
-                <div class="span2">
-                    <h3>
-                        {{group.name}}
-                    </h3>
-                </div>
-                <div class="span1">
-                    <!--<i class="icon-chevron-right"></i>-->
-                    <button>p</button>
-                </div>
-            </div>
-        </li>
-    </ul>
-    </div>
+        <div class="span12">
+            <ul class="thumbnails">
+                <li class="thumbnail span12" ng-repeat="group in groups" style="margin-left:0px;">
+                    <div class="row-fluid">
+                        <div class="span2">
+                            <img src="{{group.imgLocation}}" alt="{{group.name}}"/>
+                        </div>
+                        <div class="span9">
+                            <h3>
+                                {{group.name}}
+                            </h3>
+                        </div>
+                        <div class="span1">
+                            <i class="icon-chevron-right"></i>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
