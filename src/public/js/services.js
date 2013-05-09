@@ -70,7 +70,7 @@ angular.module('App').factory('account', ['$cookies', '$http', '$location', func
 
             log("user: ");
             log(loggedInUser);
-            log(isLoggedIn());
+            log("isLoggedIn: " + isLoggedIn());
 
 
         },
