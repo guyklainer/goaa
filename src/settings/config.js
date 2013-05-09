@@ -26,7 +26,7 @@ module.exports.settings = {
     'port'          : process.env.PORT || 3000,
     'debug'         : 0,
     'profile'       : 0,
-    'db'            : 'mongodb://goaa:goaa@dharma.mongohq.com:10039/Goaa',
+    'db'            : { main: 'mongodb://goaa:goaa@dharma.mongohq.com:10039/Goaa', fallback: 'mongodb://localhost/goaa' },
     'S3Key'         : 'AKIAI2RZRVF5BVXASAUA',
     'S3Secret'      : '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',
     'S3Bucket'      : 'goaa',
