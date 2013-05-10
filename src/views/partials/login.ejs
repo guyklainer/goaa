@@ -1,12 +1,6 @@
 
 <!-- Header -->
-<div>
-    <h1 style="text-align: center;">
-        <a href="/" style="color: #000000; text-decoration: none">Goaa</a>
-    </h1>
-</div>
-
-<hr/>
+<%- include ../shared/header.ejs %>
 
 <div class="container-fluid">
 
@@ -16,7 +10,7 @@
         <label class="checkbox">
             <input type="checkbox" value="remember-me" ng-model="form.remeberme"> Remember me
         </label>
-        <p ng-show="loginFailed" style="color:red; text-align: center;"><strong>Username or password are incorrect</strong></p>
+        <p ng-show="loginFailed" class="text-centered red"><strong>Username or password are incorrect</strong></p>
         <button class="btn btn-large btn-primary btn-block" type="submit">Sign In</button>
     </form>
 

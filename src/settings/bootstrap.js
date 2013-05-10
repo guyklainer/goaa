@@ -73,9 +73,10 @@ module.exports.boot = function( app, passport ) {
          app.use(express.methodOverride());
          
          // -- Static ressources
-         app.use(express.favicon());
-         app.use(express.static(static_root));
-         
+         app.use(express.static( static_root ));
+         app.use(express.favicon( static_root + '/img/favicon.ico' ) );
+         console.log(static_root + '/img/favicon.ico');
+
          //Sessions
          app.use(express.session( { secret: settings.sessionSecret } ));
 

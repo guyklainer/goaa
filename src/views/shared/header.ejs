@@ -1,16 +1,11 @@
-<div class="container-fluid headerBackground">
-    <div class="row-fluid">
-        <div class="span4">
-            <h2><a class="brand simpleLink" href="/">Goaa</a></h2>
+<div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+        <div class="continer">
+            <a class="pull-left logo bold" href="/"><img src="/img/logo.png">&nbsp;Goaa</a>
+            <div class="pull-right">
+                <a class="pull-left" href="#" ng-show="account.user().firstName">{{ account.user().firstName + ' ' + account.user().lastName }} | </a>
+                <a class="pull-left" ng-click="account.logout()" ng-show="account.user()">&nbsp;Logout</a>
+            </div>
         </div>
-
-        <div class="span4 brand">
-            <h4><p ng-show="account.user().firstName">{{account.user().firstName + ' ' + account.user().lastName}}</p></h4>
-        </div>
-
-        <div class="span4">
-            <h4><a class="brand" ng-click="account.logout()"><small>Logout</small></a></h4>
-        </div>
-
     </div>
 </div>
