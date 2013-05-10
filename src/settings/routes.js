@@ -19,7 +19,7 @@ module.exports = function( app, passport ) {
     //*****************************
     // Login & Signup
     //*****************************
-//    app.get( '/login', users.login );
+    //app.get( '/login', users.login );
     app.post( '/logout', users.logout );
         
     app.post( '/login', passport.authenticate( 'local' ), users.login );
@@ -29,11 +29,7 @@ module.exports = function( app, passport ) {
     //*****************************
     // Groups
     //*****************************
-//    app.get( '/login', users.login );
     app.post( '/creategroup', groups.makeGroup );
-
-    app.post( '/login', passport.authenticate( 'local' ), users.login );
-    app.post( '/signup', users.makeSignup );
     app.post( '/getgroups', groups.getGroupsByUser );
 
 

@@ -1,35 +1,30 @@
 <!-- Header -->
 <%- include ../shared/header.ejs %>
 
-<div class="row-fluid headerBackground">
-    <button ng-click="gotoCreateGroup()" class="btn btn-large"><i class="icon-plus-sign"></i> New</button>
-    <button ng-click="gotoJoinGroup()" class="btn btn-large"><i class="icon-list-alt"></i> Join</button>
-    <button ng-click="gotoComposePost()" class="btn btn-large btn-success"><i class="icon-pencil"></i> Compose</button>
-</div>
-<div class="row-fluid">&nbsp;</div>
-
+<center class="top-buttons">
+    <div class="btn-group">
+        <button ng-click="gotoCreateGroup()" class="btn btn-medium btn-warning"><i class="icon-plus-sign icon-white"></i> New</button>
+        <button ng-click="gotoJoinGroup()" class="btn btn-medium btn-info"><i class="icon-list-alt icon-white"></i> Join</button>
+        <button ng-click="gotoComposePost()" class="btn btn-medium btn-success"><i class="icon-pencil icon-white"></i> Compose</button>
+    </div>
+</center>
 
 <!-- Content -->
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="span12">
-            <ul class="thumbnails">
-                <li class="thumbnail span12" ng-repeat="group in groups" style="margin-left:0px;">
-                    <div class="row-fluid">
-                        <div class="span2">
-                            <img src="{{group.image}}" alt="{{group.name}}"/>
-                        </div>
-                        <div class="span9">
-                            <h3>
-                                {{group.name}}
-                            </h3>
-                        </div>
-                        <div class="span1">
-                            <i class="icon-chevron-right"></i>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
+<div class="container-fluid main">
+    <ul class="list">
+        <li class="list-item" ng-repeat="group in groups">
+            <div class="img-continer pull-left">
+                <img src="{{group.image}}" alt="{{group.name}}">
+            </div>
+
+            <a href="#" class="title">
+                <span class="badge badge-warning">{{group.posts.length}}</span>
+                <i class="icon-chevron-right"></i>
+                {{group.name}}
+            </a>
+        </li>
+    </ul>
 </div>
+
+<!-- Footer -->
+<%- include ../shared/footer.ejs %>
