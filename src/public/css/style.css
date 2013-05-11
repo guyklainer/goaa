@@ -100,6 +100,15 @@ a:hover, a:focus {
 
 
 /******************************
+// Login
+//******************************/
+
+img.logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+/******************************
 // Groups
 //******************************/
 
@@ -112,7 +121,7 @@ a:hover, a:focus {
     margin: 0;
     list-style-type: none;
     border: 1px solid rgba(128, 128, 128, 0.26);
-    border-radius: 25px;
+    border-radius: 10px;
     box-shadow: 0 1px 4px rgba(0,0,0,.065);
     background-color: #fafafa;
     background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
@@ -129,7 +138,7 @@ a:hover, a:focus {
     border-bottom: 1px solid rgba(128, 128, 128, 0.26);
     padding: 1% 2%;
     position: relative;
-    height: 55px;
+    height: 30px;
     cursor: pointer;
 }
 
@@ -141,7 +150,7 @@ a:hover, a:focus {
     opacity: 0.5;
     position: absolute;
     right: 15px;
-    top: 40%;
+    top: 34%;
 }
 
 .list-item .badge {
@@ -157,14 +166,18 @@ a:hover, a:focus {
 }
 
 .list-item .img-continer {
-    height: 55px;
+    height: 30px;
     overflow: hidden;
+}
+
+.list-item .img-continer img {
+    height: 30px;
 }
 
 .list-item .title {
     font-size: 16px;
     margin-left: 20px;
-    margin-top: 18px;
+    margin-top: 7px;
     float: left;
 }
 

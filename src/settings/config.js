@@ -23,6 +23,7 @@ module.exports.settings = {
     'siteName'      : 'Goaa',
     'sessionSecret' : 'SDFsdf34dfffsdfFSfASDasd311ksevvf',
     'uri'           : 'http://localhost', // Without trailing /
+    'productionURI' : 'ec2-54-246-47-98.eu-west-1.compute.amazonaws.com',
     'port'          : process.env.PORT || 3000,
     'debug'         : 0,
     'profile'       : 0,
