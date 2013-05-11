@@ -108,6 +108,10 @@ img.logo {
     margin-bottom: 20px;
 }
 
+.form-signin input[type="text"] {
+    height: 40px;
+}
+
 /******************************
 // Groups
 //******************************/
