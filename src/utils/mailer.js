@@ -47,7 +47,7 @@ module.exports.buildWelcomeMessage = function( user ){
 module.exports.buildForgotPasswordMessage = function( tokenObj ){
     var msg = "";
 
-    msg += '<a href=' + settings.uri + '/resetpassword?token=' + tokenObj.token + '>Click this link to reset your password</a>';
+    msg += '<a href=' + settings.productionURI + '/resetpassword?token=' + tokenObj.token + '>Click this link to reset your password</a>';
 
     return msg;
 }
