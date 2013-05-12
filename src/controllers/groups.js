@@ -51,20 +51,26 @@ module.exports.searchGroup = function ( req, res ){
         exp         = new RegExp( pattern, "i" ),
         result      = {};
 
-    Group.find( { name: exp }, function( err, docs ) {
-        if ( err ){
-            result = utils.createResult( false, err, "dbError" );
+    if( groupName == undefined || groupName == "" ){
+        res.json( utils.createResult( false, [], "emptyQuery" ) );
 
-        } else if( !docs || docs.length == 0 ) {
-            result = utils.createResult( false, [], "noResults" );
-        
-        } else {
-            result = utils.createResult( true, docs, "foundGroups" );
+    } else {
+        Group.find( { name: exp }, function( err, docs ) {
+            if ( err ){
+                result = utils.createResult( false, err, "dbError" );
 
-        }
+            } else if( !docs || docs.length == 0 ) {
+                result = utils.createResult( false, [], "noResults" );
 
-        res.json( result );
-    });
+            } else {
+                result = utils.createResult( true, docs, "foundGroups" );
+
+            }
+
+            res.json( result );
+        });
+    }
+
 }
 
 module.exports.editGroup = function( req, res ) {
