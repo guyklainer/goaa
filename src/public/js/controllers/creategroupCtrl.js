@@ -11,7 +11,7 @@ angular.module('App').controller('CreateGroupCtrl', ['$scope', 'blockui', '$http
                               street: "",
                               house:"",
                               apartment: "" },
-            image    : "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSjceMBd_6u6JAr5bLlXoVEfxf1yDGiipG7Ryo55ILSvdvwhj8XAQ"
+            image    : ""
         };
 
 

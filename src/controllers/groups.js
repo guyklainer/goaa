@@ -104,9 +104,10 @@ module.exports.makeGroup = function( req, res ) {
     var params = req.body;
 
     params.createdOn = new Date();
-    if( params.image == "" )
+    if( params.image == undefined || params.image == "" ){
         params.image = settings.defaultAvatar;
-    
+    }
+
     validateGroupRequest( params, function( result ){
         if( result.result ){
 
