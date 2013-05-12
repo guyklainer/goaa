@@ -6,13 +6,16 @@
 <div class="container-fluid">
 
     <form class="form-signin"   ng-submit="groupcreator()" enctype="multipart/form-data">
-        <input type="text" class="input-block-level" placeholder="Group name" ng-model="Group.name">
+        <input type="text" required class="input-block-level" placeholder="Group name" ng-model="Group.name">
+
         <p>Address:</p>
-        <input type="text" class="input-block-level" placeholder="country" ng-model="Group.address.country">
-        <input type="text" class="input-block-level" placeholder="city" ng-model="Group.address.city">
-        <input type="text" class="input-block-level" placeholder="street" ng-model="Group.address.street">
-        <input type="text" class="input-block-level" placeholder="House" ng-model="Group.address.house">
-        <input type="text" class="input-block-level" placeholder="Apartment" ng-model="Group.address.apartment">
+        <input type="text" required class="input-block-level" placeholder="country" ng-model="Group.address.country">
+        <input type="text"  required class="input-block-level" placeholder="city" ng-model="Group.address.city">
+        <input type="text" required class="input-block-level" placeholder="street" ng-model="Group.address.street">
+        <input type="number" required class="input-block-level" placeholder="House" ng-model="Group.address.house">
+        <input type="number" required class="input-block-level" placeholder="Apartment" ng-model="Group.address.apartment">
+
+
 
 
 
