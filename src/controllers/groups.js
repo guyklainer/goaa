@@ -109,7 +109,7 @@ module.exports.makeGroup = function( req, res ) {
             params.address.street       = params.street;
             params.address.house        = params.house;
             params.address.apartment    = params.apartment;
-
+            
             delete params.country;
             delete params.city;
             delete params.street;

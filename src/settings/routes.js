@@ -33,6 +33,8 @@ module.exports = function( app, passport ) {
     //*****************************
     app.post( '/creategroup', groups.makeGroup );
     app.post( '/getgroups', groups.getGroupsByUser );
+    app.post( '/searchgroups', groups.searchGroup );
+    app.post( '/joingroup', groups.joinGroup );
 
 
     //*****************************
