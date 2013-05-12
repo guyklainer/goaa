@@ -8,7 +8,7 @@ angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$lo
         })
         .success(function(data, status, headers, config) {
             log(data);
-            if (angular.isArray(data.data)){
+            if (data.result && angular.isArray(data.data)){
                 $scope.groups = data.data;
             }
         });
