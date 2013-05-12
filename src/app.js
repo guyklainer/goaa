@@ -19,6 +19,7 @@ var app         = express(),
 
 // -- Bootstrap models
 var models_path = __dirname + '/models';
+//require ( models_path + '/post.js');
 fs.readdirSync( models_path ).forEach( function ( file ){
     require( models_path + '/' + file );
 });
