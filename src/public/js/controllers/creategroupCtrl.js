@@ -19,7 +19,7 @@ angular.module('App').controller('creategroupCtrl', ['$scope', 'blockui', '$http
         $scope.Group = Group;
 
 
-        var login = function() {
+        var groupcreator = function() {
 
             log("group name test: " + Group);
             log(Group);
@@ -48,7 +48,7 @@ angular.module('App').controller('creategroupCtrl', ['$scope', 'blockui', '$http
             log("test");
             blockui.block();
         };
-        $scope.login = login;
+        $scope.groupcreator = groupcreator;
         $scope.logout = account.logout;
 
 

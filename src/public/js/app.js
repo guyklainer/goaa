@@ -52,12 +52,10 @@ angular.module('App', ["ui.bootstrap", "ngCookies"]).
         log("application start");
 
         account.update();
-        //log("isloggedin = ");
-        //log(account.isLoggedIn());
+
         //redirect unautrize user to login
-        if(!account.isLoggedIn()){
-            log("user not loggedin redirect to login");
+        if($location.path() != '/signup' && !account.isLoggedIn()){
+            log("user not loggedin, redirecting to login");
             $location.path('/');
         }
-
     });

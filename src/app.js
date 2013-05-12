@@ -30,7 +30,14 @@ require('./settings/bootstrap').boot( app, passport );
 require('./settings/routes')( app, passport );
 
 // -- Connect to DB
-mongoose.connect( settings.db );
+mongoose.connect( settings.db.main, function( err ){
+    if( err ){
+        mongoose.connect( settings.db.fallback, function( err ){
+            if( err )
+                console.log( "You probably working offline. Open your local mongodb server (mongod) and try again." );
+        });
+    }
+});
 
 // -- Only listen on $ node app.js
 logo.print();

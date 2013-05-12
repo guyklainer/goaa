@@ -1,6 +1,6 @@
 
-angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', '$location','account',
-    function($scope, blockui, $http, $location, account){
+angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', '$location', 'account', '$cookies',
+    function($scope, blockui, $http, $location, account, $cookies){
 
     var form = {
         username: "",
@@ -37,6 +37,7 @@ angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', '$l
                 if (data != null && data.result){
                     blockui.unblock();
                     $scope.loginFailed = false;
+                    $cookies.user = '12' + angular.toJson(data.user);
                     account.update();
                     $location.path('/home');
                 }
@@ -44,12 +45,6 @@ angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', '$l
     };
 
     // public functions
-    $scope.test = function(){
-        log("test");
-        blockui.block();
-    };
     $scope.login = login;
-    $scope.logout = account.logout;
-
-
+    $scope.account = account;
 }]);

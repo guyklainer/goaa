@@ -1,13 +1,16 @@
-
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container-fluid">
-            <div class="row-fluid">
-                <a class="brand offset5" href="/">Goaa</a>
-                <p>{}</P>
-                <a class="brand offset2" ng-click="logout()"><small>Logout</small></a>
-
-            </div>
+<div class="container-fluid headerBackground">
+    <div class="row-fluid">
+        <div class="span4">
+            <h2><a class="brand simpleLink" href="/">Goaa</a></h2>
         </div>
+
+        <div class="span4 brand">
+            <h4><p ng-show="account.user().firstName">{{account.user().firstName + ' ' + account.user().lastName}}</p></h4>
+        </div>
+
+        <div class="span4">
+            <h4><a class="brand" ng-click="account.logout()"><small>Logout</small></a></h4>
+        </div>
+
     </div>
 </div>

@@ -14,7 +14,8 @@
     "supervisor": "~0.5.2",
     "underscore": "~1.4.4",
     "cron": "~1.0.1",
-    "knox": "~0.7.0"
+    "knox": "~0.7.0",
+    "socket.io": "~0.9.14"
   },
   "engines": {
     "node": "~0.8.x"

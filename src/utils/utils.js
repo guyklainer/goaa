@@ -1,4 +1,6 @@
 
+var _ = require( 'underscore' );
+
 module.exports.ensureAuthenticated = function( req, res, next )  {
     if( req.isAuthenticated() )
         return next();
@@ -7,24 +9,22 @@ module.exports.ensureAuthenticated = function( req, res, next )  {
 }
 
 module.exports.isAllFieldsAreNotNullOrEmpty = function( obj ) {
-	var keys        = [];
     var returnKeys  = {};
     var success     = true;
     var key;
 
 	if( typeof obj == "object" ){
-        for( key in Object.keys( obj ) )
-            keys.push( key );
+        var keys = _.keys( obj );
 
-        for( key in keys ){
-            if( key === "undefined" || key == "" || key === null ) {
-                returnKeys[ key ] = false;
-                success = false;
+        _.each( keys, function( key ){
+            if( obj[ key ] === "undefined" || obj[ key ] == "" || obj[ key ] === null || ( obj[ key ] && obj[ key ].length === 0 ) ) {
+                returnKeys[ key ]   = false;
+                success             = false;
 
             } else {
                 returnKeys[ key ] = true;
             }
-        }
+        });
 
     } else {
         if( obj === "undefined" || obj == "" || obj === null ){
