@@ -33,7 +33,7 @@ angular.module('App', ["ui.bootstrap", "ngCookies"]).
         }).
         when('/groupPreview', {
             templateUrl: 'partials/groupPreview',
-            controller: 'JoinGroupCtrl'
+            controller: 'GroupPreviewCtrl'
         }).
 //      when('/addPost', {
 //        templateUrl: 'partials/addPost',
