@@ -3,6 +3,11 @@
 angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 'blockui','account',
     function($scope, $http, $location, blockui, account){
 
+    // checking if logged in allready redirecting to Home
+    if (account.isLoggedIn()){
+        $location.path('/home')
+    }
+
     // varibles
     var form = {
         firstName: "",

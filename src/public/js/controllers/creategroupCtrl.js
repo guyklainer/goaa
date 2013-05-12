@@ -1,5 +1,5 @@
 
-angular.module('App').controller('creategroupCtrl', ['$scope', 'blockui', '$http', '$location','account',
+angular.module('App').controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','account',
     function($scope, blockui, $http, $location, account){
 
 
