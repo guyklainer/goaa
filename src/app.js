@@ -30,12 +30,23 @@ require('./settings/bootstrap').boot( app, passport );
 require('./settings/routes')( app, passport );
 
 // -- Connect to DB
-mongoose.connect( settings.db );
+mongoose.connect( settings.db.main, function( err ){
+    if( err ){
+        mongoose.connect( settings.db.fallback, function( err ){
+            if( err )
+                console.log( "You probably working offline. Open your local mongodb server (mongod) and try again." );
+        });
+    }
+});
 
 // -- Only listen on $ node app.js
 logo.print();
 
-http.createServer( app ).listen( settings.port, function(){
+// -- Create the server
+var server = http.createServer( app ),
+    io = require( 'socket.io' ).listen( server );
+
+server.listen( settings.port, function(){
     console.log("Express server listening on "+" port %d ".bold.inverse.red+" in " + " %s mode ".bold.inverse.green + " //", settings.port, env);
     console.log('Using Express %s...', express.version.red.bold);
 });

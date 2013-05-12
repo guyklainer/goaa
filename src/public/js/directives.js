@@ -2,25 +2,29 @@
 
 /* Directives */
 
-//
-//angular.module('App').directive('logoff', ['$http', '$location', function($http, $location) {
+
+angular.module('App').directive('username', [function() {
 //    return function(scope, element, attrs) {
-//        log('directive');
-//        log(element);
-//        element.bind('click',function(){
-//            log("logout click");
-//            $http.post('/logout', {})
-//                .error(function(data, status, headers, config){
-//                    httpErrorCallback(data, status, headers, config);
-//                })
-//                .success(function(data, status, headers, config) {
-//                    log("logout success");
-//                    log(data);
-//                    $location.path('/');
-//                });
-//        });
+        return {
+            restrict: 'E',
+            scope: {
+                account: "="
+            },
+            //transclude: true,
+            template: '<span>{{account.user().firstName}}</span>'
+//            link: function(scope, element, attrs) {
+//                // edit mode boolean controls the visibilty of the blink and input
+//                log('username directive');
+//                log(element);
+//                //scope.editMode = false;
+//                // called when the marquee tag is clicked
+////                scope.edit = function() {
+////                    scope.editMode = true;
+////                };
+//            }
+        };
 //    };
-//  }]);
+  }]);
 
 
 //var INTEGER_REGEXP = /^\-?\d*$/;

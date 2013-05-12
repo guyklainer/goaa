@@ -1,15 +1,45 @@
 
 var mongoose    = require( 'mongoose' ),
-    Group       = mongoose.model( 'Group' ),
-    GroupUsers  = require( './groups-users' ),
-    utils       = require( '../utils/utils');
-
+    utils       = require( '../utils/utils' ),
+    _           = require( 'underscore'),
+    GroupUsers  = mongoose.model( 'GroupUser' ),
+    Group       = mongoose.model( 'Group' );
 
 module.exports.joinGroup = function( req, res ){
     var params = req.body;
 
     GroupUsers.createUserGroupConnection( params.user, params.group, false, function( result ){
         res.json( result );
+    });
+}
+
+module.exports.getGroupsByUser = function( req, res ){
+
+    var userID          = req.body.userID,
+        groupIDsArray   = [],
+        result;
+
+    GroupUsers.find( { user: userID }, { group: 1, _id: 0 }, function( err, groupIDs ){
+        if( err )
+            res.json( utils.createResult( false, err, "dbError" ) );
+
+        else {
+            _.each( groupIDs, function( groupObj ){
+                groupIDsArray.push( groupObj.group );
+            });
+
+            Group.find( { _id: { $in: groupIDsArray } }, function( err, groups ){
+
+                if( err ){
+                    result = utils.createResult( false, err, "dbError" );
+                    return false;
+
+                } else
+                    result = utils.createResult( true, groups, "fetchGroupsByUser" );
+
+                res.json( result );
+            });
+        }
     });
 }
 

@@ -1,7 +1,192 @@
 /* import you bastard  */
 /*@import 'bacon';*/
 
-body { padding-top: 60px; }                 /*added by oryan for navbar space */
-@media screen and (max-width: 768px) {      /*added by oryan for navbar space */
-  body { padding-top: 0px; }
+.simpleLink{
+    color: #000000;
+    text-decoration: none !important;
 }
+.headerBackground{
+    background-color: lightgray;
+}
+
+
+
+
+
+/******************************
+// Guy Klainer
+//******************************/
+
+/******************************
+// General
+//******************************/
+
+html {
+    background: url('../img/bg.png' ) rgba(200, 236, 200, 0.47);
+}
+
+body {
+    background-color: transparent;
+}
+
+.main {
+    margin-bottom: 90px;
+}
+
+a {
+    color: black;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.red {
+    color: red;
+}
+
+.text-centered {
+    text-align: center;
+}
+
+a:hover, a:focus {
+    text-decoration: none;
+}
+
+
+/******************************
+// Top Bar
+//******************************/
+
+.navbar a {
+    padding-top: 10px;
+    color: rgba(0, 0, 0, 0.64);
+}
+
+.navbar-static-top {
+    margin-bottom: 20px;
+}
+
+.navbar h4 {
+    margin: 0;
+}
+
+.navbar .logo {
+    padding: 0;
+    white-space: nowrap;
+}
+
+.navbar .logo img {
+    height: 40px;
+}
+
+.navbar-inner {
+    padding: 0 10px;
+}
+
+
+/******************************
+// Bottom Bar
+//******************************/
+
+.navbar.static {
+    position: fixed;
+    margin: 0;
+}
+
+.navbar h4 {
+    margin: 0;
+}
+
+
+/******************************
+// Login
+//******************************/
+
+img.logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.form-signin input[type="text"] {
+    height: 40px;
+}
+
+/******************************
+// Groups
+//******************************/
+
+.top-buttons {
+    margin: 0 0 20px 0;
+}
+
+.list {
+    width: 100%;
+    margin: 0;
+    list-style-type: none;
+    border: 1px solid rgba(128, 128, 128, 0.26);
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.065);
+    background-color: #fafafa;
+    background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
+    background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
+    background-repeat: repeat-x;
+    overflow: hidden;
+}
+
+.list-item {
+    width: 96%;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.26);
+    padding: 1% 2%;
+    position: relative;
+    height: 30px;
+    cursor: pointer;
+}
+
+.list-item:last-child {
+    border: none;
+}
+
+.list-item i {
+    opacity: 0.5;
+    position: absolute;
+    right: 15px;
+    top: 34%;
+}
+
+.list-item .badge {
+    opacity: 0.7;
+    position: absolute;
+    right: 40px;
+    top: 38%;
+}
+
+.list-item i:hover,
+.list-item:hover i {
+    opacity: 1;
+}
+
+.list-item .img-continer {
+    height: 30px;
+    overflow: hidden;
+}
+
+.list-item .img-continer img {
+    height: 30px;
+}
+
+.list-item .title {
+    font-size: 16px;
+    margin-left: 20px;
+    margin-top: 7px;
+    float: left;
+}
+
+
+/*body { padding-top: 95px; !important }                 *//*added by oryan for navbar space */
+/*@media screen and (max-width: 768px) {      *//*added by oryan for navbar space */
+  /*body { padding-top: 0px; !important }*/
+/*}*/

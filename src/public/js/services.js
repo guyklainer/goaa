@@ -70,7 +70,7 @@ angular.module('App').factory('account', ['$cookies', '$http', '$location', func
 
             log("user: ");
             log(loggedInUser);
-            log(isLoggedIn());
+            log("isLoggedIn: " + isLoggedIn());
 
 
         },
@@ -83,6 +83,7 @@ angular.module('App').factory('account', ['$cookies', '$http', '$location', func
                 .success(function(data, status, headers, config) {
                     log("logout success");
                     log(data);
+                    loggedInUser = null;
                     $location.path('/');
                 });
          };
@@ -90,6 +91,7 @@ angular.module('App').factory('account', ['$cookies', '$http', '$location', func
     // Public API here
     return {
         isLoggedIn: isLoggedIn,
+        user: function() { return loggedInUser; },
         update:update,
         logout: logout
     };
