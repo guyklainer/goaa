@@ -28,8 +28,7 @@ angular.module('App').controller('JoinGroupCtrl', ['$scope', 'blockui', '$http',
             });
     };
 
-    $scope.getToPreview(group)
-    {
+    $scope.getToPreview = function(group){
         $location.path("/groupPreview");
     }
 
