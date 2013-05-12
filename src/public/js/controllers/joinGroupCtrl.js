@@ -22,6 +22,9 @@ angular.module('App').controller('JoinGroupCtrl', ['$scope', 'blockui', '$http',
                 if (data.result && angular.isArray(data.data)){
                     $scope.groups = data.data;
                     db.add('groupsSearch', $scope.groups);
+                } else {
+                    $scope.groups = [];
+                    db.add('groupsSearch', $scope.groups);
                 }
             });
     };
