@@ -7,7 +7,8 @@ var mongoose    = require('mongoose'),
 module.exports = function( app, passport ) {
 
     var users   = require( '../controllers/users'),
-        groups  = require( '../controllers/groups' );
+        groups  = require( '../controllers/groups'),
+        posts   = require( '../controllers/posts');
 
     //*****************************
     // Home
@@ -34,6 +35,11 @@ module.exports = function( app, passport ) {
     app.post( '/creategroup', groups.makeGroup );
     app.post( '/getgroups', groups.getGroupsByUser );
 
+    //*****************************
+    // Posts
+    //*****************************
+    app.post( '/addpost', posts.addPost );
+    app.post( '/removepost', posts.removePost );
 
     //*****************************
     // API
