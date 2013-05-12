@@ -1,28 +1,22 @@
 
 <!-- Header -->
-<div>
-    <h1 style="text-align: center;">
-        <a href="/" style="color: #000000; text-decoration: none">Goaa</a>
-    </h1>
-</div>
-
-<hr/>
+<%- include ../shared/header.ejs %>
 
 <div class="container-fluid">
 
     <form name="signupForm" class="form-signin" ng-submit="signup()">
-        <p ng-show="formInvalid" style="color:red;">Some fields are incorrect.</p>
+        <p ng-show="formInvalid" class="red">Some fields are incorrect.</p>
 
         <input type="text" required ng-model="form.firstName" class="input-block-level" integer placeholder="First Name">
         <input type="text" required ng-model="form.lastName" class="input-block-level" placeholder="Last Name">
 
         <input type="text" name="username" ng-change="validateUserName(form.username)" required ng-model="form.username" class="input-block-level" placeholder="Username">
-        <p ng-show="usernameInvalid" style="color:red;">This username is in use, please enter a new one.</p>
+        <p ng-show="usernameInvalid" class="red">This username is in use, please enter a new one.</p>
 
         <input type="email" required ng-model="form.email" class="input-block-level" placeholder="Email Address">
         <input type="password" required ng-model="form.password" class="input-block-level" placeholder="Password">
         <input type="password" required ng-model="form.confirm_password" class="input-block-level" placeholder="Confirm Password">
-        <p ng-show="confirmPasswordInvalid" style="color:red;">The passwords don't match</p>
+        <p ng-show="confirmPasswordInvalid" class="red">The passwords don't match</p>
         <div class="row-fluid">
             <input type="text"  ng-model="birthDayParts.Day" class="input-block-level span1" placeholder="Day of birth">
             <input type="text"  ng-model="birthDayParts.Month" class="input-block-level span1" placeholder="Month of birth">

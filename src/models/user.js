@@ -13,6 +13,7 @@ var User = new Schema({
     birthDay    :	String,
     passwordHash: 	String,
     salt        :	String,
+    tempToken   :   { token : String, expiredIn : Date },
     createdOn   :	Date
 });
 
