@@ -6,15 +6,14 @@ var mongoose 	= require( 'mongoose' ),
     settings    = require( '../settings/config' ).settings;
 
 var User = new Schema({
-    firstName   :	String,
-    lastName    :	String,
-    username    :	String,
-    email       :	String,
-    birthDay    :	String,
+    firstName: 		String,
+    lastName: 		String,
+    username: 		String,
+    email: 			String,
+    birthDay: 		String,
     passwordHash: 	String,
-    salt        :	String,
-    tempToken   :   { token : String, expiredIn : Date },
-    createdOn   :	Date
+    salt: 			String,
+    createdOn: 		Date
 });
 
 User.virtual( 'password' ).set(function( password ) {
