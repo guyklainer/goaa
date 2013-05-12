@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-angular.module('App', ["ui.bootstrap", "ngCookies"]).
+angular.module('App', ["ui.bootstrap", "ngCookies", "google-maps"]).
   config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
@@ -33,7 +33,7 @@ angular.module('App', ["ui.bootstrap", "ngCookies"]).
         }).
         when('/groupPreview', {
             templateUrl: 'partials/groupPreview',
-            controller: 'JoinGroupCtrl'
+            controller: 'GroupPreviewCtrl'
         }).
 //      when('/addPost', {
 //        templateUrl: 'partials/addPost',

@@ -2,9 +2,11 @@
 var mongoose        = require( 'mongoose' ),
     utils           = require( '../utils/utils' ),
     _               = require( 'underscore' ),
+    config          = require( '../settings/config' ),
     GroupUsers      = require( './groups-users' ),
     GroupUsersModel = mongoose.model( 'GroupUser' ),
-    Group           = mongoose.model( 'Group' );
+    Group           = mongoose.model( 'Group' ),
+    settings        = config.settings;
 
 module.exports.joinGroup = function( req, res ){
     var params = req.body;
@@ -30,7 +32,6 @@ module.exports.getGroupsByUser = function( req, res ){
             });
 
             Group.find( { _id: { $in: groupIDsArray } }, function( err, groups ){
-
                 if( err ){
                     result = utils.createResult( false, err, "dbError" );
                     return false;
@@ -46,22 +47,30 @@ module.exports.getGroupsByUser = function( req, res ){
 
 module.exports.searchGroup = function ( req, res ){
     var groupName   = req.body.groupName,
+        pattern     = "^" + groupName,
+        exp         = new RegExp( pattern, "i" ),
         result      = {};
 
-    Group.find( { name: new RegExp( '^' + groupName, "i" ) }, function( err, docs ) {
-        if ( err ){
-            result.result   = false;
-            result.data     = err;
-            result.msg      = "dbError";
+    if( groupName == undefined || groupName == "" ){
+        res.json( utils.createResult( false, [], "emptyQuery" ) );
 
-        } else {
-            result.result   = true;
-            result.data     = docs;
-            result.msg      = "foundGroups";
-        }
+    } else {
+        Group.find( { name: exp }, function( err, docs ) {
+            if ( err ){
+                result = utils.createResult( false, err, "dbError" );
 
-        res.json( result );
-    });
+            } else if( !docs || docs.length == 0 ) {
+                result = utils.createResult( false, [], "noResults" );
+
+            } else {
+                result = utils.createResult( true, docs, "foundGroups" );
+
+            }
+
+            res.json( result );
+        });
+    }
+
 }
 
 module.exports.editGroup = function( req, res ) {
@@ -101,6 +110,9 @@ module.exports.makeGroup = function( req, res ) {
     var params = req.body;
 
     params.createdOn = new Date();
+    if( params.image == undefined || params.image == "" ){
+        params.image = settings.defaultAvatar;
+    }
 
     validateGroupRequest( params, function( result ){
         if( result.result ){

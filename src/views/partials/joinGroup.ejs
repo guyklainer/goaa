@@ -2,15 +2,16 @@
 <%- include ../shared/header.ejs %>
 
 <center class="top-buttons">
-    <input type="text" ng-model="query" />
+    <input type="search" ng-model="query" />
     <button ng-click="search()" class="btn btn-large"><i class="icon-search icon-white"></i> Search</button>
 </center>
+
 
 <!-- Content -->
 <div class="container-fluid main">
     <ul class="list">
         <li class="list-item" ng-repeat="group in groups | filter:query">
-            <a href="#" class="title">
+            <a ng-click="goToPreview(group)" href="#" class="title">
                 <i class="icon-chevron-right"></i>
                 {{group.name}}
             </a>
