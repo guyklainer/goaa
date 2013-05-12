@@ -28,7 +28,7 @@ angular.module('App').controller('TestCtrl', ['$scope', '$http', '$location', 'a
                 });
         };
 
-        $scope.account = account;
+        $scope.logout = account.logout;
 }]);
 
 
