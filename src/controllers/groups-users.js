@@ -1,7 +1,7 @@
 
 var mongoose    = require( 'mongoose' ),
     GroupUser   = mongoose.model( 'GroupUser' ),
-    Group       = mongoose.model( 'Group'),
+    Group       = mongoose.model( 'Group' ),
     utils       = require( '../utils/utils' );
 
 module.exports.createUserGroupConnection = function( user, group, isAdmin, callback ){
