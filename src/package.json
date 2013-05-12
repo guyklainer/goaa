@@ -15,7 +15,8 @@
     "underscore": "~1.4.4",
     "cron": "~1.0.1",
     "knox": "~0.7.0",
-    "socket.io": "~0.9.14"
+    "socket.io": "~0.9.14",
+    "nodemailer": "~0.4.1"
   },
   "engines": {
     "node": "~0.8.x"

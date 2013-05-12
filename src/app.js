@@ -42,7 +42,11 @@ mongoose.connect( settings.db.main, function( err ){
 // -- Only listen on $ node app.js
 logo.print();
 
-http.createServer( app ).listen( settings.port, function(){
+// -- Create the server
+var server = http.createServer( app ),
+    io = require( 'socket.io' ).listen( server );
+
+server.listen( settings.port, function(){
     console.log("Express server listening on "+" port %d ".bold.inverse.red+" in " + " %s mode ".bold.inverse.green + " //", settings.port, env);
     console.log('Using Express %s...', express.version.red.bold);
 });

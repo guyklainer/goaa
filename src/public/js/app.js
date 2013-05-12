@@ -23,6 +23,10 @@ angular.module('App', ["ui.bootstrap", "ngCookies"]).
             templateUrl: 'partials/test',
             controller: 'TestCtrl'
         }).
+        when('/creategroup', {
+            templateUrl: 'partials/creategroup',
+            controller: 'creategroupCtrl'
+        }).
 //      when('/addPost', {
 //        templateUrl: 'partials/addPost',
 //        controller: AddPostCtrl

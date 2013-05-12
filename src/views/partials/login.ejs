@@ -2,7 +2,9 @@
 <!-- Header -->
 <%- include ../shared/header.ejs %>
 
-<div class="container-fluid">
+<div class="container-fluid main">
+
+    <center><img class="logo" src="/img/logo.png"></center>
 
     <form class="form-signin" ng-submit="login()">
         <input type="text" class="input-block-level" placeholder="Username" ng-model="form.username">
@@ -11,7 +13,7 @@
             <input type="checkbox" value="remember-me" ng-model="form.remeberme"> Remember me
         </label>
         <p ng-show="loginFailed" class="text-centered red"><strong>Username or password are incorrect</strong></p>
-        <button class="btn btn-large btn-primary btn-block" type="submit">Sign In</button>
+        <button class="btn btn-large btn-info btn-block" type="submit">Sign In</button>
     </form>
 
     <div class="row-fluid">
