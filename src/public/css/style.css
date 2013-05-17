@@ -53,6 +53,18 @@ a:hover, a:focus {
     text-decoration: none;
 }
 
+.loader {
+    background: url('../img/loader.gif' ) no-repeat;
+    width: 16px;
+    height: 11px;
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
+
+.loader-helper {
+    position: relative;
+}
 
 /******************************
 // Top Bar
@@ -185,6 +197,17 @@ img.logo {
     float: left;
 }
 
+input[type="search"].search-group {
+    width: 93%;
+    padding: 10px;
+}
+
+.loader-helper .icon-search {
+    position: absolute;
+    right: 10px;
+    top: 0;
+    opacity: 0.5;
+}
 
 /*body { padding-top: 95px; !important }                 *//*added by oryan for navbar space */
 /*@media screen and (max-width: 768px) {      *//*added by oryan for navbar space */
