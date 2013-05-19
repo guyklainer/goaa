@@ -16,7 +16,16 @@
         <input type="number" required class="input-block-level" placeholder="Apartment" ng-model="Group.address.apartment">
 
 
-        <input type="file" accept="image/*;capture=camera" ng-model="tempImage">
+        <div id="hiddenForm" style="display:block;">
+            <form id="uploadPhotoForm" action="../MissionUpload" method="post" enctype="multipart/form-data">
+                <div class="alert span6">
+                    <strong>Oops!</strong> We are sorry but the 'Take Photo' button stopped working, Please use this one..
+                </div>
+                <input id="fileChooser" name="photo" type="file" accept="image/*;capture=camera" />
+                <input name="groupName" style="display:none;" type="text" value="" />
+                <input type="submit" value="Upload" style="display:block;" />
+            </form>
+        </div>
 
         <p ng-show="isShowError" class="text-centered red"><strong>Group name Already exist</strong></p>
         <p ng-show="errorInDataBaseSaving" class="text-centered red"><strong>Temporary problem please try create group leter</strong></p>

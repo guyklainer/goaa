@@ -14,7 +14,7 @@ angular.module('App').controller('TestCtrl', ['$scope', '$http', '$location', 'a
                 password :          "12",
                 confirm_password:   "12",
                 token:              "ea5f4ffca70e8cc5fbebe1c2cd9b4fe4af8819138397183e9441cd30c7d87f2bc9bc4a200447ecdda87f2707ce2b7714",
-                groupID :           "518f96475cc8bcab09000003",
+                groupID :           "5198d2ae4600dcaa05000001",
                 userID  :           "51757326888e1eb90f000004",
                 data:               "hello",
                 postID:             111

@@ -31,13 +31,16 @@ module.exports.getGroupsByUser = function( req, res ){
                 groupIDsArray.push( groupObj.group );
             });
 
-            Group.find( { _id: { $in: groupIDsArray } }, function( err, groups ){
+            Group.find( { _id: { $in: groupIDsArray } }, function( err, groups ) {
                 if( err ){
                     result = utils.createResult( false, err, "dbError" );
                     return false;
 
-                } else
+                } else {
+                    console.log("Groups: ");
+                    console.log(groups);
                     result = utils.createResult( true, groups, "fetchGroupsByUser" );
+                }
 
                 res.json( result );
             });

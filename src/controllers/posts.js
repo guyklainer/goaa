@@ -18,13 +18,27 @@ module.exports.addPost = function( req, res ) {
         if( !group ){
             res.json( Utils.createResult( false, null, "noGroupFound" ) );
         } else {
+
             var groupPosts = group.posts,
                 post = { userID: params.userID, data: params.data, createdOn: new Date() };
-            console.log (groupPosts);
-            groupPosts.push(post);
-            group.update( { _id: group._id }, { posts: groupPosts }, { upsert: 1 });
-//           Group.update( { _id: group._id }, { $push: { posts: { userID: params.userID, data: params.data, createdOn: new Date() } } } ) ;
-            res.json( Utils.createResult( true, null, "postAdded" ) );
+
+            groupPosts[ groupPosts.length ] = post;
+
+            Group.update( { _id: group._id }, { posts: groupPosts }, { upsert: 1 }, function( err ){
+
+                if( err ){
+                    res.json( Utils.createResult( false, err, "dbError" ) );
+
+                } else {
+                    res.json( Utils.createResult( true, null, "postAdded" ) );
+                }
+            });
+
+//            console.log (groupPosts);
+//            groupPosts.push(post);
+//            group.update( { _id: group._id }, { posts: groupPosts }, { upsert: 1 });
+////           Group.update( { _id: group._id }, { $push: { posts: { userID: params.userID, data: params.data, createdOn: new Date() } } } ) ;
+//            res.json( Utils.createResult( true, null, "postAdded" ) );
         }
     });
 }
