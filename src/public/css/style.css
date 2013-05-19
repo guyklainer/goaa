@@ -88,6 +88,17 @@ a:hover, a:focus {
     white-space: nowrap;
 }
 
+.navbar .back {
+    padding-top: 9px;
+}
+
+.navbar .back i {
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    border-radius: 30px;
+    padding: 3px 6px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
 .navbar .logo img {
     height: 40px;
 }
@@ -170,10 +181,10 @@ img.logo {
 }
 
 .list-item .badge {
-    opacity: 0.7;
+    opacity: 0.5;
     position: absolute;
     right: 40px;
-    top: 38%;
+    top: 32%;
 }
 
 .list-item i:hover,
