@@ -37,8 +37,6 @@ module.exports.getGroupsByUser = function( req, res ){
                     return false;
 
                 } else {
-                    console.log("Groups: ");
-                    console.log(groups);
                     result = utils.createResult( true, groups, "fetchGroupsByUser" );
                 }
 

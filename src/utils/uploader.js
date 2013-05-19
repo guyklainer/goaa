@@ -13,9 +13,16 @@ var S3Credentials = {
 };
 
 module.exports.upload = function( req, res ){
-    var user = req.user ? req.user.username : 'tmp';
+    var folder;
+
+    if( req.params.stage == "newGroup" )
+        folder = 'groups';
+
+    else
+        folder = req.user ? req.user.username : 'tmp';
 
     fs.readFile( req.files.image.path, function( err, data ){
+
         if( data.length > 3000000 )
             res.json( { result: false, msg: "tooBig" } );
 
@@ -23,7 +30,7 @@ module.exports.upload = function( req, res ){
             res.json( { result: false, msg: "notImage" } );
 
         else
-        pushToS3( req.files.image.name, data.length, req.files.image.path, req.files.image.type, user, function( err, imageURL ){
+        pushToS3( req.files.image.name, data.length, req.files.image.path, req.files.image.type, folder, function( err, imageURL ){
             if ( err )
                 res.json( { result: false, data: err, msg: "S3Problem" } );
 
@@ -34,7 +41,7 @@ module.exports.upload = function( req, res ){
     });
 }
 
-function pushToS3( fileName, fileLength, filePath, type, user, callback ) {
+function pushToS3( fileName, fileLength, filePath, type, folder, callback ) {
     var client = knox.createClient( S3Credentials );
 
     var headers = {
@@ -44,7 +51,7 @@ function pushToS3( fileName, fileLength, filePath, type, user, callback ) {
 
     var fileStream = fs.createReadStream( filePath );
 
-    var uploadStream = client.putStream( fileStream, '/' + user + '/' + fileName, headers, function( err, res ){
+    var uploadStream = client.putStream( fileStream, '/' + folder + '/' + fileName, headers, function( err, res ){
         if ( err )
             return callback( err );
 
@@ -52,7 +59,7 @@ function pushToS3( fileName, fileLength, filePath, type, user, callback ) {
         fs.unlink( tempDir + fileName );
 
         console.log( fileName + ' uploaded' );
-        callback( err, '/' + user + '/' + fileName );
+        callback( err, '/' + folder + '/' + fileName );
     });
 
     uploadStream.on( 'progress', function( status ){
