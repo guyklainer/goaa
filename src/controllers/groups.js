@@ -5,7 +5,7 @@ var mongoose        = require( 'mongoose' ),
     config          = require( '../settings/config' ),
     GroupUsers      = require( './groups-users' ),
     GroupUsersModel = mongoose.model( 'GroupUser' ),
-    Group           = mongoose.model( 'Group' ),
+    Group           = mongoose.model( 'Grouptemp' ),
     settings        = config.settings;
 
 module.exports.joinGroup = function( req, res ){

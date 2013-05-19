@@ -1,7 +1,7 @@
 
 var mongoose    = require( 'mongoose' ),
     Post        = mongoose.model( 'Post' ),
-    Group       = mongoose.model( 'Group'),
+    Group       = mongoose.model( 'Grouptemp'),
     Utils       = require( '../utils/utils'),
     _           = require( 'underscore' );
 
