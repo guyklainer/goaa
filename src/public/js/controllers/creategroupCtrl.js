@@ -4,7 +4,7 @@ angular.module('App').controller('CreateGroupCtrl', ['$scope', 'blockui', '$http
 
         // public var
         $scope.isShowError = false;
-        $scope.Group = {
+        $scope.Grouptemp = {
             name     :"",
             address  : 		{ country:"",
                               city: "",
@@ -19,13 +19,13 @@ angular.module('App').controller('CreateGroupCtrl', ['$scope', 'blockui', '$http
         // public functions
         $scope.groupcreator = function() {
 
-            log("group name test: " + $scope.Group);
-            log($scope.Group);
-            log($scope.Group.address);
+            log("group name test: " + $scope.Grouptemp);
+            log($scope.Grouptemp);
+            log($scope.Grouptemp.address);
 
             blockui.block();
 
-            $http.post('/creategroup', $scope.Group)
+            $http.post('/creategroup', $scope.Grouptemp)
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
                     $scope.submitFailed = true;
@@ -46,5 +46,5 @@ angular.module('App').controller('CreateGroupCtrl', ['$scope', 'blockui', '$http
         };
         $scope.logout = account.logout;
 
-
     }]);
+
