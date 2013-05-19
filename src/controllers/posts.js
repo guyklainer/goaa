@@ -2,7 +2,7 @@
 var mongoose    = require( 'mongoose' ),
     Post        = mongoose.model( 'Post' ),
     Group       = mongoose.model( 'Group'),
-    GroupUser  = mongoose.model( 'GroupUser'),
+    GroupUser   = mongoose.model( 'GroupUser'),
     Utils       = require( '../utils/utils'),
     _           = require( 'underscore' );
 
