@@ -12,4 +12,4 @@ var Group = new Schema({
     posts    :      [ Post ]
 });
 
-mongoose.model( 'Grouptemp', Group );
+mongoose.model( 'Group', Group );
