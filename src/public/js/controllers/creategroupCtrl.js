@@ -17,13 +17,14 @@ angular.module('App').controller('CreateGroupCtrl', ['$scope', 'blockui', '$http
         };
 
 
-
+        $scope.tempImage="";
         // public functions
         $scope.groupcreator = function() {
 
             log("group name test: " + $scope.Group);
             log($scope.Group);
             log($scope.Group.address);
+            log("-------Image test------");
             log($scope.tempImage);
             blockui.block();
 
