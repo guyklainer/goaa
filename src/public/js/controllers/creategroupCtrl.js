@@ -4,7 +4,8 @@ angular.module('App').controller('CreateGroupCtrl', ['$scope', 'blockui', '$http
 
         // public var
         $scope.isShowError = false;
-        $scope.Grouptemp = {
+        $scope.errorInDataBaseSaving = false;
+        $scope.Group = {
             name     :"",
             address  : 		{ country:"",
                               city: "",
@@ -15,27 +16,45 @@ angular.module('App').controller('CreateGroupCtrl', ['$scope', 'blockui', '$http
         };
 
 
-
+        $scope.tempImage="";
         // public functions
         $scope.groupcreator = function() {
 
-            log("group name test: " + $scope.Grouptemp);
-            log($scope.Grouptemp);
-            log($scope.Grouptemp.address);
-
+            log("group name test: " + $scope.Group);
+            log($scope.Group);
+            log($scope.Group.address);
+            log("-------Image test------");
+            log($scope.tempImage);
             blockui.block();
 
-            $http.post('/creategroup', $scope.Grouptemp)
+            $http.post('/creategroup',$scope.Group)
                 .error(function(data, status, headers, config){
+
                     httpErrorCallback(data, status, headers, config);
-                    $scope.submitFailed = true;
                     blockui.unblock();
                 })
                 .success(function(data, status, headers, config) {
                     log(data);
-                    if (data != null && data.result){ //case valid
+                    if (data != null && !data.result)
+                    {
+
+                            if(data.msg == "groupExist")
+                            {
+                                $scope.isShowError = true;
+                            }
+                            if(data.msg == "groupNotSavedToDB")
+                            {
+                                $scope.errorInDataBaseSaving = true;
+                            }
+
+                            blockui.unblock();
+
+                    }
+
+                   else  if (data != null && data.result){ //case valid
                         blockui.unblock();
-                        $scope.submitFailed = false;
+                        $scope.isShowError = false;
+
                         $location.path('/home');
                     } else { //case invalid
                         blockui.unblock();
@@ -46,5 +65,5 @@ angular.module('App').controller('CreateGroupCtrl', ['$scope', 'blockui', '$http
         };
         $scope.logout = account.logout;
 
-    }]);
 
+    }]);
