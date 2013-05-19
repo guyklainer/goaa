@@ -1,8 +1,9 @@
 
 var mongoose    = require( 'mongoose' ),
+    Crypto      = require( 'crypto' ),
     Post        = mongoose.model( 'Post' ),
     Group       = mongoose.model( 'Group'),
-    GroupUser  = mongoose.model( 'GroupUser'),
+    GroupUser   = mongoose.model( 'GroupUser'),
     Utils       = require( '../utils/utils'),
     _           = require( 'underscore' );
 
@@ -19,13 +20,17 @@ module.exports.addPost = function( req, res ) {
             res.json( Utils.createResult( false, null, "noGroupFound" ) );
         } else {
 
-            var groupPosts = group.posts,
-                post = { userID: params.userID, data: params.data, createdOn: new Date() };
+            var timestamp = new Date().getTime(),
+                post = { 
+                _id         : Crypto.randomBytes( 48 ).toString('hex') + timestamp,
+                userID      : params.userID, 
+                data        : params.data, 
+                createdOn   : new Date() 
+            };
 
-            groupPosts[ groupPosts.length ] = post;
-
-            Group.update( { _id: group._id }, { posts: groupPosts }, { upsert: 1 }, function( err ){
-
+            group.posts.push( post );
+            group.save( function( err ){
+                
                 if( err ){
                     res.json( Utils.createResult( false, err, "dbError" ) );
 
@@ -33,12 +38,6 @@ module.exports.addPost = function( req, res ) {
                     res.json( Utils.createResult( true, null, "postAdded" ) );
                 }
             });
-
-//            console.log (groupPosts);
-//            groupPosts.push(post);
-//            group.update( { _id: group._id }, { posts: groupPosts }, { upsert: 1 });
-////           Group.update( { _id: group._id }, { $push: { posts: { userID: params.userID, data: params.data, createdOn: new Date() } } } ) ;
-//            res.json( Utils.createResult( true, null, "postAdded" ) );
         }
     });
 }
@@ -54,6 +53,7 @@ module.exports.removePost = function( req, res ) {
 
         if( !group ){
             res.json(Utils.createResult( false, null, "noGroupFound" ));
+        
         } else {
             var posts = group.posts,
                 isChanged = false;
