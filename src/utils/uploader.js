@@ -16,7 +16,7 @@ module.exports.upload = function( req, res ){
     var user = req.user ? req.user.username : 'tmp';
 
     fs.readFile( req.files.image.path, function( err, data ){
-        if( data.length > 1000000 )
+        if( data.length > 3000000 )
             res.json( { result: false, msg: "tooBig" } );
 
         else if( !utils.isImage( req.files.image.name ) )
