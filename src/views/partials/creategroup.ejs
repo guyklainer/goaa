@@ -16,13 +16,15 @@
         <input type="number" required class="input-block-level" placeholder="Apartment" ng-model="Group.address.apartment">
 
 
+        <input type="file" accept="image/*;capture=camera" ng-model="tempImage">
 
 
 
 
 
 
-
+        <p ng-show="isShowError" class="text-centered red"><strong>Group name Already exist</strong></p>
+     <p ng-show="errorInDataBaseSaving" class="text-centered red"><strong>Temporary problem please try create group leter</strong></p>
 
 
 
@@ -30,7 +32,6 @@
 
         <button class="btn btn-large btn-primary btn-block" type="submit">Sign In</button>
     </form>
-
     <div class="row-fluid">
 
     </div>
