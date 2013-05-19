@@ -14,18 +14,11 @@
         <input type="text" required class="input-block-level" placeholder="street" ng-model="Group.address.street">
         <input type="number" required class="input-block-level" placeholder="House" ng-model="Group.address.house">
         <input type="number" required class="input-block-level" placeholder="Apartment" ng-model="Group.address.apartment">
+        <button class="btn btn-info btn-block" ng-click="addPhoto(Group)">Add Group Photo</button>
+
+        <img id="photoImg" width="250" height="250" alt="Group Image" />
 
 
-        <div id="hiddenForm" style="display:block;">
-            <form id="uploadPhotoForm" action="../MissionUpload" method="post" enctype="multipart/form-data">
-                <div class="alert span6">
-                    <strong>Oops!</strong> We are sorry but the 'Take Photo' button stopped working, Please use this one..
-                </div>
-                <input id="fileChooser" name="photo" type="file" accept="image/*;capture=camera" />
-                <input name="groupName" style="display:none;" type="text" value="" />
-                <input type="submit" value="Upload" style="display:block;" />
-            </form>
-        </div>
 
         <p ng-show="isShowError" class="text-centered red"><strong>Group name Already exist</strong></p>
         <p ng-show="errorInDataBaseSaving" class="text-centered red"><strong>Temporary problem please try create group leter</strong></p>
@@ -33,7 +26,14 @@
 
         <button class="btn btn-large btn-primary btn-block" type="submit">Submit</button>
     </form>
-    <div class="row-fluid">
-
+    <div id="hiddenForm" style="display:block;">
+        <form id="uploadImageForm" action="../api/upload" method="post" enctype="multipart/form-data">
+            <input id="fileChooser" name="image" type="file" accept="image/*;capture=camera" />
+            <input type="submit" value="Upload" style="display:block;" />
+        </form>
     </div>
+    <!--<iframe src="../partial">-->
+        <!---->
+    <!--</iframe>-->
+
 </div>
