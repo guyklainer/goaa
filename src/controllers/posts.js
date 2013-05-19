@@ -1,3 +1,4 @@
+
 var mongoose    = require( 'mongoose' ),
     Post        = mongoose.model( 'Post' ),
     Group       = mongoose.model( 'Group'),
