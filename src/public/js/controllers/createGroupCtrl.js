@@ -1,7 +1,8 @@
-
-angular.module('App').controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','account',
+//angular.module('App')
+app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','account',
     function($scope, blockui, $http, $location, account){
 
+        //litenting to file chooser of the image on change event
         $("#fileChooser").change(function (ev) {
             fileChooserOnChange();
         });
@@ -11,14 +12,18 @@ angular.module('App').controller('CreateGroupCtrl', ['$scope', 'blockui', '$http
         $scope.isUploadSuccess = false;
         $scope.errorInDataBaseSaving = false;
         $scope.Group = {
-            name     :"",
-            address  : 		{ country:"",
-                              city: "",
-                              street: "",
-                              house:"",
-                              apartment: "" },
-            image    : ""
+            name     : "",
+            address  : {
+                country: "",
+                street: "",
+                city: "",
+                house: "",
+                apartment: ""
+            },
+            image: ""
         };
+        $scope.progressValue = 0;
+
 
         var uploadComplete = function(evt) {
             log("uploadComplete");
@@ -51,11 +56,18 @@ angular.module('App').controller('CreateGroupCtrl', ['$scope', 'blockui', '$http
             log("uploadProgress");
             //log(evt);
             var progress;
+
             if (evt.lengthComputable) {
                 progress = Math.round(evt.loaded * 100 / evt.total)
             } else {
-                progress = 'unable to compute'
+                progress = null
             }
+
+            if (progress != null && $scope.progressValue < 100 ){
+                $scope.progressValue = progress;
+                $scope.$apply();
+            }
+
             log("progress: " + progress);
         },
         fileChooserOnChange = function() {
