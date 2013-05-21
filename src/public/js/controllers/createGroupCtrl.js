@@ -1,68 +1,90 @@
-
-angular.module('App').controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','account',
+//angular.module('App')
+app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','account',
     function($scope, blockui, $http, $location, account){
 
+        //litenting to file chooser of the image on change event
         $("#fileChooser").change(function (ev) {
             fileChooserOnChange();
         });
 
         // public var
         $scope.isShowError = false;
-        $scope.photoErrorMsg = "";
+        $scope.isUploadSuccess = false;
         $scope.errorInDataBaseSaving = false;
         $scope.Group = {
-            name     :"",
-            address  : 		{ country:"",
-                              city: "",
-                              street: "",
-                              house:"",
-                              apartment: "" },
-            image    : ""
+            name     : "",
+            address  : {
+                country: "",
+                street: "",
+                city: "",
+                house: "",
+                apartment: ""
+            },
+            image: ""
         };
+        $scope.progressValue = 0;
 
-        var uploadComplete = function(res) {
-//            alert("complete - " + res.currentTarget.responseText);
+
+        var uploadComplete = function(evt) {
             log("uploadComplete");
-            var jsonResponse = angular.fromJson(res.currentTarget.responseText);
+
+            var jsonResponse = angular.fromJson(evt.currentTarget.responseText);
             log(jsonResponse);
+
             if (jsonResponse.result){
+                $scope.isUploadSuccess = true;
                 showImage();
-                //$scope.Group.image = json.image;
+                $scope.Group.image = jsonResponse.data.imgURL;
             } else {
-                if (jsonResponse.msg.toLowerCase() == "toobig"){
+                $scope.isUploadSuccess = false;
+                if (jsonResponse.msg == "tooBig"){
                     $scope.photoErrorMsg = "The photo is too big";
                 }
             }
+            $scope.$apply();
         },
-        uploadFailed = function(res) {
-            //log("uploadFailed");
+        uploadFailed = function(evt) {
+            log("uploadFailed");
             //log(res);
-            alert("failed");
             //todo: show could not upload
         },
-        uploadCanceled = function(res) {
-            alert("canceled");
-            //log("uploadCanceled");
+        uploadCanceled = function(evt) {
+            log("uploadCanceled");
             //log(res);
         },
-        uploadProgress =function(res) {
+        uploadProgress =function(evt) {
             log("uploadProgress");
-            log(res);
+            //log(evt);
+            var progress;
+
+            if (evt.lengthComputable) {
+                progress = Math.round(evt.loaded * 100 / evt.total)
+            } else {
+                progress = null
+            }
+
+            if (progress != null && $scope.progressValue < 100 ){
+                $scope.progressValue = progress;
+                $scope.$apply();
+            }
+
+            log("progress: " + progress);
         },
         fileChooserOnChange = function() {
             log("file chooser on change");
 
             var fileChooser = document.getElementById('fileChooser');
-            var fileType = fileChooser.files[0].type;
+            if (fileChooser.files != undefined){
+                var fileType = fileChooser.files[0].type;
 
-            if (isFileValid(fileType)) {
-                //sending the image
-                uploadImage();
+                if (isFileValid(fileType)) {
+                    //sending the image
+                    uploadImage();
 
-            } else {
-                //todo: show please choose photo
+                } else {
+                    //todo: show please choose photo
+                }
             }
-
         },
         isFileValid = function(fileType){
             var isValid = false;
@@ -94,6 +116,7 @@ angular.module('App').controller('CreateGroupCtrl', ['$scope', 'blockui', '$http
             var fileChooser = document.getElementById('fileChooser');
             var fd = new FormData();
             fd.append("image", fileChooser.files[0]);
+            fd.append("stage", "newGroup");
 
             var xhr = new XMLHttpRequest();
             xhr.upload.addEventListener("progress", uploadProgress, false);
