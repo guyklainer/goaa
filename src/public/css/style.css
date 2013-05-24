@@ -184,7 +184,7 @@ img.logo {
     opacity: 0.5;
     position: absolute;
     right: 40px;
-    top: 32%;
+    top: 30%;
 }
 
 .list-item i:hover,
@@ -204,7 +204,7 @@ img.logo {
 .list-item .title {
     font-size: 16px;
     margin-left: 20px;
-    margin-top: 5px;
+    margin-top: 4px;
     float: left;
 }
 
