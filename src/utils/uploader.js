@@ -15,7 +15,7 @@ var S3Credentials = {
 module.exports.upload = function( req, res ){
     var folder;
 
-    if( req.params.stage == "newGroup" )
+    if( req.body.stage == "newGroup" )
         folder = 'groups';
 
     else
