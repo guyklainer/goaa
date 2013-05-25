@@ -11,8 +11,13 @@
 
 <!-- Content -->
 <div class="container-fluid main">
+    <div class="row-fluid">
+        <div class="offset6">
+            <h3>Groups</h3>
+        </div>
+    </div>
     <ul class="list" ng-show="groups.length">
-        <li class="list-item" ng-repeat="group in groups">
+        <li ng-click="moveToGroup(group)" class="list-item" ng-repeat="group in groups">
             <div class="img-continer pull-left">
                 <img ng-src="{{group.image}}" alt="{{group.name}}">
             </div>

@@ -35,6 +35,10 @@ var app = angular.module('App', ["ui.bootstrap", "ngCookies", "google-maps"]).
             templateUrl: 'partials/groupPreview',
             controller: 'GroupPreviewCtrl'
         }).
+        when('/group/:id', {
+            templateUrl: '../partials/group',
+            controller: 'GroupCtrl'
+        }).
 //      when('/addPost', {
 //        templateUrl: 'partials/addPost',
 //        controller: AddPostCtrl

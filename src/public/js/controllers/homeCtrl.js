@@ -16,22 +16,23 @@ angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$lo
     // public var
     $scope.groups = [];
 
-    var gotoCreateGroup = function(){
+    // public functions
+    $scope.gotoCreateGroup = function(){
         $location.path("/createGroup");
-    }
-    ,
-    gotoJoinGroup = function(){
+    };
+
+    $scope.gotoJoinGroup = function(){
         $location.path("/joinGroup");
-    }
-    ,
-    gotoComposePost = function(){
+    };
+
+    $scope.gotoComposePost = function(){
         $location.path("/composePost");
     };
 
-    // public functions
-    $scope.gotoCreateGroup = gotoCreateGroup;
-    $scope.gotoJoinGroup = gotoJoinGroup;
-    $scope.gotoComposePost = gotoComposePost;
+    $scope.moveToGroup = function(group){
+        log("group",group);
+        $location.path("/group/" + group._id);
+    };
     $scope.account = account;
 }]);
 
