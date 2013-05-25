@@ -18,7 +18,7 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 
         confirm_password: "" ,
         birthDay:""
     };
-        var birthDayParts={
+    var birthDayParts={
            Day:"" ,
            Month:"",
            Year:""

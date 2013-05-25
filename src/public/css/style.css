@@ -220,6 +220,14 @@ input[type="search"].search-group {
     opacity: 0.5;
 }
 
+input.ng-invalid.ng-dirty{
+    background-color: pink;
+}
+
+/*input.ng-valid.ng-dirty{*/
+    /*background-color: lightgreen;*/
+/*}*/
+
 /*body { padding-top: 95px; !important }                 *//*added by oryan for navbar space */
 /*@media screen and (max-width: 768px) {      *//*added by oryan for navbar space */
   /*body { padding-top: 0px; !important }*/

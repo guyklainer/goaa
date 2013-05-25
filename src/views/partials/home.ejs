@@ -14,7 +14,7 @@
     <ul class="list" ng-show="groups.length">
         <li class="list-item" ng-repeat="group in groups">
             <div class="img-continer pull-left">
-                <img src="{{group.image}}" alt="{{group.name}}">
+                <img ng-src="{{group.image}}" alt="{{group.name}}">
             </div>
 
             <a href="#" class="title">
