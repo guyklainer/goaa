@@ -8,9 +8,12 @@ app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','ac
         });
 
         // public var
-        $scope.isShowError = false;
-        $scope.isUploadSuccess = false;
-        $scope.errorInDataBaseSaving = false;
+        $scope.account                  = account;
+        $scope.isShowError              = false;
+        $scope.isUploadSuccess          = false;
+        $scope.errorInDataBaseSaving    = false;
+        $scope.progressValue            = 0;
+
         $scope.Group = {
             name     : "",
             address  : {
@@ -22,8 +25,6 @@ app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','ac
             },
             image: ""
         };
-        $scope.progressValue = 0;
-
 
         var uploadComplete = function(evt) {
             log("uploadComplete");
