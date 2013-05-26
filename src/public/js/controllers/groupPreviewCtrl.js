@@ -1,15 +1,21 @@
 
-angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$http', '$location', 'account', '$cookies', 'db',
-    function($scope, blockui, $http, $location, account, $cookies, db){
+angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$http', '$location', 'account', '$routeParams', 'groupDb',
+    function($scope, blockui, $http, $location, account, $routeParams, groupDb){
 
-        $scope.group = db.take('group');
-        $scope.account = account;
+        log("groupName:", $routeParams.groupName);
 
-        getLatLong( $scope.group.address.street + " "
+        groupDb.getGroupPreview($routeParams.groupName,
+        function(g){
+            if (g != null){
+                $scope.group = g;
+                getLatLong( $scope.group.address.street + " "
                     + $scope.group.address.house + ", "
                     + $scope.group.address.city + ", "
                     + $scope.group.address.country );
-
+            } else {
+                $location.path("/");
+            }
+        });
 
         function getLatLong( address ){
             geocoder = new google.maps.Geocoder();
@@ -34,4 +40,5 @@ angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$htt
             });
         }
 
+        $scope.account = account;
     }]);

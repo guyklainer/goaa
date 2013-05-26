@@ -6,6 +6,7 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
         $scope.isLoading = true;
         $scope.isNoMeters = false;
         $scope.view = $routeParams.view;
+        $scope.groupName = $routeParams.groupName;
         $scope.partialEnum = {
             gallery: 'gallery',
             meters: 'meters',
@@ -24,6 +25,7 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
                 {name: "Air Conditioner"}
             ];
         });
+
 
         $scope.isShowNoNews = function(posts, isLoading){
             if (isLoading){
@@ -52,7 +54,6 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
                 return meters == undefined || meters == null || meters.length == 0;
             }
         }
-
 
 
         var len = 200;
