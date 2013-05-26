@@ -1,4 +1,4 @@
-
+//angular.module('App')
 app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','account',
     function($scope, blockui, $http, $location, account){
 
