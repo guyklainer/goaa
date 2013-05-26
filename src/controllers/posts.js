@@ -21,25 +21,34 @@ module.exports.addPost = function( req, res ) {
             res.json( Utils.createResult( false, null, "noGroupFound" ) );
         } else {
 
-            var timestamp = new Date().getTime(),
-                post = { 
-                _id         : Crypto.randomBytes( 48 ).toString('hex') + timestamp,
-                userID      : params.userID, 
-                data        : params.data,
-                image       : params.image,
-                createdOn   : new Date() 
-            };
-
-            group.posts.push( post );
-            group.save( function( err ){
-                
-                if( err ){
+            User.findOne({ _id : params.userID }, function( err, user ){
+                if( err )
                     res.json( Utils.createResult( false, err, "dbError" ) );
 
-                } else {
-                    res.json( Utils.createResult( true, null, "postAdded" ) );
+                 else {
+                    var timestamp = new Date().getTime(),
+                        post = {
+                            _id         : Crypto.randomBytes( 48 ).toString('hex') + timestamp,
+                            userID      : params.userID,
+                            username    : user.firstName + " " + user.lastName,
+                            data        : params.data,
+                            image       : params.image,
+                            createdOn   : new Date()
+                        };
+
+                    group.posts.push( post );
+                    group.save( function( err ){
+
+                        if( err ){
+                            res.json( Utils.createResult( false, err, "dbError" ) );
+
+                        } else {
+                            res.json( Utils.createResult( true, null, "postAdded" ) );
+                        }
+                    });
                 }
             });
+
         }
     });
 }

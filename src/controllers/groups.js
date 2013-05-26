@@ -166,9 +166,7 @@ function validateGroupRequest ( params, callback ){
     if( result.result ) {
         isGroupExist( params.name, function( exist, group ){
             if( exist ){
-                result.result   = false;
-                result.data     = group;
-                result.msg      = "groupExist";
+                result = utils.createResult( false, group, "groupExist" );
             }
 
             callback( result );
@@ -187,4 +185,13 @@ function isGroupExist( name, callback ) {
     });
 }
 
-module.exports.isGroupExist = isGroupExist;
+module.exports.isGroupExist = function( req, res ){
+    isGroupExist( req.name, function( exist, group ){
+        if( exist ){
+            res.json( utils.createResult( false, group, "groupExist" ) );
+
+        } else {
+            res.json( utils.createResult( true, null, "groupNotExist" ) );
+        }
+    });
+}
