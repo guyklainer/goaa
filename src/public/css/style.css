@@ -66,6 +66,14 @@ a:hover, a:focus {
     position: relative;
 }
 
+.bottom-space {
+    margin-bottom: 20px;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
 /******************************
 // Top Bar
 //******************************/
@@ -86,6 +94,17 @@ a:hover, a:focus {
 .navbar .logo {
     padding: 0;
     white-space: nowrap;
+}
+
+.navbar .back {
+    padding-top: 9px;
+}
+
+.navbar .back i {
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    border-radius: 30px;
+    padding: 3px 6px;
+    color: rgba(0, 0, 0, 0.5);
 }
 
 .navbar .logo img {
@@ -170,10 +189,10 @@ img.logo {
 }
 
 .list-item .badge {
-    opacity: 0.7;
+    opacity: 0.5;
     position: absolute;
     right: 40px;
-    top: 38%;
+    top: 30%;
 }
 
 .list-item i:hover,
@@ -188,12 +207,14 @@ img.logo {
 
 .list-item .img-continer img {
     height: 30px;
+    width: 45px;
+    border-radius: 10px;
 }
 
 .list-item .title {
     font-size: 16px;
     margin-left: 20px;
-    margin-top: 7px;
+    margin-top: 4px;
     float: left;
 }
 
@@ -207,6 +228,43 @@ input[type="search"].search-group {
     right: 10px;
     top: 0;
     opacity: 0.5;
+}
+
+.cover-image-wrapper {
+    width: 114%;
+    margin: -20px 0 20px -20px;
+    position: relative;
+    max-height: 160px;
+    overflow: hidden;
+}
+
+.cover-image-wrapper img {
+    width: 100%;
+}
+
+.cover-image-wrapper h4 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: white;
+    font-weight: normal;
+    width: 100%;
+    background: rgba(128, 128, 128, 0.38);
+    padding: 2%;
+    margin: 0;
+}
+
+.google-map-wrapper {
+    box-shadow: 0px 0px 15px 1px gray;
+}
+
+.google-map {
+    height: 150px;
+    width: 100%;
+}
+
+.address p {
+    margin: 0;
 }
 
 /*body { padding-top: 95px; !important }                 *//*added by oryan for navbar space */

@@ -7,6 +7,7 @@ angular.module('App').controller('JoinGroupCtrl', ['$scope', 'blockui', '$http',
     $scope.groups       = [];
     $scope.timer        = null;
     $scope.showLoader   = false;
+   $scope.account       = account;
 
 
     //public functions
