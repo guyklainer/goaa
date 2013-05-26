@@ -6,6 +6,7 @@ var Post = new Schema({
     _id         : Schema.ObjectId,
     userID      : Number,
     data        : String,
+    image       : String,
     createdOn   : Date
 });
 
