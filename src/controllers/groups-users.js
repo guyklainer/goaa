@@ -84,7 +84,7 @@ function changeAdmin( group ){
     });
 }
 
-function isAdmin( user, group ){
+module.exports.isAdmin = function ( user, group ){
     var result = {};
 
     GroupUser.findOne( { user: user, group: group }, function( err, groupUser ){

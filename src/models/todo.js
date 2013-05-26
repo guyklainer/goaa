@@ -2,11 +2,11 @@
 var mongoose 	= require( 'mongoose' ),
     Schema 		= mongoose.Schema;
 
-var Post = new Schema({
+var Todo = new Schema({
     _id         : Number,
     userID      : Number,
     data        : String,
-    isDone      : boolean,
+    isDone      : Boolean,
     createdOn   : Date
 });
 

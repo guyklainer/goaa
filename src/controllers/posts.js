@@ -4,6 +4,7 @@ var mongoose    = require( 'mongoose' ),
     Post        = mongoose.model( 'Post' ),
     Group       = mongoose.model( 'Group'),
     GroupUser   = mongoose.model( 'GroupUser' ),
+    GroupUsers  = require( './groups-users' ),
     Utils       = require( '../utils/utils' ),
     _           = require( 'underscore' );
 
@@ -85,7 +86,9 @@ module.exports.removePost = function( req, res ) {
 
 
 function validateIfUserCanRemovePost( user, group, post ){
-    var isAdmin     = GroupUser.isAdmin ( user, group),
+    var isAdmin     = GroupUsers.isAdmin ( user, group, function ( result ){
+
+        } ),
         isUsersPost = post.userID == user._id;
 
     if( isAdmin || isUsersPost ){
