@@ -57,6 +57,10 @@ module.exports.getGroupByName = function( req, res ){
             return false;
 
         } else {
+            group.posts.sort( function( a, b ){
+                return a.createdOn - b.createdOn;
+            });
+
             result = utils.createResult( true, group, "fetchGroupByName" );
         }
 
@@ -183,3 +187,4 @@ function isGroupExist( name, callback ) {
     });
 }
 
+module.exports.isGroupExist = isGroupExist;

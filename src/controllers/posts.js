@@ -25,7 +25,8 @@ module.exports.addPost = function( req, res ) {
                 post = { 
                 _id         : Crypto.randomBytes( 48 ).toString('hex') + timestamp,
                 userID      : params.userID, 
-                data        : params.data, 
+                data        : params.data,
+                image       : params.image,
                 createdOn   : new Date() 
             };
 

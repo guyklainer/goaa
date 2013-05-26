@@ -37,6 +37,7 @@ module.exports = function( app, passport ) {
     app.post( '/getgroupbyname', groups.getGroupByName );
     app.post( '/searchgroups', groups.searchGroup );
     app.post( '/joingroup', groups.joinGroup );
+    app.post( '/isgroupexist', groups.isGroupExist );
 
     //*****************************
     // Posts
