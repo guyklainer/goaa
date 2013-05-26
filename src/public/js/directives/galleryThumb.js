@@ -5,7 +5,7 @@ app.directive('galleryThumb', function($timeout) {
         templateUrl: "/template/directives/galleryThumb.html",
         replace: true,
         scope: {
-            posts: "="
+            post: "="
         },
         link: function(scope, element, attrs, controller){
         }

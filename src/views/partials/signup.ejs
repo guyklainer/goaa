@@ -10,7 +10,7 @@
         <input type="text" required ng-model="form.firstName" class="input-block-level" integer placeholder="First Name">
         <input type="text" required ng-model="form.lastName" class="input-block-level" placeholder="Last Name">
 
-        <input type="text" name="username" ng-change="validateUserName(form.username)" required ng-model="form.username" class="input-block-level" placeholder="Username">
+        <input type="text" name="username" ui-event="{ blur: 'validateUserName(form.username)' }" required ng-model="form.username" class="input-block-level" placeholder="Username">
         <p ng-show="usernameInvalid" class="red">This username is in use, please enter a new one.</p>
 
         <input type="email" required ng-model="form.email" class="input-block-level" placeholder="Email Address">
