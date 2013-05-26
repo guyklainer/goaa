@@ -1,7 +1,7 @@
 var mongoose    = require( 'mongoose' ),
     Crypto      = require( 'crypto' ),
-    Post        = mongoose.model( 'Post' ),
-    Group       = mongoose.model( 'Group'),
+    Todo        = mongoose.model( 'Todo' ),
+    Group       = mongoose.model( 'Group' ),
     GroupUser   = mongoose.model( 'GroupUser' ),
     Utils       = require( '../utils/utils' ),
     _           = require( 'underscore' );
@@ -55,35 +55,22 @@ module.exports.removeTodo = function( req, res ) {
             res.json(Utils.createResult( false, null, "noGroupFound" ));
 
         } else {
-            var todos = group.todos,
-                isChanged = false;
+            var todos = group.todos;
 
-            _.each( todos, function ( todo ){
-                if ( todo._id == params.todoID ){
-                    delete todo;
-                    isChanged = true;
-                    return false;
+            for( var i = 0; i < todos.length; i++ ){
+
+                if ( todos[i]._id == params.todoID ){
+                    todos.splice( i, 1 );
+                    updateTodos( group._id, todos, res );
+                    break;
                 }
-            } );
-
-            if ( isChanged ){
-                Group.update( { _id: group._id }, { $set: { todos: todos } }, function( err ){
-                    if( err ){
-                        res.json( Utils.createResult( false, err, "dbError" ) );
-                    } else {
-                        res.json( Utils.createResult( true, null, "todoRemoved" ) );
-                    }
-                });
-            } else {
-                res.json( Utils.createResult( false, null, "todoWasn'tFound" ) );
             }
         }
     });
 }
 
-
 module.exports.toggleTodo = function( req, res ) {
-    var params = req.body;
+    var params  = req.body;
 
     Group.findOne( { _id: params.groupID }, function( err, group ){
 
@@ -95,32 +82,31 @@ module.exports.toggleTodo = function( req, res ) {
             res.json(Utils.createResult( false, null, "noGroupFound" ));
 
         } else {
-            var todos = group.todos,
-                isChanged = false;
+            var todos = group.todos;
 
-            _.each( todos, function ( todo ){
-                if ( todo._id == params.todoID ){
-                    if ( todo.isDone ){
-                        todo.isDone = false;
+            for( var i = 0; i < todos.length; i++ ){
+
+                if ( todos[i]._id == params.todoID ){
+                    if ( todos[i].isDone ){
+                        todos[i].isDone = false;
                     } else {
-                        todo.isDone = true;
+                        todos[i].isDone = true;
                     }
-                    isChanged = true;
-                    return false;
+
+                    updateTodos( group._id, todos, res );
+                    break;
                 }
-            } );
-
-            if ( isChanged ){
-                Group.update( { _id: group._id }, { $set: { todos: todos } }, function( err ){
-                    if( err ){
-                        res.json( Utils.createResult( false, err, "dbError" ) );
-                    } else {
-                        res.json( Utils.createResult( true, null, "todoChecked" ) );
-                    }
-                });
-            } else {
-                res.json( Utils.createResult( false, null, "todoWasn'tFound" ) );
             }
+        }
+    });
+}
+
+function updateTodos( groupID, todos, res ) {
+    Group.update( { _id: groupID }, { $set: { todos: todos } }, function( err ){
+        if( err ){
+            res.json( Utils.createResult( false, err, "dbError" ) );
+        } else {
+            res.json( Utils.createResult( true, null, "todoRemoved" ) );
         }
     });
 }
