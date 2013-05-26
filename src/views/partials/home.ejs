@@ -29,7 +29,8 @@
             </a>
         </li>
     </ul>
-    <center><h4 ng-hide="groups.length">You don't have any groups</h4></center>
+    <center><h4 ng-show="groups.length == 0 && !isNoGroups">Loading...</h4></center>
+    <center><h4 ng-show="groups.length == 0 && isNoGroups">You don't have any groups</h4></center>
 </div>
 
 <!-- Footer -->

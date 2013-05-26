@@ -39,25 +39,9 @@ var app = angular.module('App', ["ui.bootstrap", "ngCookies", "google-maps"]).
             templateUrl: '../partials/group',
             controller: 'GroupCtrl'
         }).
-//      when('/addPost', {
-//        templateUrl: 'partials/addPost',
-//        controller: AddPostCtrl
-//      }).
-//      when('/readPost/:id', {
-//        templateUrl: 'partials/readPost',
-//        controller: ReadPostCtrl
-//      }).
-//      when('/editPost/:id', {
-//        templateUrl: 'partials/editPost',
-//        controller: EditPostCtrl
-//      }).
-//      when('/deletePost/:id', {
-//        templateUrl: 'partials/deletePost',
-//        controller: DeletePostCtrl
-//      }).
-    otherwise({
-        redirectTo: '/'
-    });
+        otherwise({
+            redirectTo: '/'
+        });
   }])
     .run(function($rootScope, account, $location) {
 
