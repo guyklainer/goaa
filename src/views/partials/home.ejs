@@ -11,10 +11,15 @@
 
 <!-- Content -->
 <div class="container-fluid main">
+    <div class="row-fluid">
+        <div class="offset6">
+            <h3>Groups</h3>
+        </div>
+    </div>
     <ul class="list" ng-show="groups.length">
-        <li class="list-item" ng-repeat="group in groups">
+        <li ng-click="moveToGroup(group)" class="list-item" ng-repeat="group in groups">
             <div class="img-continer pull-left">
-                <img src="{{group.image}}" alt="{{group.name}}">
+                <img ng-src="{{group.image}}" alt="{{group.name}}">
             </div>
 
             <a href="#" class="title">
@@ -24,7 +29,8 @@
             </a>
         </li>
     </ul>
-    <center><h4 ng-hide="groups.length">You don't have any groups</h4></center>
+    <center><h4 ng-show="groups.length == 0 && !isNoGroups">Loading...</h4></center>
+    <center><h4 ng-show="groups.length == 0 && isNoGroups">You don't have any groups</h4></center>
 </div>
 
 <!-- Footer -->

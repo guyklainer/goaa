@@ -4,9 +4,10 @@
 
 
 <div class="container-fluid">
-
+    <h3>New Group</h3>
     <form class="form-signin"   ng-submit="groupcreator()" enctype="multipart/form-data">
         <input type="text" required class="input-block-level" placeholder="Group name" ng-model="Group.name">
+        <p ng-show="isShowError" class="text-centered red"><strong>Group name Already exist</strong></p>
 
         <p>Address:</p>
         <input type="text" required class="input-block-level" placeholder="country" ng-model="Group.address.country">
@@ -15,29 +16,8 @@
         <input type="number" required class="input-block-level" placeholder="House" ng-model="Group.address.house">
         <input type="number" required class="input-block-level" placeholder="Apartment" ng-model="Group.address.apartment">
 
-        <div class="row-fluid">
-            <div class="row-fluid">
-                <button class="btn btn-info btn-block" ng-click="addPhoto(Group)"><i class="icon-camera-retro"></i> Add Group Photo</button>
-            </div>
-            <div class="row-fluid">&nbsp</div>
-            <div class="row-fluid">
-                <progress value="progressValue"></progress>
-            </div>
-            <div class="row-fluid">&nbsp</div>
+        <div group-image-uploader group="Group"></div> <!--group should contain image property-->
 
-            <div class="row-fluid">
-                <div class="alert alert-error" ng-show="photoErrorMsg">
-                    <strong>Oops!</strong> {{photoErrorMsg}}
-                </div>
-            </div>
-        </div>
-
-        <div class="row-fluid" ng-show="isUploadSuccess">
-            <img id="photoImg" width="250" height="250" alt="Group Image" />
-        </div>
-
-
-        <p ng-show="isShowError" class="text-centered red"><strong>Group name Already exist</strong></p>
         <p ng-show="errorInDataBaseSaving" class="text-centered red"><strong>Temporary problem please try create group leter</strong></p>
 
         <div class="row-fluid">&nbsp</div>
@@ -45,6 +25,5 @@
             <button class="btn btn-large btn-primary btn-block" type="submit">Submit</button>
         </div>
     </form>
-    <input id="fileChooser" name="image" type="file" accept="image/*;capture=camera" style="display: none;"  />
 
 </div>
