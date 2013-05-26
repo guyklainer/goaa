@@ -35,7 +35,7 @@ angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$lo
 
     $scope.moveToGroup = function(group){
         log("group",group);
-        $location.path("/group/" + group._id);
+        $location.path("/group/" + group.name);
     };
     $scope.account = account;
 }]);

@@ -8,6 +8,7 @@ module.exports = function( app, passport ) {
 
     var users   = require( '../controllers/users'),
         groups  = require( '../controllers/groups'),
+        todos   = require( '../controllers/todos' ),
         posts   = require( '../controllers/posts');
 
     //*****************************
@@ -44,6 +45,13 @@ module.exports = function( app, passport ) {
     //*****************************
     app.post( '/addpost', posts.addPost );
     app.post( '/removepost', posts.removePost );
+
+    //*****************************
+    // Todos
+    //*****************************
+    app.post( '/addtodo', todos.addTodo );
+    app.post( '/removetodo', todos.removeTodo );
+    app.post( '/toggletodo', todos.toggleTodo );
 
     //*****************************
     // API

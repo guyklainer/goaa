@@ -1,0 +1,29 @@
+<div class="row-fluid">
+    <ul class="thumbnails">
+        <li class="span4" ng-repeat="post in posts">
+            <div class="thumbnail well">
+                <div class="row-fluid">
+                    <h6>{{post.username}} <span class="pull-right">{{post.createdOn | fromNow}}</span></h6>
+
+                            <span ng-show="isTooBigMessage(post.data)">
+                                <h5 ng-show="!post.isShowFull" ng-bind="toShortStr(post)"></h5>
+                                <h5 ng-show="post.isShowFull" ng-bind="post.data"></h5>
+                                <button ng-click="toggleTextLength(post.data)" class="btn btn-link">
+                                    <span ng-show="!post.isShowFull">more</span>
+                                    <span ng-show="post.isShowFull">less</span>
+                                </button>
+                            </span>
+
+                    <h5 ng-show="!isTooBigMessage(post.data)" ng-bind="post.data"></h5>
+
+                    <div class="row-fluid">
+                        <center>
+                            <img ng-show="post.image" ng-src="{{post.image}}" src="" alt="" />
+                        </center>
+                    </div>
+
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
