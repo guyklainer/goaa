@@ -1,3 +1,4 @@
+"use strict";
 
 angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$location', 'account', 'groupDb',
     function($scope, blockui, $http, $location, account, groupDb){

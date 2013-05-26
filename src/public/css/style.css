@@ -269,6 +269,10 @@ input.ng-invalid.ng-dirty{
     background-color: pink;
 }
 
+.green{
+    color: green;
+}
+
 /*input.ng-valid.ng-dirty{*/
     /*background-color: lightgreen;*/
 /*}*/

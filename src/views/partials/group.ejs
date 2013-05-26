@@ -2,12 +2,12 @@
 <%- include ../shared/header.ejs %>
 
 <center class="top-buttons">
-<div class="btn-group">
-    <button ng-click="gotoPartial(partialEnum.gallery)" class="btn btn-medium"><i class="icon-th icon-white"></i> Gallery</button>
-    <button ng-click="gotoPartial(partialEnum.meters)" class="btn btn-medium"><i class="icon-signal icon-white"></i> Meters</button>
-    <button class="btn btn-medium"><i class="icon-check icon-white"></i> Todos</button>
-    <button class="btn btn-medium"><i class="icon-pencil icon-white"></i> Compose</button>
-</div>
+    <div class="btn-group">
+        <button ng-click="gotoPartial(partialEnum.gallery)" class="btn btn-medium"><i class="icon-th icon-white"></i> Gallery</button>
+        <button ng-click="gotoPartial(partialEnum.meters)" class="btn btn-medium"><i class="icon-signal icon-white"></i> Meters</button>
+        <button ng-click="gotoPartial(partialEnum.todos)" class="btn btn-medium"><i class="icon-check icon-white"></i> Todos</button>
+        <button class="btn btn-medium"><i class="icon-pencil icon-white"></i> Compose</button>
+    </div>
 </center>
 
 <!-- News Content -->
@@ -24,6 +24,8 @@
             </li>
         </ul>
     </div>
+    <center><h4 ng-show="isLoading">Loading...</h4></center>
+    <center><h4 ng-show="isShowNoNews(group.posts, isLoading)">No News Yet</h4></center>
 </div>
 
 <!-- Gallery Content -->
@@ -40,6 +42,8 @@
             </li>
         </ul>
     </div>
+    <center><h4 ng-show="isLoading">Loading...</h4></center>
+    <center><h4 ng-show="isShowNoPhotos(group.posts, isLoading)">No Photos Yet</h4></center>
 </div>
 
 <!-- Meters Content -->
@@ -49,14 +53,33 @@
             <h3>Meters</h3>
         </div>
     </div>
+    <ul class="list">
+        <li class="list-item" ng-click="gotoMeter(meter)" ng-repeat="meter in group.meters">
+            <a href="#" class="title">
+                <i class="icon-chevron-right"></i>
+                {{meter.name}}
+            </a>
+        </li>
+    </ul>
+    <center><h4 ng-show="isLoading">Loading...</h4></center>
+    <center><h4 ng-show="isShowNoMeters(group.meters, isLoading)">No Meters</h4></center>
 </div>
 
+<!-- Todos Content -->
+<div class="container-fluid" ng-show="isShowPartial(view, 'todos')">
+    <div class="row-fluid">
+        <div class="offset6">
+            <h3>Todo's</h3>
+        </div>
+    </div>
+</div>
 
+<!-- Footer -->
 <div class="navbar navbar-fixed-bottom static">
     <div class="navbar-inner">
         <div class="continer">
             <ul class="nav">
-                <li><a href="#"><i class="icon-beer"></i> Group Settings</a></li>
+                <li ng-click="gotoGroupSettings()"><a href="#"><i class="icon-beer"></i> Group Settings</a></li>
             </ul>
         </div>
     </div>

@@ -3,16 +3,57 @@
 angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location', 'account', '$routeParams','$timeout', 'groupDb',
     function($scope, blockui, $location, account, $routeParams, $timeout, groupDb){
 
+        $scope.isLoading = true;
+        $scope.isNoMeters = false;
         $scope.view = $routeParams.view;
         $scope.partialEnum = {
             gallery: 'gallery',
-            meters: 'meters'
+            meters: 'meters',
+            todos: 'todos'
         };
 
-        groupDb.getGroup($routeParams.name, function(g){
+        groupDb.getGroup($routeParams.groupName, function(g){
             log("getGroup result: ", g);
+            $scope.isLoading = false;
             $scope.group = g;
+
+            //temporary
+            $scope.group['meters'] = [
+                {name: "boiler"},
+                {name: "Living Room Light"},
+                {name: "Air Conditioner"}
+            ];
         });
+
+        $scope.isShowNoNews = function(posts, isLoading){
+            if (isLoading){
+                return false;
+            } else {
+                return posts == undefined || posts == null || posts.length == 0;
+            }
+        }
+        $scope.isShowNoPhotos = function(posts, isLoading){
+            if (isLoading){
+                return false;
+            } else {
+                return posts == undefined || posts == null || getPhotosCount(posts) == 0;
+            }
+        }
+        function getPhotosCount(posts){
+            return _.filter(posts,
+                function(post){
+                    return post.image && post.image != "";
+                }).length;
+        }
+        $scope.isShowNoMeters = function(meters, isLoading){
+            if (isLoading){
+                return false;
+            } else {
+                return meters == undefined || meters == null || meters.length == 0;
+            }
+        }
+
+
 
         var len = 200;
         $scope.toShortStr = function(message){
@@ -45,6 +86,13 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
                 $location.path( url + '/' + partialEnumItem );
             }
         }
+        $scope.gotoMeter = function(meter){
+            $location.path($location.path() + '/' + meter.name);
+        }
+        $scope.gotoGroupSettings = function(){
+            $location.path('group/' + $routeParams.groupName + '/settings');
+        }
+
         $scope.isShowPartial = function(view, partial){
             if (view == undefined || partial == undefined){
                 return false;
