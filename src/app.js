@@ -44,8 +44,7 @@ mongoose.connect( settings.db.main, function( err ){
 logo.print();
 
 // -- Create the server
-var server = http.createServer( app ),
-    io = require( 'socket.io' ).listen( server );
+var server = http.createServer( app );
 
 server.listen( settings.port, function(){
     console.log("Express server listening on "+" port %d ".bold.inverse.red+" in " + " %s mode ".bold.inverse.green + " //", settings.port, env);

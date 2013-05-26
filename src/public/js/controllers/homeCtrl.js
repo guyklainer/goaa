@@ -1,24 +1,19 @@
 
-angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$location', 'account',
-    function($scope, blockui, $http, $location, account){
+angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$location', 'account', 'groupDb',
+    function($scope, blockui, $http, $location, account, groupDb){
 
     // public var
     $scope.isNoGroups = false;
     $scope.groups = [];
 
-    $http.post('/getgroups', { userID: account.user()._id })
-        .error(function(data, status, headers, config){
-            httpErrorCallback(data, status, headers, config);
-        })
-        .success(function(data, status, headers, config) {
-            log("get groups: ", data);
-            if (data.result && angular.isArray(data.data)){
-                $scope.groups = data.data;
-                $scope.isNoGroups = $scope.groups.length == 0;
-            } else{
-                $scope.isNoGroups = true;
-            }
-        });
+    groupDb.getGroups(account.user()._id, function(groupsResult){
+        if (groupsResult != null){
+            $scope.groups = groupsResult;
+            $scope.isNoGroups = $scope.groups.length == 0;
+        } else {
+            $scope.isNoGroups = true;
+        }
+    });
 
     // public functions
     $scope.gotoCreateGroup = function(){
@@ -35,7 +30,7 @@ angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$lo
 
     $scope.moveToGroup = function(group){
         log("group",group);
-        $location.path("/group/" + group._id);
+        $location.path("/group/" + group.name);
     };
     $scope.account = account;
 }]);

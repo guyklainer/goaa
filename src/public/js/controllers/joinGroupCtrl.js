@@ -1,3 +1,4 @@
+"use strict";
 
 angular.module('App').controller('JoinGroupCtrl', ['$scope', 'blockui', '$http', '$location', 'account', '$cookies', 'db',
     function($scope, blockui, $http, $location, account, $cookies, db){
@@ -7,11 +8,9 @@ angular.module('App').controller('JoinGroupCtrl', ['$scope', 'blockui', '$http',
     $scope.groups       = [];
     $scope.timer        = null;
     $scope.showLoader   = false;
-   $scope.account       = account;
 
 
     //public functions
-
     $scope.search = function(){
         $scope.showLoader = true;
 
@@ -59,5 +58,5 @@ angular.module('App').controller('JoinGroupCtrl', ['$scope', 'blockui', '$http',
         $location.path("/groupPreview");
     }
 
-
+    $scope.account = account;
 }]);

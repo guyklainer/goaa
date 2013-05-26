@@ -31,7 +31,7 @@ module.exports.getGroupsByUser = function( req, res ){
                 groupIDsArray.push( groupObj.group );
             });
 
-            Group.find( { _id: { $in: groupIDsArray } }, function( err, groups ) {
+            Group.find( { _id: { $in: groupIDsArray } }, { name: 1, _id: 1, image: 1 },  function( err, groups ) {
                 if( err ){
                     result = utils.createResult( false, err, "dbError" );
                     return false;
@@ -46,6 +46,28 @@ module.exports.getGroupsByUser = function( req, res ){
     });
 }
 
+module.exports.getGroupByName = function( req, res ){
+
+    var groupName = req.body.name,
+        result;
+
+    Group.findOne( { name: groupName  }, function( err, group ) {
+        if( err ){
+            result = utils.createResult( false, err, "dbError" );
+            return false;
+
+        } else {
+            group.posts = _.sortBy( group.posts, function( post ){
+                return ( -1 ) * post.createdOn;
+            });
+
+            result = utils.createResult( true, group, "fetchGroupByName" );
+        }
+
+        res.json( result );
+    });
+}
+
 module.exports.searchGroup = function ( req, res ){
     var groupName   = req.body.groupName,
         pattern     = "^" + groupName,
@@ -56,7 +78,7 @@ module.exports.searchGroup = function ( req, res ){
         res.json( utils.createResult( false, [], "emptyQuery" ) );
 
     } else {
-        Group.find( { name: exp }, function( err, docs ) {
+        Group.find( { name: exp }, { name: 1, _id: 1, image: 1 }, function( err, docs ) {
             if ( err ){
                 result = utils.createResult( false, err, "dbError" );
 
@@ -165,3 +187,4 @@ function isGroupExist( name, callback ) {
     });
 }
 
+module.exports.isGroupExist = isGroupExist;
