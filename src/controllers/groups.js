@@ -57,9 +57,7 @@ module.exports.getGroupByName = function( req, res ){
             return false;
 
         } else {
-            group.posts.sort( function( a, b ){
-                return a.createdOn - b.createdOn;
-            });
+            group.posts = _.sortBy(group.posts, function(post){ return (-1)*post.createdOn; });
 
             result = utils.createResult( true, group, "fetchGroupByName" );
         }
