@@ -17,7 +17,7 @@ angular.module('App').controller('TestCtrl', ['$scope', '$http', '$location', 'a
                 groupID :           "5198d2ae4600dcaa05000001",
                 userID  :           "51757326888e1eb90f000004",
                 data:               "hello",
-                postID:             "0aae8644893140c46aaf85991142b0735286c7cf245395715af9bab47ee5d08d0a6a4090d59e86131d405556a143236542490fbe4b9ea389d28656841a32c5181368980138334"
+                postID:             "9cedf2a2d285783cc92b4670ef3de10148bb88d93aef490d8f5e93f1e00cb5a6c93f6f9599e7c14e7c5b8ee5081e7f881369571711593"
             };
 
 
