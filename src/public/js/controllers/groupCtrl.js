@@ -4,6 +4,10 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
     function($scope, blockui, $location, account, $routeParams, $timeout, groupDb){
 
         $scope.view = $routeParams.view;
+        $scope.partialEnum = {
+            gallery: 'gallery',
+            meters: 'meters'
+        };
 
         groupDb.getGroup($routeParams.name, function(g){
             log("getGroup result: ", g);
@@ -32,19 +36,13 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
 
             return result;
         }
-        $scope.gotoGallery = function(){
+        $scope.gotoPartial = function(partialEnumItem){
             if ($scope.view == undefined || $scope.view == null){
-                $location.path( $location.path() + "/gallery" );
-            } else if ($scope.view.toLowerCase() != 'gallery'){
-                log("todo path: ", $location.path());
-            }
-        }
-        $scope.gotoMeters = function(){
-            if ($scope.view == undefined || $scope.view == null){
-                $location.path( $location.path() + "/meters" );
-            } else if ($scope.view.toLowerCase() != 'meters'){
-                log("todo path: ", $location.path());
-
+                $location.path( $location.path() + '/' + partialEnumItem );
+            } else if ($scope.view.toLowerCase() != partialEnumItem){
+                var index = $location.path().indexOf($routeParams.view);
+                var url = $location.path().substr(0, index-1);
+                $location.path( url + '/' + partialEnumItem );
             }
         }
         $scope.isShowPartial = function(view, partial){
