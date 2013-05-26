@@ -22,7 +22,7 @@ angular.module('App').controller('TestCtrl', ['$scope', '$http', '$location', 'a
 
 
 
-            $http.post('/removepost', params)
+            $http.post('/addpost', params)
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
                 })
