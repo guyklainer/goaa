@@ -17,12 +17,13 @@ angular.module('App').controller('TestCtrl', ['$scope', '$http', '$location', 'a
                 groupID :           "5198d2ae4600dcaa05000001",
                 userID  :           "51757326888e1eb90f000004",
                 data:               "hello",
-                postID:             "9cedf2a2d285783cc92b4670ef3de10148bb88d93aef490d8f5e93f1e00cb5a6c93f6f9599e7c14e7c5b8ee5081e7f881369571711593"
+                postID:             "9cedf2a2d285783cc92b4670ef3de10148bb88d93aef490d8f5e93f1e00cb5a6c93f6f9599e7c14e7c5b8ee5081e7f881369571711593",
+                todoID:             "d579c1c1a3ac03aaa5f0b3961aa0ab5393f8eac739d386f25476a9a085c9ce2025a8f7824f5c7441fecc03869949395c1369566273625"
             };
 
 
 
-            $http.post('/addpost', params)
+            $http.post('/toggletodo', params)
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
                 })
