@@ -5,21 +5,24 @@ app.directive('imageUploader', function($timeout) {
         templateUrl: "/template/directives/imageUploader.html",
         replace: true,
         scope: {
-            image: "="
+            image: "=",
+            imageUploadSettings: "="
         },
         link: function(scope, element, attrs, controller){
             log("link");
 
-            scope.progressValue = 0;
+            scope.progressValue     = 0;
+            scope.uploadedImageUrl  = "/img/logo.png";
+            scope.showProgressBar   = false;
 
             scope.addPhoto = function(){
                 log("addPhoto");
 
                 // resetting the progress bar
-                scope.progressValue = 0;
-                scope.uploadedImageUrl = "";
-                scope.image = "";
-                scope.errorMsg = "";
+                scope.progressValue     = 0;
+                scope.uploadedImageUrl  = "";
+                scope.image             = "";
+                scope.errorMsg          = "";
 
                 $("#fileChooser").click();
             }
@@ -54,18 +57,28 @@ app.directive('imageUploader', function($timeout) {
                         } else {
                             scope.errorMsg = jsonResponse.msg;
                         }
+                        scope.showProgressBar   = false;
                     });
                 }
             }
 
-            function uploadImage(file) {
+            function uploadImage( file ) {
                 log("upload file: ", file);
+                scope.showProgressBar = true;
 
-                //sending the file
+                //putting the values
                 var fd = new FormData();
                 fd.append("image", file);
-                fd.append("stage", "newGroup");
+                if (scope.imageUploadSettings){
+                    if(scope.imageUploadSettings.stage){
+                        fd.append("stage", scope.imageUploadSettings.stage);
+                    }
+                    if(scope.imageUploadSettings.groupId){
+                        fd.append("groupId", scope.imageUploadSettings.groupId);
+                    }
+                }
 
+                //sending the params
                 var xhr = new XMLHttpRequest();
                 xhr.upload.addEventListener("progress", uploadProgress, false);
                 xhr.addEventListener("load", uploadComplete, false);

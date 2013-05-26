@@ -16,6 +16,16 @@ app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','ac
             },
             image: ""
         };
+        $scope.imageUploadSettings = {
+            stage: "newGroup"
+        };
+
+        // temporary: example for usage of posts
+        //
+        //$scope.imageUploadSettings = {
+        //    stage: "posts",
+        //    groupId: "123123"
+        //};
 
         // public functions
         $scope.groupcreator = function() {

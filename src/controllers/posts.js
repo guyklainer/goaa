@@ -2,9 +2,10 @@
 var mongoose    = require( 'mongoose' ),
     Crypto      = require( 'crypto' ),
     Post        = mongoose.model( 'Post' ),
-    Group       = mongoose.model( 'Group'),
-    GroupUser   = mongoose.model( 'GroupUser'),
-    Utils       = require( '../utils/utils'),
+    Group       = mongoose.model( 'Group' ),
+    GroupUser   = mongoose.model( 'GroupUser' ),
+    GroupUsers  = require( './groups-users' ),
+    Utils       = require( '../utils/utils' ),
     _           = require( 'underscore' );
 
 module.exports.addPost = function( req, res ) {
@@ -20,24 +21,34 @@ module.exports.addPost = function( req, res ) {
             res.json( Utils.createResult( false, null, "noGroupFound" ) );
         } else {
 
-            var timestamp = new Date().getTime(),
-                post = { 
-                _id         : Crypto.randomBytes( 48 ).toString('hex') + timestamp,
-                userID      : params.userID, 
-                data        : params.data, 
-                createdOn   : new Date() 
-            };
-
-            group.posts.push( post );
-            group.save( function( err ){
-                
-                if( err ){
+            User.findOne({ _id : params.userID }, function( err, user ){
+                if( err )
                     res.json( Utils.createResult( false, err, "dbError" ) );
 
-                } else {
-                    res.json( Utils.createResult( true, null, "postAdded" ) );
+                 else {
+                    var timestamp = new Date().getTime(),
+                        post = {
+                            _id         : Crypto.randomBytes( 48 ).toString('hex') + timestamp,
+                            userID      : params.userID,
+                            username    : user.firstName + " " + user.lastName,
+                            data        : params.data,
+                            image       : params.image,
+                            createdOn   : new Date()
+                        };
+
+                    group.posts.push( post );
+                    group.save( function( err ){
+
+                        if( err ){
+                            res.json( Utils.createResult( false, err, "dbError" ) );
+
+                        } else {
+                            res.json( Utils.createResult( true, null, "postAdded" ) );
+                        }
+                    });
                 }
             });
+
         }
     });
 }
@@ -55,41 +66,49 @@ module.exports.removePost = function( req, res ) {
             res.json(Utils.createResult( false, null, "noGroupFound" ));
         
         } else {
-            var posts = group.posts,
-                isChanged = false;
+            var posts = group.posts;
 
-            _.each( posts, function ( post ){
-                if ( post._id == params.postID){
-                    if ( validateIfUserCanRemovePost( params.user, group, post ) ){
-                        delete post;
-                        isChanged = true;
-                    }
-                    return false;
+            for( var i = 0; i < posts.length; i++ ){
+
+                if ( posts[i]._id == params.postID ){
+
+                    validateIfUserCanRemovePost( params.userID, group._id, posts[i], function( result ){
+                        if( result ){
+                            posts.splice( i, 1 );
+                            updatePosts( group._id, posts, res );
+
+                        } else {
+                            res.json( Utils.createResult( false, null, "userCantDeletePost" ) );
+                        }
+                    });
+
+                    break;
                 }
-            } );
-
-            if ( isChanged ){
-                Group.update( { _id: group._id }, { $set: { posts: posts } }, function( err ){
-                    if( err ){
-                        res.json( Utils.createResult( false, err, "dbError" ) );
-                    } else {
-                        res.json( Utils.createResult( true, null, "postRemoved" ) );
-                    }
-                });
-            } else {
-                res.json( Utils.createResult( false, null, "userCantDeletePost" ) );
             }
         }
     });
 }
 
+function updatePosts( groupID, posts, res ) {
+    Group.update( { _id: groupID }, { $set: { posts: posts } }, function( err ){
+        if( err ){
+            res.json( Utils.createResult( false, err, "dbError" ) );
+        } else {
+            res.json( Utils.createResult( true, null, "postRemoved" ) );
+        }
+    });
+}
 
-function validateIfUserCanRemovePost( user, group, post ){
-    var isAdmin     = GroupUser.isAdmin ( user, group),
-        isUsersPost = post.userID == user._id;
+function validateIfUserCanRemovePost( userID, groupID, post, callback ){
 
-    if( isAdmin || isUsersPost ){
-        return true;
-    }
+    var isUsersPost = post.userID == userID;
 
+    GroupUsers.isAdmin( userID, groupID, function( result ){
+        if( result.result || isUsersPost ){
+            callback( true );
+
+        } else {
+            callback( false );
+        }
+    });
 }

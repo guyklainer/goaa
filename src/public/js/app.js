@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('App', ["ui.bootstrap", "ngCookies"]).
+var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
   config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
@@ -19,10 +19,6 @@ var app = angular.module('App', ["ui.bootstrap", "ngCookies"]).
             templateUrl: '/partials/signup',
             controller: 'SignupCtrl'
         }).
-        when('/test', {
-            templateUrl: '/partials/test',
-            controller: 'TestCtrl'
-        }).
         when('/createGroup', {
             templateUrl: '/partials/createGroup',
             controller: 'CreateGroupCtrl'
@@ -31,18 +27,35 @@ var app = angular.module('App', ["ui.bootstrap", "ngCookies"]).
             templateUrl: '/partials/joinGroup',
             controller: 'JoinGroupCtrl'
         }).
-        when('/groupPreview', {
+        when('/groupPreview/:groupName', {
             templateUrl: '/partials/groupPreview',
             controller: 'GroupPreviewCtrl'
         }).
-        when('/group/:name', {
+
+        //group views
+        when('/group/:groupName', {
             templateUrl: '/partials/group',
             controller: 'GroupCtrl'
         }).
-        when('/group/:name/:view', {
+        when('/group/:groupName/settings', {
+            templateUrl: '/partials/groupSettings',
+            controller: 'GroupSettingsCtrl'
+        }).
+        when('/group/:groupName/:view', {
             templateUrl: '/partials/group',
             controller: 'GroupCtrl'
         }).
+        when('/group/:groupName/meters/:meter', {
+            templateUrl: '/partials/meter',
+            controller: 'MeterCtrl'
+        }).
+
+        //temporary
+        when('/test', {
+            templateUrl: '/partials/test',
+            controller: 'TestCtrl'
+        }).
+
         otherwise({
             redirectTo: '/'
         });

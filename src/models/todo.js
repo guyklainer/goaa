@@ -2,13 +2,12 @@
 var mongoose 	= require( 'mongoose' ),
     Schema 		= mongoose.Schema;
 
-var Post = new Schema({
-    _id         : Schema.ObjectId,
+var Todo = new Schema({
+    _id         : Number,
     userID      : Number,
-    userName    : String,
     data        : String,
-    image       : String,
+    isDone      : Boolean,
     createdOn   : Date
 });
 
-mongoose.model( 'Post', Post );
+mongoose.model( 'Todo', Todo );

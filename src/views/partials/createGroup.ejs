@@ -5,24 +5,23 @@
 
 <div class="container-fluid">
     <h3>New Group</h3>
-    <form class="form-signin"   ng-submit="groupcreator()" enctype="multipart/form-data">
+    <form class="form-create-group" ng-submit="groupcreator()" enctype="multipart/form-data">
         <input type="text" required class="input-block-level" placeholder="Group name" ng-model="Group.name">
         <p ng-show="isShowError" class="text-centered red"><strong>Group name Already exist</strong></p>
 
         <p>Address:</p>
-        <input type="text" required class="input-block-level" placeholder="country" ng-model="Group.address.country">
-        <input type="text"  required class="input-block-level" placeholder="city" ng-model="Group.address.city">
         <input type="text" required class="input-block-level" placeholder="street" ng-model="Group.address.street">
-        <input type="number" required class="input-block-level" placeholder="House" ng-model="Group.address.house">
-        <input type="number" required class="input-block-level" placeholder="Apartment" ng-model="Group.address.apartment">
+        <input type="number" required class="half-left" placeholder="House" ng-model="Group.address.house">
+        <input type="number" required class="half-right" placeholder="Apartment" ng-model="Group.address.apartment">
+        <input type="text"  required class="half-left" placeholder="city" ng-model="Group.address.city">
+        <input type="text" required class="half-right" placeholder="country" ng-model="Group.address.country">
 
-        <div image-uploader image="Group.image"></div>
+        <div image-uploader image="Group.image" image-upload-settings="imageUploadSettings"></div>
 
         <p ng-show="errorInDataBaseSaving" class="text-centered red"><strong>Temporary problem please try create group leter</strong></p>
 
-        <div class="row-fluid">&nbsp</div>
         <div class="row-fluid">
-            <button class="btn btn-large btn-primary btn-block" type="submit">Submit</button>
+            <button class="btn btn-large btn-info btn-block" type="submit">Create</button>
         </div>
     </form>
 
