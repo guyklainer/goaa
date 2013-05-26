@@ -36,14 +36,25 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
             if ($scope.view == undefined || $scope.view == null){
                 $location.path( $location.path() + "/gallery" );
             } else if ($scope.view.toLowerCase() != 'gallery'){
-                log("path: ", $location.path());
+                log("todo path: ", $location.path());
             }
         }
-        $scope.isShowGallery = function(view){
-            return view == 'gallery';
+        $scope.gotoMeters = function(){
+            if ($scope.view == undefined || $scope.view == null){
+                $location.path( $location.path() + "/meters" );
+            } else if ($scope.view.toLowerCase() != 'meters'){
+                log("todo path: ", $location.path());
+
+            }
+        }
+        $scope.isShowPartial = function(view, partial){
+            if (view == undefined || partial == undefined){
+                return false;
+            } else {
+                return view.toLowerCase() == partial.toLowerCase();
+            }
         }
         $scope.isShowNews = function(view){
-            log("is show news", !view);
             return !view;
         }
 
