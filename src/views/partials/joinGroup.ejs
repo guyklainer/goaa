@@ -1,21 +1,35 @@
 <!-- Header -->
 <%- include ../shared/header.ejs %>
 
+<div class="row-fluid">
+    <div class="offset6">
+        <h3>Search</h3>
+    </div>
+</div>
+
 <center class="top-buttons">
-    <input type="text" ng-model="query" />
-    <button ng-click="search()" class="btn btn-large"><i class="icon-search icon-white"></i> Search</button>
+    <span class="loader-helper">
+        <input  ng-change="search()" type="search" ng-model="query" class="search-group" placeholder="Group Name" />
+        <div class="loader" ng-show="showLoader"></div>
+        <i class="icon-search" ng-hide="showLoader"></i>
+    </span>
 </center>
+
 
 <!-- Content -->
 <div class="container-fluid main">
-    <ul class="list">
-        <li class="list-item" ng-repeat="group in groups | filter:query">
+    <ul class="list" ng-show="groups.length">
+        <li ng-click="goToPreview(group)" class="list-item" ng-repeat="group in groups | filter:query">
+            <div class="img-continer pull-left">
+                <img src="{{group.image}}" alt="{{group.name}}">
+            </div>
             <a href="#" class="title">
                 <i class="icon-chevron-right"></i>
                 {{group.name}}
             </a>
         </li>
     </ul>
+    <center><h4 ng-hide="groups.length">No results</h4></center>
 </div>
 
 <!-- Footer -->

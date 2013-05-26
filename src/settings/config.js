@@ -31,5 +31,6 @@ module.exports.settings = {
     'S3Key'         : 'AKIAI2RZRVF5BVXASAUA',
     'S3Secret'      : '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',
     'S3Bucket'      : 'goaa',
-    'S3ImagePrefix' : 'https://goaa.s3.amazonaws.com'
+    'S3ImagePrefix' : 'https://goaa.s3.amazonaws.com',
+    'defaultAvatar' : '/img/logo.png'
 }

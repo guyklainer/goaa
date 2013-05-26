@@ -3,18 +3,23 @@
 
 <center class="top-buttons">
     <div class="btn-group">
-        <button ng-click="gotoCreateGroup()" class="btn btn-medium btn-warning"><i class="icon-plus-sign icon-white"></i> New</button>
-        <button ng-click="gotoJoinGroup()" class="btn btn-medium btn-info"><i class="icon-list-alt icon-white"></i> Join</button>
-        <button ng-click="gotoComposePost()" class="btn btn-medium btn-success"><i class="icon-pencil icon-white"></i> Compose</button>
+        <button ng-click="gotoCreateGroup()" class="btn btn-medium"><i class="icon-plus-sign icon-white"></i> New</button>
+        <button ng-click="gotoJoinGroup()" class="btn btn-medium"><i class="icon-list-alt icon-white"></i> Join</button>
+        <button ng-click="gotoComposePost()" class="btn btn-medium"><i class="icon-pencil icon-white"></i> Compose</button>
     </div>
 </center>
 
 <!-- Content -->
 <div class="container-fluid main">
-    <ul class="list">
-        <li class="list-item" ng-repeat="group in groups">
+    <div class="row-fluid">
+        <div class="offset6">
+            <h3>Groups</h3>
+        </div>
+    </div>
+    <ul class="list" ng-show="groups.length">
+        <li ng-click="moveToGroup(group)" class="list-item" ng-repeat="group in groups">
             <div class="img-continer pull-left">
-                <img src="{{group.image}}" alt="{{group.name}}">
+                <img ng-src="{{group.image}}" alt="{{group.name}}">
             </div>
 
             <a href="#" class="title">
@@ -24,6 +29,8 @@
             </a>
         </li>
     </ul>
+    <center><h4 ng-show="groups.length == 0 && !isNoGroups">Loading...</h4></center>
+    <center><h4 ng-show="groups.length == 0 && isNoGroups">You don't have any groups</h4></center>
 </div>
 
 <!-- Footer -->
