@@ -15,6 +15,7 @@ app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','ac
                 apartment: ""
             },
             image: ""
+
         };
 
         // public functions
