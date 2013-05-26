@@ -16,7 +16,7 @@
         <input type="number" required class="input-block-level" placeholder="House" ng-model="Group.address.house">
         <input type="number" required class="input-block-level" placeholder="Apartment" ng-model="Group.address.apartment">
 
-        <div group-image-uploader group="Group"></div> <!--group should contain image property-->
+        <div image-uploader image="Group.image"></div>
 
         <p ng-show="errorInDataBaseSaving" class="text-centered red"><strong>Temporary problem please try create group leter</strong></p>
 
