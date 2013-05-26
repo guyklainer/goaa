@@ -10,16 +10,18 @@ app.directive('imageUploader', function($timeout) {
         link: function(scope, element, attrs, controller){
             log("link");
 
-            scope.progressValue = 0;
+            scope.progressValue     = 0;
+            scope.uploadedImageUrl  = "/img/logo.png";
+            scope.showProgressBar   = false;
 
             scope.addPhoto = function(){
                 log("addPhoto");
 
                 // resetting the progress bar
-                scope.progressValue = 0;
-                scope.uploadedImageUrl = "";
-                scope.image = "";
-                scope.errorMsg = "";
+                scope.progressValue     = 0;
+                scope.uploadedImageUrl  = "";
+                scope.image             = "";
+                scope.errorMsg          = "";
 
                 $("#fileChooser").click();
             }
@@ -54,12 +56,14 @@ app.directive('imageUploader', function($timeout) {
                         } else {
                             scope.errorMsg = jsonResponse.msg;
                         }
+                        scope.showProgressBar   = false;
                     });
                 }
             }
 
-            function uploadImage(file) {
+            function uploadImage( file ) {
                 log("upload file: ", file);
+                scope.showProgressBar = true;
 
                 //sending the file
                 var fd = new FormData();
