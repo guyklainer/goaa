@@ -16,7 +16,7 @@
         <input type="text"  required class="half-left" placeholder="city" ng-model="Group.address.city">
         <input type="text" required class="half-right" placeholder="country" ng-model="Group.address.country">
 
-        <div image-uploader image="Group.image"></div>
+        <div image-uploader image="Group.image" image-upload-settings="imageUploadSettings"></div>
 
         <p ng-show="errorInDataBaseSaving" class="text-centered red"><strong>Temporary problem please try create group leter</strong></p>
 

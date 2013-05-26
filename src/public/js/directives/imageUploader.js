@@ -5,7 +5,8 @@ app.directive('imageUploader', function($timeout) {
         templateUrl: "/template/directives/imageUploader.html",
         replace: true,
         scope: {
-            image: "="
+            image: "=",
+            imageUploadSettings: "="
         },
         link: function(scope, element, attrs, controller){
             log("link");
@@ -65,11 +66,19 @@ app.directive('imageUploader', function($timeout) {
                 log("upload file: ", file);
                 scope.showProgressBar = true;
 
-                //sending the file
+                //putting the values
                 var fd = new FormData();
                 fd.append("image", file);
-                fd.append("stage", "newGroup");
+                if (scope.imageUploadSettings){
+                    if(scope.imageUploadSettings.stage){
+                        fd.append("stage", scope.imageUploadSettings.stage);
+                    }
+                    if(scope.imageUploadSettings.groupId){
+                        fd.append("groupId", scope.imageUploadSettings.groupId);
+                    }
+                }
 
+                //sending the params
                 var xhr = new XMLHttpRequest();
                 xhr.upload.addEventListener("progress", uploadProgress, false);
                 xhr.addEventListener("load", uploadComplete, false);
