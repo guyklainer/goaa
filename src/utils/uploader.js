@@ -18,6 +18,9 @@ module.exports.upload = function( req, res ){
     if( req.body.stage == "newGroup" )
         folder = 'groups';
 
+    else if( req.body.stage == "posts" && req.body.group )
+        folder = 'posts/' + req.body.group;
+
     else
         folder = req.user ? req.user.username : 'tmp';
 
@@ -30,7 +33,7 @@ module.exports.upload = function( req, res ){
             res.json( { result: false, msg: "notImage" } );
 
         else
-        pushToS3( req.files.image.name, data.length, req.files.image.path, req.files.image.type, folder, function( err, imageURL ){
+        pushToS3( req.files.image.name, utils.getExtension( req.files.image.name ), data.length, req.files.image.path, req.files.image.type, folder, function( err, imageURL ){
             if ( err )
                 res.json( { result: false, data: err, msg: "S3Problem" } );
 
@@ -41,8 +44,9 @@ module.exports.upload = function( req, res ){
     });
 }
 
-function pushToS3( fileName, fileLength, filePath, type, folder, callback ) {
-    var client = knox.createClient( S3Credentials );
+function pushToS3( fileName, extension, fileLength, filePath, type, folder, callback ) {
+    var client  = knox.createClient( S3Credentials),
+        newName = new Date().getTime() + "." + extension;
 
     var headers = {
         'Content-Type': type,
@@ -51,15 +55,15 @@ function pushToS3( fileName, fileLength, filePath, type, folder, callback ) {
 
     var fileStream = fs.createReadStream( filePath );
 
-    var uploadStream = client.putStream( fileStream, '/' + folder + '/' + fileName, headers, function( err, res ){
+    var uploadStream = client.putStream( fileStream, '/' + folder + '/' + newName, headers, function( err, res ){
         if ( err )
             return callback( err );
 
         // remove the file after successful upload
-        fs.unlink( tempDir + fileName );
+        //fs.unlink( tempDir + fileName );
 
         console.log( fileName + ' uploaded' );
-        callback( err, '/' + folder + '/' + fileName );
+        callback( err, '/' + folder + '/' + newName );
     });
 
     uploadStream.on( 'progress', function( status ){
