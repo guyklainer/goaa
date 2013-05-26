@@ -4,7 +4,7 @@
 <center class="top-buttons">
 <div class="btn-group">
     <button ng-click="gotoGallery()" class="btn btn-medium"><i class="icon-th icon-white"></i> Gallery</button>
-    <button class="btn btn-medium"><i class="icon-signal icon-white"></i> Meters</button>
+    <button ng-click="gotoMeters()" class="btn btn-medium"><i class="icon-signal icon-white"></i> Meters</button>
     <button class="btn btn-medium"><i class="icon-check icon-white"></i> Todos</button>
     <button class="btn btn-medium"><i class="icon-pencil icon-white"></i> Compose</button>
 </div>
@@ -21,10 +21,20 @@
 </div>
 
 <!-- Gallery Content -->
-<div class="container-fluid" ng-show="isShowGallery(view)">
+<div class="container-fluid" ng-show="isShowPartial(view, 'gallery')">
     <div class="row-fluid">
         <div class="offset6">
             <h3>Gallery</h3>
+        </div>
+    </div>
+    <div gallery-thumb posts="group.posts"></div>
+</div>
+
+<!-- Meters Content -->
+<div class="container-fluid" ng-show="isShowPartial(view, 'meters')">
+    <div class="row-fluid">
+        <div class="offset6">
+            <h3>Meters</h3>
         </div>
     </div>
     <div gallery-thumb posts="group.posts"></div>
