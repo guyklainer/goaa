@@ -1,10 +1,11 @@
 'use strict';
 
-app.directive('groupImageUploader', function($timeout) {
+app.directive('imageUploader', function($timeout) {
     return {
-        templateUrl: "/template/directives/groupImageUploader.html",
+        templateUrl: "/template/directives/imageUploader.html",
+        replace: true,
         scope: {
-            group: "=group"
+            image: "="
         },
         link: function(scope, element, attrs, controller){
             log("link");
@@ -13,6 +14,13 @@ app.directive('groupImageUploader', function($timeout) {
 
             scope.addPhoto = function(){
                 log("addPhoto");
+
+                // resetting the progress bar
+                scope.progressValue = 0;
+                scope.uploadedImageUrl = "";
+                scope.image = "";
+                scope.errorMsg = "";
+
                 $("#fileChooser").click();
             }
 
@@ -42,7 +50,7 @@ app.directive('groupImageUploader', function($timeout) {
                     scope.$apply(function(){
                         if (jsonResponse.result){
                             scope.uploadedImageUrl = jsonResponse.data.imgURL;
-                            scope.group.image = jsonResponse.data.imgURL;
+                            scope.image = jsonResponse.data.imgURL;
                         } else {
                             scope.errorMsg = jsonResponse.msg;
                         }
@@ -52,12 +60,6 @@ app.directive('groupImageUploader', function($timeout) {
 
             function uploadImage(file) {
                 log("upload file: ", file);
-
-                // resetting the progress bar
-                scope.progressValue = 0;
-                scope.uploadedImageUrl = "";
-                scope.group.image = "";
-                scope.errorMsg = "";
 
                 //sending the file
                 var fd = new FormData();
