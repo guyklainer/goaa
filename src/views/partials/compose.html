@@ -1,0 +1,26 @@
+
+<!-- Header -->
+<%- include ../shared/header.ejs %>
+
+
+<center>
+    <div class="container-fluid">
+        <h3>Compose</h3>
+        <form class="form-signin"   ng-submit="" enctype="multipart/form-data">
+            <textarea rows="8"></textarea>
+            <select>
+              <option ng-repeat="group in groups">{{group.name}}</option>
+            </select>
+           <div ng-init="groups = [{name:'John', HouseNumber:25},{name:'amir', HouseNumber:30}]">
+                <div image-uploader image="Group.image"></div>
+                <div class="row-fluid">&nbsp</div>
+                <div class="row-fluid">
+                <button class="btn btn-large btn-primary btn-block" type="submit">Submit</button>
+           </div>
+
+    </div>
+
+
+    </form>
+
+</div>

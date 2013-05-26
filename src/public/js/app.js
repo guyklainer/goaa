@@ -39,6 +39,10 @@ var app = angular.module('App', ["ui.bootstrap", "ngCookies"]).
             templateUrl: '../partials/group',
             controller: 'GroupCtrl'
         }).
+        when('/compose', {
+            templateUrl: '../partials/compose',
+            controller: 'ComposeCtrl'
+        }).
         otherwise({
             redirectTo: '/'
         });

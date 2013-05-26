@@ -1,10 +1,11 @@
 //angular.module('App')
-app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','account',
-    function($scope, blockui, $http, $location, account){
+app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','$timeout','account',
+    function($scope, blockui, $http, $location,$timeout, account){
 
         // public var
         $scope.isShowError = false;
         $scope.errorInDataBaseSaving = false;
+        $scope.errorMsg = "";
         $scope.Group = {
             name     : "",
             address  : {
@@ -39,10 +40,12 @@ app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','ac
                         if(data.msg == "groupExist")
                         {
                             $scope.isShowError = true;
+                            $scope.errorMsg="Group already exist";
                         }
                         if(data.msg == "groupNotSavedToDB")
                         {
-                            $scope.errorInDataBaseSaving = true;
+                            $scope.isShowError = true;
+                            $scope.errorMsg="We have a problem try again leter";
                         }
 
                         blockui.unblock();
@@ -59,6 +62,46 @@ app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','ac
                     }
                 });
         };
+
+
+
+        $scope.change = function() {
+
+            $http.post('/checkinvalidate',$scope.Group)
+                .error(function(data, status, headers, config){
+                    httpErrorCallback(data, status, headers, config);
+
+                    //todo show general error
+                })
+                .success(function(data, status, headers, config) {
+                    log(data);
+
+                    if (data != null && !data.result) //case failed
+                    {
+                        if(data.msg == "groupExist")
+                        {
+                            $scope.isShowError = true;
+                            $scope.errorMsg="Group already exist";
+                        }
+                        if(data.msg == "groupNotSavedToDB")
+                        {
+                            $scope.isShowError = true;
+                            $scope.errorMsg="We have a problem try again leter";
+                        }
+
+                    } else  if (data != null && data.result){ //case success
+                        blockui.unblock();
+                        $scope.isShowError = false;
+
+                        $location.path('/home');
+                    } else { //case invalid
+                        blockui.unblock();
+                        //check for error
+                    }
+                });
+
+        };
+
 
         $scope.account = account;
 
