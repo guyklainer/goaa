@@ -213,6 +213,7 @@ img.logo {
 .list-item .img-continer {
     height: 30px;
     overflow: hidden;
+    width: 50px;
 }
 
 .list-item .img-continer img {
