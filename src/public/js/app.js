@@ -35,25 +35,13 @@ var app = angular.module('App', ["ui.bootstrap", "ngCookies"]).
             templateUrl: 'partials/groupPreview',
             controller: 'GroupPreviewCtrl'
         }).
-//      when('/addPost', {
-//        templateUrl: 'partials/addPost',
-//        controller: AddPostCtrl
-//      }).
-//      when('/readPost/:id', {
-//        templateUrl: 'partials/readPost',
-//        controller: ReadPostCtrl
-//      }).
-//      when('/editPost/:id', {
-//        templateUrl: 'partials/editPost',
-//        controller: EditPostCtrl
-//      }).
-//      when('/deletePost/:id', {
-//        templateUrl: 'partials/deletePost',
-//        controller: DeletePostCtrl
-//      }).
-    otherwise({
-        redirectTo: '/'
-    });
+        when('/group/:id', {
+            templateUrl: '../partials/group',
+            controller: 'GroupCtrl'
+        }).
+        otherwise({
+            redirectTo: '/'
+        });
   }])
     .run(function($rootScope, account, $location) {
 

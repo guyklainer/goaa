@@ -192,7 +192,7 @@ img.logo {
     opacity: 0.5;
     position: absolute;
     right: 40px;
-    top: 30%;
+    top: 32%;
 }
 
 .list-item i:hover,
@@ -207,8 +207,6 @@ img.logo {
 
 .list-item .img-continer img {
     height: 30px;
-    width: 45px;
-    border-radius: 10px;
 }
 
 .list-item .title {
@@ -266,6 +264,14 @@ input[type="search"].search-group {
 .address p {
     margin: 0;
 }
+
+input.ng-invalid.ng-dirty{
+    background-color: pink;
+}
+
+/*input.ng-valid.ng-dirty{*/
+    /*background-color: lightgreen;*/
+/*}*/
 
 /*body { padding-top: 95px; !important }                 *//*added by oryan for navbar space */
 /*@media screen and (max-width: 768px) {      *//*added by oryan for navbar space */

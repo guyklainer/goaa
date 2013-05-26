@@ -24,7 +24,7 @@ angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$htt
                         zoom: 15,
                         center: myLatlng,
                         mapTypeId: google.maps.MapTypeId.ROADMAP
-                    }
+                    };
                     var map = new google.maps.Map( document.getElementById( "google-map" ), myOptions );
                     var marker = new google.maps.Marker({
                         position: new google.maps.LatLng( results[0].geometry.location.lat(), results[0].geometry.location.lng() ),

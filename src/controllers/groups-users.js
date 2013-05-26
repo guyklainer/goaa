@@ -65,6 +65,25 @@ module.exports.removeUserFromGroup = function( user, group ){
     });
 }
 
+module.exports.isAdmin = function( user, group, callback ){
+    var result = {};
+
+    GroupUser.findOne( { user: user, group: group }, function( err, groupUser ){
+        if( err ){
+            return utils.createResult( false, err, "dbError" );
+
+        } else if( groupUser.lngth > 0 && groupUser.isAdmin ){
+            result = utils.createResult( true, null, "isAdmin" );
+
+        } else {
+            result = utils.createResult( false, null, "notAdmin" );
+        }
+
+        callback( result );
+    });
+
+}
+
 function changeAdmin( group ){
     GroupUser.findOne( { group: group } ).sort( { createdOn: 1 } ).exec( function( err, groupUser ){
         if ( err ) {
@@ -82,25 +101,6 @@ function changeAdmin( group ){
 
         }
     });
-}
-
-module.exports.isAdmin = function ( user, group ){
-    var result = {};
-
-    GroupUser.findOne( { user: user, group: group }, function( err, groupUser ){
-        if( err ){
-            return utils.createResult( false, err, "dbError" );
-
-        } else if( groupUser.lngth > 0 && groupUser.isAdmin ){
-            result = utils.createResult( true, null, "isAdmin" );
-
-        } else {
-            result = utils.createResult( false, null, "notAdmin" );
-        }
-
-        return result;
-    });
-
 }
 
 function removeGroupIfIsEmpty( group ){
