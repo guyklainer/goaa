@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-angular.module('App', ["ui.bootstrap", "ngCookies", "google-maps"]).
+var app = angular.module('App', ["ui.bootstrap", "ngCookies"]).
   config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);

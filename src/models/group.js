@@ -9,7 +9,7 @@ var Group = new Schema({
     createdOn: 		Date,
     image    :      String,
     address  : 		{ country: String, city: String, street: String, house: Number, apartment: Number },
-    posts    :      [ Post ]
+    posts    :      []
 });
 
 mongoose.model( 'Group', Group );

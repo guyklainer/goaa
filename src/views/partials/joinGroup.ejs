@@ -14,6 +14,9 @@
 <div class="container-fluid main">
     <ul class="list" ng-show="groups.length">
         <li ng-click="goToPreview(group)" class="list-item" ng-repeat="group in groups | filter:query">
+            <div class="img-continer pull-left">
+                <img src="{{group.image}}" alt="{{group.name}}">
+            </div>
             <a href="#" class="title">
                 <i class="icon-chevron-right"></i>
                 {{group.name}}
