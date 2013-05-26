@@ -1,24 +1,21 @@
 "use strict";
 
-angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$http', '$location', 'account', '$routeParams','$timeout', 'groupDb',
-    function($scope, blockui, $http, $location, account, $routeParams, $timeout, groupDb){
-
-        log("group Id: ", $routeParams.name);
-        log("group view: ", $routeParams.view);
+angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location', 'account', '$routeParams','$timeout', 'groupDb',
+    function($scope, blockui, $location, account, $routeParams, $timeout, groupDb){
 
         $scope.view = $routeParams.view;
 
         groupDb.getGroup($routeParams.name, function(g){
-            log("callback res: ", g);
+            log("getGroup result: ", g);
             $scope.group = g;
         });
 
         var len = 200;
-        $scope.toShortStr = function(post){
-            var str = post.message;
+        $scope.toShortStr = function(message){
+            var str = message;
 
-            if (post.message.length > len){
-                str = post.message.substr(0,len) + "...";
+            if (message && message.length > len){
+                str = message.substr(0,len) + "...";
             }
 
             return str;
@@ -29,7 +26,7 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$http', '$l
         $scope.isTooBigMessage = function(message){
             var result = false;
 
-            if (message.length > len){
+            if (message && message.length > len){
                 result = true;
             }
 
@@ -41,6 +38,13 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$http', '$l
             } else if ($scope.view.toLowerCase() != 'gallery'){
                 log("path: ", $location.path());
             }
+        }
+        $scope.isShowGallery = function(view){
+            return view == 'gallery';
+        }
+        $scope.isShowNews = function(view){
+            log("is show news", !view);
+            return !view;
         }
 
         $scope.account = account;
