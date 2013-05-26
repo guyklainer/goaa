@@ -8,35 +8,39 @@ var app = angular.module('App', ["ui.bootstrap", "ngCookies"]).
 
     $routeProvider.
         when('/', {
-            templateUrl: 'partials/login',
+            templateUrl: '/partials/login',
             controller: 'LoginCtrl'
         }).
         when('/home', {
-            templateUrl: 'partials/home',
+            templateUrl: '/partials/home',
             controller: 'HomeCtrl'
         }).
         when('/signup', {
-            templateUrl: 'partials/signup',
+            templateUrl: '/partials/signup',
             controller: 'SignupCtrl'
         }).
         when('/test', {
-            templateUrl: 'partials/test',
+            templateUrl: '/partials/test',
             controller: 'TestCtrl'
         }).
         when('/createGroup', {
-            templateUrl: 'partials/createGroup',
+            templateUrl: '/partials/createGroup',
             controller: 'CreateGroupCtrl'
         }).
         when('/joinGroup', {
-            templateUrl: 'partials/joinGroup',
+            templateUrl: '/partials/joinGroup',
             controller: 'JoinGroupCtrl'
         }).
         when('/groupPreview', {
-            templateUrl: 'partials/groupPreview',
+            templateUrl: '/partials/groupPreview',
             controller: 'GroupPreviewCtrl'
         }).
-        when('/group/:id', {
-            templateUrl: '../partials/group',
+        when('/group/:name', {
+            templateUrl: '/partials/group',
+            controller: 'GroupCtrl'
+        }).
+        when('/group/:name/:view', {
+            templateUrl: '/partials/group',
             controller: 'GroupCtrl'
         }).
         otherwise({
