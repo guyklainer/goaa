@@ -74,7 +74,7 @@ app.directive('imageUploader', function($timeout) {
                         fd.append("stage", scope.imageUploadSettings.stage);
                     }
                     if(scope.imageUploadSettings.groupId){
-                        fd.append("groupId", scope.imageUploadSettings.groupId);
+                        fd.append("group", scope.imageUploadSettings.groupId);
                     }
                 }
 
