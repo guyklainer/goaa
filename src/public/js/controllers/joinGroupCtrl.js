@@ -4,10 +4,11 @@ angular.module('App').controller('JoinGroupCtrl', ['$scope', 'blockui', '$http',
     function($scope, blockui, $http, $location, account){
 
     // public var
-    $scope.query        = "";
-    $scope.groups       = [];
-    $scope.timer        = null;
-    $scope.showLoader   = false;
+    $scope.showBottomMenu   = true;
+    $scope.query            = "";
+    $scope.groups           = [];
+    $scope.timer            = null;
+    $scope.showLoader       = false;
 
 
     //public functions

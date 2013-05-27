@@ -4,8 +4,9 @@ angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$lo
     function($scope, blockui, $http, $location, account, groupDb){
 
     // public var
-    $scope.isNoGroups = false;
-    $scope.groups = [];
+    $scope.showBottomMenu   = true;
+    $scope.isNoGroups       = false;
+    $scope.groups           = [];
 
     groupDb.getGroups(account.user()._id, function(groupsResult){
         if (groupsResult != null){

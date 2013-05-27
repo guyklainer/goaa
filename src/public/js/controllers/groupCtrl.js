@@ -3,12 +3,14 @@
 angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location', 'account', '$routeParams','$timeout', 'groupDb',
     function($scope, blockui, $location, account, $routeParams, $timeout, groupDb){
 
-        $scope.isLoading    = true;
-        $scope.isNoMeters   = false;
-        $scope.view         = $routeParams.view;
-        $scope.groupName    = $routeParams.groupName;
-        $scope.activePage   = $scope.view ? $scope.view.toLocaleLowerCase() : 'posts';
-        $scope.partialEnum  = {
+        $scope.showBottomMenu   = true;
+        $scope.showSettings     = true;
+        $scope.isLoading        = true;
+        $scope.isNoMeters       = false;
+        $scope.view             = $routeParams.view;
+        $scope.groupName        = $routeParams.groupName;
+        $scope.activePage       = $scope.view ? $scope.view.toLocaleLowerCase() : 'posts';
+        $scope.partialEnum      = {
             gallery : 'gallery',
             meters  : 'meters',
             todos   : 'todos',

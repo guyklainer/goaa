@@ -79,12 +79,12 @@ a:hover, a:focus {
 }
 
 .half-left {
-    width: 45%;
+    width: 44%;
     float: left;
 }
 
 .half-right {
-    width: 45%;
+    width: 44%;
     float: right;
 }
 
@@ -92,6 +92,10 @@ a:hover, a:focus {
     margin-top: 0;
     color: rgba(0, 0, 0, 0.64);
     text-shadow: 1px 1px 0px rgba(128, 128, 128, 0.34);
+}
+
+.pull-right {
+    float: right !important;
 }
 
 /******************************
@@ -149,6 +153,17 @@ a:hover, a:focus {
     margin: 0;
 }
 
+.navbar-fixed-bottom .nav li {
+    //border-right: 1px solid rgba(128, 128, 128, 0.25);
+}
+
+.navbar-fixed-bottom .nav li:last-child {
+    border-right: none;
+}
+
+.navbar-fixed-bottom .nav {
+    width: 100%;
+}
 
 /******************************
 // Login
@@ -288,13 +303,30 @@ button.compose {
     float: right;
 }
 
+/******************************
+// Posts
+//******************************/
+.post-details {
+    color: rgba(87, 66, 44, 0.87);
+    font-weight: normal;
+    padding: 0 2%;
+}
+
+.post-content {
+    padding: 0 2%;
+    color: rgb(73, 72, 72);
+}
+
+.post-image-small {
+    width: 100px;
+}
 
 /******************************
 // Upload image
 //******************************/
 .upload-area .group-image {
-    width: 150px;
-    max-height: 150px;
+    width: 100px;
+    max-height: 100px;
     max-width: 100%;
     border-radius: 10px;
     box-shadow: 0px 0 10px 1px gray;
@@ -307,7 +339,7 @@ button.compose {
 }
 
 .upload-area button {
-    margin-top: 60px;
+    margin-top: 35px;
 }
 
 .upload-area .image-loader {
