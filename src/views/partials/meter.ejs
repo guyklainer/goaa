@@ -3,30 +3,23 @@
 
 
 <div class="container-fluid">
-    <div class="row-fluid">
-        <center>
-            <h3>{{groupName}}</h3>
-            <h2>{{meterName}}</h2>
-        </center>
-    </div>
 
-    <div class="row-fluid">&nbsp</div>
-    <div class="row-fluid">&nbsp</div>
-    <div class="row-fluid">&nbsp</div>
+    <h4 class="page-title text-centered">{{groupName}}'s {{meterName}}</h4>
 
-    <div class="row-fluid">
-        <center>
-            <h4>Temperature
-                <span ng-class="getTempClass(temperature)">{{ temperature | celTemp}}</span>
-            </h4>
-        </center>
-    </div>
-    <div class="row-fluid">
-        <center>
-            <input type="checkbox" />
-            <label>Is ON</label>
-        </center>
-    </div>
+    <center class="boiler">
+        <div class="temp-wrapper">
+            <div class="temp-helper"></div>
+            <div class="temp">
+                <div style="height: {{ (boiler.data - 20) * 100 / 40 }}% "></div>
+            </div>
+        </div>
+        <p  ng-class="getTempClass()" class="number">{{ boiler.data | celTemp}}</p>
+        <div class="btn-group">
+            <button type="button" ng-class="isOn()" class="btn" ng-model="boiler.status" btn-radio="'on'">On</button>
+            <button type="button" ng-class="isOff()" class="btn" ng-model="boiler.status" btn-radio="'off'">Off</button>
+        </div>
+    </center>
+
 </div>
 
 

@@ -40,7 +40,7 @@
 
 <!-- Meters Content -->
 <div class="container-fluid top-space" ng-show="isShowPartial(view, 'meters')">
-    <ul class="list" ng-hide="isLoading">
+    <ul class="list" ng-hide="isLoading || isShowNoMeters(group.meters, isLoading)">
         <li class="list-item" ng-click="gotoMeter(meter)" ng-repeat="meter in group.meters">
             <a href="#" class="title">
                 <i class="icon-chevron-right"></i>
