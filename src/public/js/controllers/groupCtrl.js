@@ -3,7 +3,6 @@
 angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location', 'account', '$routeParams','$timeout', 'groupDb',
     function($scope, blockui, $location, account, $routeParams, $timeout, groupDb){
 
-        $scope.showBottomMenu   = true;
         $scope.showSettings     = true;
         $scope.isLoading        = true;
         $scope.isNoMeters       = false;

@@ -4,7 +4,6 @@ angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$lo
     function($scope, blockui, $http, $location, account, groupDb){
 
     // public var
-    $scope.showBottomMenu   = true;
     $scope.isNoGroups       = false;
     $scope.groups           = [];
 

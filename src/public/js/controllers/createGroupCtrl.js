@@ -3,7 +3,6 @@ app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','ac
     function($scope, blockui, $http, $location, account){
 
         // public var
-        $scope.showBottomMenu           = true;
         $scope.isShowError              = false;
         $scope.errorInDataBaseSaving    = false;
         $scope.Group = {
