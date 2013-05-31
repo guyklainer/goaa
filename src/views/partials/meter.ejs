@@ -6,17 +6,19 @@
 
     <h4 class="page-title text-centered">{{groupName}}'s {{meterName}}</h4>
 
-    <center class="boiler">
+    <center><p ng-show="authError">Wrong {{authError}}</p></center>
+
+    <center class="boiler" ng-hide="authError">
         <div class="temp-wrapper">
             <div class="temp-helper"></div>
             <div class="temp">
                 <div style="height: {{ (boiler.data - 20) * 100 / 40 }}% "></div>
             </div>
         </div>
-        <p  ng-class="getTempClass()" class="number">{{ boiler.data | celTemp}}</p>
+        <p  class="number">{{ boiler.data | celTemp}}</p>
         <div class="btn-group">
-            <button type="button" ng-class="isOn()" class="btn" ng-model="boiler.status" btn-radio="'on'">On</button>
-            <button type="button" ng-class="isOff()" class="btn" ng-model="boiler.status" btn-radio="'off'">Off</button>
+            <button type="button" ng-class="isOn()" ng-change="updateServer()" class="btn" ng-model="boiler.status" btn-radio="'on'">On</button>
+            <button type="button" ng-change="updateServer()" class="btn" ng-model="boiler.status" btn-radio="'off'">Off</button>
         </div>
     </center>
 

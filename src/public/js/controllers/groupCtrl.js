@@ -22,13 +22,6 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
             log("getGroup result: ", g);
             $scope.isLoading = false;
             $scope.group = g;
-
-            //temporary
-            $scope.group['meters'] = [
-                {name: "boiler"},
-                {name: "Living Room Light"},
-                {name: "Air Conditioner"}
-            ];
         });
 
 
