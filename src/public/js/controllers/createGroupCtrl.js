@@ -67,7 +67,7 @@ app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','$t
 
         $scope.change = function() {
 
-            $http.post('/checkinvalidate',$scope.Group)
+            $http.post('/isgroupexist',$scope.Group)
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
 
