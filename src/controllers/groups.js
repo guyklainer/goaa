@@ -22,7 +22,7 @@ module.exports.getGroupsByUser = function( req, res ){
         groupIDsArray   = [],
         result;
 
-    GroupUsersModel.find( { user: userID }, { group: 1, _id: 0 }, function( err, groupIDs ){
+    GroupUsersModel.find( { user: userID, approved: true }, { group: 1, _id: 0 }, function( err, groupIDs ){
         if( err )
             res.json( utils.createResult( false, err, "dbError" ) );
 

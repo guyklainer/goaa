@@ -6,8 +6,7 @@ var express     = require('express'),
     color       = require('colors'),
     passport    = require('passport'),
     fs          = require('fs'),
-    mongoose    = require('mongoose'),
-    io          = require('socket.io');
+    mongoose    = require('mongoose');
 
 // -- Create Express instance and export
 var app         = express(),
@@ -45,15 +44,17 @@ mongoose.connect( settings.db.main, function( err ){
 logo.print();
 
 // -- Create the server
-var server  = http.createServer( app);
-    io      = io.listen( server );
+var server  = http.createServer( app );
+    io      = require('socket.io').listen( server );
 
 server.listen( settings.port, function(){
     console.log("Express server listening on "+" port %d ".bold.inverse.red+" in " + " %s mode ".bold.inverse.green + " //", settings.port, env);
     console.log('Using Express %s...', express.version.red.bold);
 });
 
+clients = [];
+
 io.sockets.on( 'connection', function( client ){
     clients.push( client );
-    console.log(clients);
+    //console.log(clients);
 });
