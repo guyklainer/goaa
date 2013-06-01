@@ -6,7 +6,7 @@ var GroupUser = new Schema({
     group       : Schema.ObjectId,
     user        : Schema.ObjectId,
     isAdmin     : Boolean,
-    approved    : Bollean,
+    approved    : Boolean,
     createdOn   : Date
 });
 

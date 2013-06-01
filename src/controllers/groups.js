@@ -64,9 +64,9 @@ module.exports.getGroupByName = function( req, res ){
                 return ( -1 ) * post.createdOn;
             });
 
-            returnedGroup.meters    = group.meters  ? group.meters  : [];
-            returnedGroup.todos     = group.todos   ? group.todos   : [];
-            returnedGroup.posts     = group.posts   ? group.posts   : [];
+            returnedGroup.meters    = group.meters      ? group.meters  : [];
+            returnedGroup.todos     = group.todos       ? group.todos   : [];
+            returnedGroup.posts     = group.posts       ? group.posts   : [];
             returnedGroup._id       = group._id;
             returnedGroup.address   = group.address;
             returnedGroup.createdOn = group.createdOn;
