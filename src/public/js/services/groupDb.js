@@ -53,7 +53,6 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         isUserInGroup: function(userId, groupId, callback){
-            callback(true);
             $http.post('/isuseringroup', { user: userId, group: groupId })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);

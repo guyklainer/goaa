@@ -8,11 +8,13 @@ angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$htt
 
         groupDb.getGroupPreview($routeParams.groupName,
             function(g){
+                log("group preview res:" , g);
                 if (g != null){
                     $scope.group = g;
                     addAddressString($scope.group);
                     getIsUserInGroup(account.user()._id, $scope.group.id);
                 } else {
+                    log("group is null");
                     $location.path("/");
                 }
             }

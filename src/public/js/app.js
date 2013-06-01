@@ -31,7 +31,7 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
             templateUrl: '/partials/joinGroup',
             controller: 'JoinGroupCtrl'
         }).
-        when('/groupPreview', {
+        when('/groupPreview/:groupName', {
             templateUrl: '/partials/groupPreview',
             controller: 'GroupPreviewCtrl'
         }).
