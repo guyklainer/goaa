@@ -23,6 +23,7 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
         });
 
         $scope.isAdmin = function(member){
+            log("isAdmin", member);
             return $scope.group.adminID == member._id;
         }
         function addAddressString(group){
