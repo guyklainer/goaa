@@ -23,10 +23,10 @@ angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$htt
             if ($scope.joinDisabledEnabledClass == ''){
                 log("inside");
                 groupDb.joinGroup(userId, group._id, function(result){
-                    if (result != null && result.result){
+                    if (result){
                         $location.path('/home');
                     } else {
-                        $scope.errorMsg = "Could not join this group";
+                        $scope.errorMsg = "could not join this group";
                     }
                 });
             }
