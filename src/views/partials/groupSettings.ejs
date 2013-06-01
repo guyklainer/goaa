@@ -9,9 +9,21 @@
         <h4>{{group.name}}</h4>
     </div>
 
-    <div group-address="group.address"></div>
+    <div ng-hide="isGroupAdmin" style="display: none;">
+        <div group-address="group.address"></div>
+    </div>
+    <div ng-show="isGroupAdmin" class="row-fluid" style="display: none;">
+        <p>Address:</p>
+        <input type="text" required class="input-block-level" placeholder="street" ng-model="group.address.street">
+        <input type="number" required class="half-left" placeholder="House" ng-model="group.address.house">
+        <input type="number" required class="half-right" placeholder="Apartment" ng-model="group.address.apartment">
+        <input type="text"  required class="half-left" placeholder="city" ng-model="group.address.city">
+        <input type="text" required class="half-right" placeholder="country" ng-model="group.address.country">
+    </div>
 
     <div google-map address="group.addressString"></div>
+
+    <div image-uploader image="group.image" image-upload-settings="imageUploadSettings"></div>
 
     <table class="table table-striped">
         <thead>

@@ -5,21 +5,29 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
 
         log($routeParams.groupName);
         $scope.isGroupAdmin = false;
-
-        //todo check is user group admin
-        if (true) {
-            $scope.isGroupAdmin = true;
-        } else {
-
-        }
+        $scope.group = {};
+        $scope.imageUploadSettings = {
+            stage: "posts",
+            groupId: "123"
+        };
 
         groupDb.getGroup($routeParams.groupName, function(g){
             if (g != null){
                 $scope.group = g;
-                addAddressString($scope.group);
+
+                groupDb.isGroupAdmin(account.user()._id, $scope.group._id, function(isAdminResult){
+                    log("is admin res: ", isAdminResult);
+                    if (isAdminResult != null) {
+                        $scope.isGroupAdmin = isAdminResult;
+                    }
+                });
+
+                $scope.imageUploadSettings.groupId = $scope.group._id;
+                addAddressString($scope.group); //for use in google map
                 addMembers($scope.group);
+
             } else {
-                $location.path("/");
+                $location.path("/home");
             }
         });
 
