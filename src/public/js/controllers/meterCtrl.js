@@ -1,7 +1,7 @@
 "use strict";
 
-angular.module('App').controller('MeterCtrl', ['$scope', 'blockui', '$http', '$location', 'account', 'groupDb', '$routeParams', '$timeout',
-    function( $scope, blockui, $http, $location, account, groupDb, $routeParams ){
+angular.module('App').controller('MeterCtrl', ['$scope', 'blockui', '$http', '$location', 'account', 'groupDb', 'socketIO', '$routeParams', '$timeout',
+    function( $scope, blockui, $http, $location, account, groupDb, $socketIO, $routeParams ){
 
         log($routeParams.groupName);
         log($routeParams.meter);
@@ -31,7 +31,7 @@ angular.module('App').controller('MeterCtrl', ['$scope', 'blockui', '$http', '$l
 
         $scope.startConnection = function( meter ){
             log(meter);
-            $scope.socket = io.connect( meter.url );
+            $scope.socket = $socketIO.socket;
 
             $scope.socket.emit( 'connect', { username: meter.username, password: meter.password } );
 

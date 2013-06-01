@@ -39,6 +39,10 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
             templateUrl: '/partials/group',
             controller: 'GroupCtrl'
         }).
+        when('/group/:groupName/settings', {
+            templateUrl: '/partials/groupSettings',
+            controller: 'GroupSettingsCtrl'
+        }).
         when('/group/:groupName/:view', {
             templateUrl: '/partials/group',
             controller: 'GroupCtrl'
@@ -46,6 +50,10 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
         when('/compose', {
             templateUrl: '/partials/composeView',
             controller: 'ComposeCtrl'
+        }).
+        when('/group/:groupName/meters/:meter', {
+            templateUrl: '/partials/meter',
+            controller: 'MeterCtrl'
         }).
         otherwise({
             redirectTo: '/'

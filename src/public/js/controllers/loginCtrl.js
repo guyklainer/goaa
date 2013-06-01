@@ -1,6 +1,6 @@
 
-angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', '$location', 'account', 'socketIO', '$cookies',
-    function($scope, blockui, $http, $location, account, $socketIO, $cookies){
+angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', '$location', 'account', '$cookies',
+    function($scope, blockui, $http, $location, account, $cookies){
 
     // checking if logged in allready redirecting to Home
     if (account.isLoggedIn()){
