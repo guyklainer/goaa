@@ -1,0 +1,25 @@
+
+<!-- Header -->
+<%- include ../shared/header.ejs %>
+
+
+<center>
+    <div class="container-fluid">
+        <h3>Compose</h3>
+        <form class="form-signin"   ng-submit="makeCompose()" enctype="multipart/form-data">
+            <textarea  ng-model=compose.data rows="8"></textarea>
+            <select   ng-model="compose.groupID">
+                <option  ng-repeat="group in groups" value={{group._id}}>{{group.name}}</option>
+            </select>
+            <div class="alert alert-error" ng-show="isShowError">
+                <strong>Error</strong> {{errorMsg}}
+            </div>
+            <div class="row-fluid">&nbsp</div>
+            <div class="row-fluid">
+                <button class="btn btn-large btn-primary btn-block" type="submit">Submit</button>
+            </div>
+        </form>
+        <div image-uploader image="compose.image" image-upload-settings="imageUploadSettings"></div>
+    </div>
+</center>
+

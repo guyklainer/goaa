@@ -18,7 +18,6 @@ module.exports.joinGroup = function( req, res ){
 }
 
 module.exports.getGroupsByUser = function( req, res ){
-
     var userID          = req.body.userID,
         groupIDsArray   = [],
         result;
@@ -78,13 +77,18 @@ module.exports.getGroupByName = function( req, res ){
                     res.json( utils.createResult( true, err, "dbError" ) );
 
                 else {
-                    returnedGroup.approved = [];
+                    returnedGroup.notApproved = [];
                     _.each( groupUsers, function( groupUser ){
-                        if( groupUser.isAdmin )
+
+                        if( groupUser.user == req.user._id && !groupUser.approved ){
+                            res.json( utils.createResult( false, null, "userNotApproved" ) );
+                            return false;
+
+                        } else if( groupUser.isAdmin )
                             returnedGroup.adminID = groupUser.user;
 
-                        if( groupUser.approved )
-                            returnedGroup.approved.push = groupUser.user;
+                        if( !groupUser.approved )
+                            returnedGroup.notApproved.push = groupUser.user;
 
                         users.push( groupUser.user );
                     });
