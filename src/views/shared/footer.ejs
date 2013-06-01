@@ -1,11 +1,11 @@
-<!--<div class="navbar navbar-fixed-bottom static">-->
-    <!--<div class="navbar-inner">-->
-        <!--<div class="continer">-->
-            <!--<ul class="nav">-->
-                <!--<li class="active"><a href="#">Home</a></li>-->
-                <!--<li><a href="#">Link</a></li>-->
-                <!--<li><a href="#">Link</a></li>-->
-            <!--</ul>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
+<!-- Footer -->
+<div ng-hide="hideBottomMenu" class="navbar navbar-fixed-bottom static">
+    <div class="navbar-inner">
+        <div class="continer">
+            <ul class="nav">
+                <li ng-click="" class="pull-left"><a title="Home" href="/"><i class="icon-home icon-2x"></i></a></li>
+                <li ng-click="gotoGroupSettings()" ng-show="showSettings" class="pull-right"><a title="Settings" href="#"><i class="icon-cog icon-2x"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>

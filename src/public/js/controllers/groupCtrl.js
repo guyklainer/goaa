@@ -3,12 +3,13 @@
 angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location', 'account', '$routeParams','$timeout', 'groupDb',
     function($scope, blockui, $location, account, $routeParams, $timeout, groupDb){
 
-        $scope.isLoading    = true;
-        $scope.isNoMeters   = false;
-        $scope.view         = $routeParams.view;
-        $scope.groupName    = $routeParams.groupName;
-        $scope.activePage   = $scope.view ? $scope.view.toLocaleLowerCase() : 'posts';
-        $scope.partialEnum  = {
+        $scope.showSettings     = true;
+        $scope.isLoading        = true;
+        $scope.isNoMeters       = false;
+        $scope.view             = $routeParams.view;
+        $scope.groupName        = $routeParams.groupName;
+        $scope.activePage       = $scope.view ? $scope.view.toLocaleLowerCase() : 'posts';
+        $scope.partialEnum      = {
             gallery : 'gallery',
             meters  : 'meters',
             todos   : 'todos',
@@ -20,13 +21,6 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
             log("getGroup result: ", g);
             $scope.isLoading = false;
             $scope.group = g;
-
-            //temporary
-            $scope.group['meters'] = [
-                {name: "boiler"},
-                {name: "Living Room Light"},
-                {name: "Air Conditioner"}
-            ];
         });
 
 
