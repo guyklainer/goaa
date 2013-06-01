@@ -72,7 +72,7 @@ module.exports.isAdmin = function( user, group, callback ){
         if( err ){
             return utils.createResult( false, err, "dbError" );
 
-        } else if( groupUser.lngth > 0 && groupUser.isAdmin ){
+        } else if( groupUser && groupUser.isAdmin ){
             result = utils.createResult( true, null, "isAdmin" );
 
         } else {
