@@ -171,8 +171,11 @@ function isUserInGroup( user, group, callback ) {
         if( err )
             result = utils.createResult( false, err, "dbError" );
 
-        else if( groupUser )
+        else if( groupUser && groupUser.approved )
             result = utils.createResult( true, null, "allreadyInGroup" );
+
+        else if( groupUser && !groupUser.approved )
+            result = utils.createResult( true, null, "notApprovedYet" );
 
         else
             result = utils.createResult( false, null, "notInGroup" );
