@@ -40,6 +40,7 @@ module.exports = function( app, passport ) {
     app.post( '/searchgroups', groups.searchGroup );
     app.post( '/joingroup', groups.joinGroup );
     app.post( '/isgroupexist', groups.isGroupExist );
+    app.post( '/isgroupadmin', groups.isGroupAdmin );
 
     //*****************************
     // Posts
