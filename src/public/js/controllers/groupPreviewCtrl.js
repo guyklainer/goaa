@@ -5,6 +5,7 @@ angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$htt
         log("groupName:", $routeParams.groupName);
 
         $scope.joinDisabledEnabledClass = 'disabled';
+        $scope.joinBtnName = "Join";
 
         groupDb.getGroupPreview($routeParams.groupName,
             function(g){
@@ -23,10 +24,10 @@ angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$htt
             if ($scope.joinDisabledEnabledClass == ''){
                 log("inside");
                 groupDb.joinGroup(userId, group._id, function(result){
-                    if (result != null && result.result){
+                    if (result){
                         $location.path('/home');
                     } else {
-                        $scope.errorMsg = "Could not join this group";
+                        $scope.errorMsg = "could not join this group";
                     }
                 });
             }
@@ -44,7 +45,18 @@ angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$htt
         function getIsUserInGroup(userId, groupId) {
             groupDb.isUserInGroup(userId, groupId, function(result){
                 log("is user in group: ", result);
-                $scope.joinDisabledEnabledClass = result ? 'disabled' : '';
+                if (result != null){
+                    $scope.joinDisabledEnabledClass = result.result ? 'disabled' : '';
+                    if (result.msg){
+                        if (result.msg.toLocaleLowerCase() == "notapprovedyet"){
+                            $scope.joinBtnName = "Waiting For Approval";
+                        } else if (result.msg.toLocaleLowerCase() == "allreadyingroup"){
+                            $scope.joinBtnName = "Allready In This Group";
+                        } else {
+                            $scope.joinBtnName = "Join";
+                        }
+                    }
+                }
             });
         }
 

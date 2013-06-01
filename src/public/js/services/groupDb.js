@@ -56,13 +56,13 @@ app.factory('groupDb', ['$http', function($http){
             $http.post('/isuseringroup', { user: userId, group: groupId })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
-                    callback(false);
+                    callback(null);
                 })
                 .success(function(data, status, headers, config) {
                     if (data != null){
-                        callback(data.result);
+                        callback(data);
                     } else {
-                        callback(false);
+                        callback(null);
                     }
                 });
         },
