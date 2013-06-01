@@ -64,8 +64,9 @@ module.exports.getGroupByName = function( req, res ){
                 return ( -1 ) * post.createdOn;
             });
 
-            returnedGroup.todos     = group.todos;
-            returnedGroup.posts     = group.posts;
+            returnedGroup.meters    = group.meters  ? group.meters  : [];
+            returnedGroup.todos     = group.todos   ? group.todos   : [];
+            returnedGroup.posts     = group.posts   ? group.posts   : [];
             returnedGroup._id       = group._id;
             returnedGroup.address   = group.address;
             returnedGroup.createdOn = group.createdOn;
@@ -77,9 +78,13 @@ module.exports.getGroupByName = function( req, res ){
                     res.json( utils.createResult( true, err, "dbError" ) );
 
                 else {
+                    returnedGroup.approved = [];
                     _.each( groupUsers, function( groupUser ){
                         if( groupUser.isAdmin )
                             returnedGroup.adminID = groupUser.user;
+
+                        if( groupUser.approved )
+                            returnedGroup.approved.push = groupUser.user;
 
                         users.push( groupUser.user );
                     });
