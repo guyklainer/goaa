@@ -14,8 +14,9 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
             if (g != null){
 
                 $scope.group = g;
-                $scope.imageUploadSettings.groupId = $scope.group._id;
+
                 getIsGroupAdmin(account.user()._id, $scope.group._id);
+                updateMemberIsApprovedField($scope.group);
                 addAddressString($scope.group); //for use in google map
             } else {
                 $location.path("/home");
@@ -23,9 +24,27 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
         });
 
         $scope.isAdmin = function(member){
-            log("isAdmin", member);
             return $scope.group.adminID == member._id;
+        };
+
+        function updateMemberIsApprovedField(group) {
+            _.each(group.members, function(member){
+                member.isApproved = isApproved(member);
+            });
         }
+        function isApproved(member){
+            log("isApproved", member);
+            var result = true;
+
+            _.each($scope.group.notApproved, function(elem){
+                if (elem == member._id){
+                    result = false;
+                }
+            });
+
+            return result;
+        };
+
         function addAddressString(group){
             if (group != undefined && group != null && group.address != null){
                 group.addressString =  group.address.street + " " + group.address.house + ", "

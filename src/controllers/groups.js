@@ -87,8 +87,8 @@ module.exports.getGroupByName = function( req, res ){
                         } else if( groupUser.isAdmin )
                             returnedGroup.adminID = groupUser.user;
 
-                        if( !groupUser.approved )
-                            returnedGroup.notApproved.push = groupUser.user;
+                        else if( !groupUser.approved )
+                            returnedGroup.notApproved.push( groupUser.user );
 
                         users.push( groupUser.user );
                     });
