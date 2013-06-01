@@ -26,7 +26,7 @@ angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$lo
     };
 
     $scope.gotoComposePost = function(){
-        $location.path("/composePost");
+        $location.path("/compose");
     };
 
     $scope.moveToGroup = function(group){
