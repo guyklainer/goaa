@@ -30,7 +30,7 @@ app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','ac
         // public functions
         $scope.groupcreator = function() {
 
-            log("group is: ");
+            log("group create is: ");
             log($scope.Group);
 
             blockui.block();
