@@ -2,53 +2,59 @@
 <%- include ../shared/header.ejs %>
 
 <center class="top-buttons">
-<div class="btn-group">
-    <button ng-click="gotoGallery()" class="btn btn-medium"><i class="icon-th icon-white"></i> Gallery</button>
-    <button ng-click="gotoMeters()" class="btn btn-medium"><i class="icon-signal icon-white"></i> Meters</button>
-    <button class="btn btn-medium"><i class="icon-check icon-white"></i> Todos</button>
-    <button class="btn btn-medium"><i class="icon-pencil icon-white"></i> Compose</button>
-</div>
+    <div class="btn-group">
+        <button ng:class="{true:'btn-warning', false:''}[activePage == 'posts']" ng-click="gotoPartial(partialEnum.posts)" class="btn btn-small"><i class="icon-home icon-white"></i> Group</button>
+        <button ng:class="{true:'btn-warning', false:''}[activePage == 'gallery']" ng-click="gotoPartial(partialEnum.gallery)" class="btn btn-small"><i class="icon-th icon-white"></i> Gallery</button>
+        <button ng:class="{true:'btn-warning', false:''}[activePage == 'meters']" ng-click="gotoPartial(partialEnum.meters)" class="btn btn-small"><i class="icon-signal icon-white"></i> Meters</button>
+        <button ng:class="{true:'btn-warning', false:''}[activePage == 'todos']" ng-click="gotoPartial(partialEnum.todos)" class="btn btn-small"><i class="icon-check icon-white"></i> Todos</button>
+    </div>
 </center>
 
+<h4 class="page-title" class="muted">{{groupName}}</h4>
+<button class="btn btn-info btn-small compose"><i class="icon-pencil icon-white"></i> Compose</button>
 <!-- News Content -->
-<div class="container-fluid" ng-show="isShowNews(view)">
+<div class="container-fluid top-space" ng-show="isShowNews(view)">
     <div class="row-fluid">
-        <div class="offset6">
-            <h3>News</h3>
-        </div>
+        <ul class="thumbnails">
+            <li class="span4" ng-repeat="post in group.posts">
+                <div news-thumb post="post"></div>
+            </li>
+        </ul>
     </div>
-    <div news-thumb posts="group.posts"></div>
+    <center><h4 class="page-title" ng-show="isLoading">Loading...</h4></center>
+    <center><h4 class="page-title" ng-show="isShowNoNews(group.posts, isLoading)">No News Yet</h4></center>
 </div>
 
 <!-- Gallery Content -->
-<div class="container-fluid" ng-show="isShowPartial(view, 'gallery')">
+<div class="container-fluid top-space" ng-show="isShowPartial(view, 'gallery')">
     <div class="row-fluid">
-        <div class="offset6">
-            <h3>Gallery</h3>
-        </div>
+        <ul class="thumbnails">
+            <li class="span4" ng-repeat="post in group.posts">
+                <div gallery-thumb post="post"></div>
+            </li>
+        </ul>
     </div>
-    <div gallery-thumb posts="group.posts"></div>
+    <center><h4 class="page-title" ng-show="isLoading">Loading...</h4></center>
+    <center><h4 class="page-title" ng-show="isShowNoPhotos(group.posts, isLoading)">No Photos Yet</h4></center>
 </div>
 
 <!-- Meters Content -->
-<div class="container-fluid" ng-show="isShowPartial(view, 'meters')">
-    <div class="row-fluid">
-        <div class="offset6">
-            <h3>Meters</h3>
-        </div>
-    </div>
-    <div gallery-thumb posts="group.posts"></div>
+<div class="container-fluid top-space" ng-show="isShowPartial(view, 'meters')">
+    <ul class="list" ng-hide="isLoading || isShowNoMeters(group.meters, isLoading)">
+        <li class="list-item" ng-click="gotoMeter(meter)" ng-repeat="meter in group.meters">
+            <a href="#" class="title">
+                <i class="icon-chevron-right"></i>
+                {{meter.name}}
+            </a>
+        </li>
+    </ul>
+    <center><h4 class="page-title" ng-show="isLoading">Loading...</h4></center>
+    <center><h4 class="page-title" ng-show="isShowNoMeters(group.meters, isLoading)">No Meters</h4></center>
 </div>
 
+<!-- Todos Content -->
+<div class="container-fluid" ng-show="isShowPartial(view, 'todos')">
 
-<div class="navbar navbar-fixed-bottom static">
-    <div class="navbar-inner">
-        <div class="continer">
-            <ul class="nav">
-                <li><a href="#"><i class="icon-beer"></i> Group Settings</a></li>
-            </ul>
-        </div>
-    </div>
 </div>
 
 <!-- Footer -->

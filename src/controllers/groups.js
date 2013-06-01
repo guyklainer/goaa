@@ -68,6 +68,28 @@ module.exports.getGroupByName = function( req, res ){
     });
 }
 
+module.exports.getGroupPreviewByName = function( req, res ){
+
+    var groupName = req.body.name,
+        result;
+
+    Group.findOne( { name: groupName  }, { name: 1, _id: 1, image: 1, createdOn: 1, address: 1 }, function( err, group ) {
+        if( err ){
+            result = utils.createResult( false, err, "dbError" );
+            return false;
+
+        } else {
+            group.posts = _.sortBy( group.posts, function( post ){
+                return ( -1 ) * post.createdOn;
+            });
+
+            result = utils.createResult( true, group, "fetchGroupByName" );
+        }
+
+        res.json( result );
+    });
+}
+
 module.exports.searchGroup = function ( req, res ){
     var groupName   = req.body.groupName,
         pattern     = "^" + groupName,
@@ -166,9 +188,7 @@ function validateGroupRequest ( params, callback ){
     if( result.result ) {
         isGroupExist( params.name, function( exist, group ){
             if( exist ){
-                result.result   = false;
-                result.data     = group;
-                result.msg      = "groupExist";
+                result = utils.createResult( false, group, "groupExist" );
             }
 
             callback( result );
@@ -187,4 +207,13 @@ function isGroupExist( name, callback ) {
     });
 }
 
-module.exports.isGroupExist = isGroupExist;
+module.exports.isGroupExist = function( req, res ){
+    isGroupExist( req.body.name, function( exist, group ){
+        if( exist ){
+            res.json( utils.createResult( false, group, "groupExist" ) );
+
+        } else {
+            res.json( utils.createResult( true, null, "groupNotExist" ) );
+        }
+    });
+}

@@ -13,6 +13,16 @@ app.factory('groupDb', ['$http', function($http){
                     callback(data.data);
                 });
         },
+        getGroupPreview: function(groupName, callback){
+            $http.post('/getgrouppreview', { name: groupName })
+                .error(function(data, status, headers, config){
+                    httpErrorCallback(data, status, headers, config);
+                    callback(null);
+                })
+                .success(function(data, status, headers, config) {
+                    callback(data.data);
+                });
+        },
         getGroups: function(userId, callback){
             $http.post('/getgroups', { userID: userId })
                 .error(function(data, status, headers, config){

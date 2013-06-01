@@ -22,7 +22,7 @@
 //******************************/
 
 html {
-    background: url('../img/bg.png' ) rgba(200, 236, 200, 0.47);
+    background: url('../img/bg.png' ) rgba(245, 242, 220, 0.47);
 }
 
 body {
@@ -39,10 +39,6 @@ a {
 
 .bold {
     font-weight: bold;
-}
-
-.red {
-    color: red;
 }
 
 .text-centered {
@@ -70,8 +66,48 @@ a:hover, a:focus {
     margin-bottom: 20px;
 }
 
+.top-space {
+    margin-top: 20px;
+}
+
 .underline {
     text-decoration: underline;
+}
+
+.half-left {
+    width: 44%;
+    float: left;
+}
+
+.half-right {
+    width: 44%;
+    float: right;
+}
+
+.page-title {
+    margin-top: 0;
+    color: rgba(0, 0, 0, 0.64);
+    text-shadow: 1px 1px 0px rgba(128, 128, 128, 0.34);
+}
+
+.pull-right {
+    float: right !important;
+}
+
+/******************************
+// Colors
+//******************************/
+
+.red {
+    color: #a90a15;
+}
+
+.green{
+    color: green;
+}
+
+.blue{
+    color: #3f66ff;
 }
 
 /******************************
@@ -129,6 +165,17 @@ a:hover, a:focus {
     margin: 0;
 }
 
+.navbar-fixed-bottom .nav li {
+    //border-right: 1px solid rgba(128, 128, 128, 0.25);
+}
+
+.navbar-fixed-bottom .nav li:last-child {
+    border-right: none;
+}
+
+.navbar-fixed-bottom .nav {
+    width: 100%;
+}
 
 /******************************
 // Login
@@ -189,10 +236,11 @@ img.logo {
 }
 
 .list-item .badge {
-    opacity: 0.5;
     position: absolute;
     right: 40px;
     top: 32%;
+    opacity: 0.7;
+    box-shadow: 1px 1px 0px rgba(128, 128, 128, 0.34);
 }
 
 .list-item i:hover,
@@ -203,10 +251,7 @@ img.logo {
 .list-item .img-continer {
     height: 30px;
     overflow: hidden;
-}
-
-.list-item .img-continer img {
-    height: 30px;
+    width: 50px;
 }
 
 .list-item .title {
@@ -265,8 +310,121 @@ input[type="search"].search-group {
     margin: 0;
 }
 
+button.compose {
+    margin-top: -30px;
+    float: right;
+}
+
+/******************************
+// Posts
+//******************************/
+.post-details {
+    color: rgba(87, 66, 44, 0.87);
+    font-weight: normal;
+    padding: 0 2%;
+}
+
+.post-content {
+    padding: 0 2%;
+    color: rgb(73, 72, 72);
+}
+
+.post-image-small {
+    width: 100px;
+}
+
+.post-image {
+    margin: 0 auto;
+    float: none;
+    display: block;
+}
+
+/******************************
+// Upload image
+//******************************/
+.upload-area .group-image {
+    width: 100px;
+    max-height: 100px;
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 0 10px 1px gray;
+    background: rgba(255, 255, 255, 0.55);
+}
+
+.upload-area .img-wrapper {
+    position: relative;
+    float: left;
+}
+
+.upload-area button {
+    margin-top: 35px;
+}
+
+.upload-area .image-loader {
+    background: rgba(0, 0, 0, 0.51);
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.upload-area .image-loader img {
+    position: absolute;
+    top: 43%;
+    left: 41%;
+    width: 25px;
+}
+
+/******************************
+// Boiler meter
+//******************************/
+.temp {
+    height: 70px;
+    bottom: 167px;
+    position: absolute;
+    width: 9px;
+    margin: 0 52px;
+}
+
+.temp div {
+    background: #C53439;
+    bottom: 0px;
+    position: absolute;
+    width: 9px;
+}
+
+.temp-helper {
+    background: #C53439;
+    border-radius: 10px;
+    bottom: 50px;
+    position: absolute;
+    width: 9px;
+    margin: 0 52px;
+    height: 122px;
+}
+
+.temp-wrapper {
+    height: 403px;
+    width: 114px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 1px gray;
+    position: relative;
+    background: url(../img/temp.jpg ) no-repeat center top;
+    margin: 20px 0;
+}
+
+.number{
+    font-size: 22px;
+}
+
+
 input.ng-invalid.ng-dirty{
     background-color: pink;
+}
+
+.upload-area .progress {
+    width: 100%;
 }
 
 /*input.ng-valid.ng-dirty{*/

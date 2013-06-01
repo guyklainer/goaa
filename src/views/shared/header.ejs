@@ -3,9 +3,10 @@
         <div class="continer">
             <a class="pull-left logo bold" ng-hide="account.user()" href="/"><img src="/img/logo.png">&nbsp;Goaa</a>
             <a class="pull-left back bold" ng-show="account.user()" href="#" onclick="history.back()"><i class="icon-chevron-left"></i>&nbsp;Back</a>
+
             <div class="pull-right">
                 <a class="pull-left" href="#" ng-show="account.user().firstName">{{ account.user().firstName + ' ' + account.user().lastName }} | </a>
-                <a class="pull-left" ng-click="account.logout()" ng-show="account.user()">&nbsp;Logout</a>
+                <a class="pull-left" href="#" ng-click="account.logout()" ng-show="account.user()">&nbsp;Logout</a>
             </div>
         </div>
     </div>

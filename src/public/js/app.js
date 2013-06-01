@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('App', ["ui.bootstrap", "ngCookies"]).
+var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
   config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
@@ -42,10 +42,6 @@ var app = angular.module('App', ["ui.bootstrap", "ngCookies"]).
         when('/group/:name/:view', {
             templateUrl: '/partials/group',
             controller: 'GroupCtrl'
-        }).
-        when('/compose', {
-            templateUrl: '../partials/compose',
-            controller: 'ComposeCtrl'
         }).
         otherwise({
             redirectTo: '/'

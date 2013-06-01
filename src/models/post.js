@@ -5,6 +5,7 @@ var mongoose 	= require( 'mongoose' ),
 var Post = new Schema({
     _id         : Schema.ObjectId,
     userID      : Number,
+    userName    : String,
     data        : String,
     image       : String,
     createdOn   : Date

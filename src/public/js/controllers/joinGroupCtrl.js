@@ -1,17 +1,17 @@
 "use strict";
 
-angular.module('App').controller('JoinGroupCtrl', ['$scope', 'blockui', '$http', '$location', 'account', '$cookies', 'db',
-    function($scope, blockui, $http, $location, account, $cookies, db){
+angular.module('App').controller('JoinGroupCtrl', ['$scope', 'blockui', '$http', '$location', 'account',
+    function($scope, blockui, $http, $location, account){
 
     // public var
-    $scope.query        = "";
-    $scope.groups       = [];
-    $scope.timer        = null;
-    $scope.showLoader   = false;
+    $scope.query            = "";
+    $scope.groups           = [];
+    $scope.timer            = null;
+    $scope.showLoader       = false;
 
 
     //public functions
-    $scope.search = function(){
+    $scope.search = function(query){
         $scope.showLoader = true;
 
         if( $scope.timer != null ) {
@@ -20,16 +20,14 @@ angular.module('App').controller('JoinGroupCtrl', ['$scope', 'blockui', '$http',
         }
 
         $scope.timer = setTimeout( function(){
-            makeSearch();
+            makeSearch(query);
         }, 1000 );
     }
 
-    var makeSearch = function(){
-        log("search for: " + $scope.query);
+    var makeSearch = function(query){
+        log("search for: " + query);
 
-        db.add('groupsSearchQuery', $scope.query);
-
-        $http.post('/searchgroups', { groupName: $scope.query })
+        $http.post('/searchgroups', { groupName: query })
             .error(function(data, status, headers, config){
                 httpErrorCallback(data, status, headers, config);
                 $scope.showLoader = false;
@@ -39,11 +37,8 @@ angular.module('App').controller('JoinGroupCtrl', ['$scope', 'blockui', '$http',
 
                 if (data.result && angular.isArray(data.data)){
                     $scope.groups = data.data;
-                    db.add('groupsSearch', $scope.groups);
-
                 } else {
                     $scope.groups = [];
-                    db.add('groupsSearch', $scope.groups);
                 }
 
                 $scope.showLoader = false;
@@ -53,9 +48,8 @@ angular.module('App').controller('JoinGroupCtrl', ['$scope', 'blockui', '$http',
     $scope.goToPreview = function(group){
         log("group preview");
         log(group);
-        db.add('group', group);
 
-        $location.path("/groupPreview");
+        $location.path("/groupPreview/" + group.name);
     }
 
     $scope.account = account;

@@ -3,12 +3,55 @@
 angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location', 'account', '$routeParams','$timeout', 'groupDb',
     function($scope, blockui, $location, account, $routeParams, $timeout, groupDb){
 
-        $scope.view = $routeParams.view;
+        $scope.showSettings     = true;
+        $scope.isLoading        = true;
+        $scope.isNoMeters       = false;
+        $scope.view             = $routeParams.view;
+        $scope.groupName        = $routeParams.groupName;
+        $scope.activePage       = $scope.view ? $scope.view.toLocaleLowerCase() : 'posts';
+        $scope.partialEnum      = {
+            gallery : 'gallery',
+            meters  : 'meters',
+            todos   : 'todos',
+            posts   : 'posts'
+        };
 
-        groupDb.getGroup($routeParams.name, function(g){
+
+        groupDb.getGroup($routeParams.groupName, function(g){
             log("getGroup result: ", g);
+            $scope.isLoading = false;
             $scope.group = g;
         });
+
+
+        $scope.isShowNoNews = function(posts, isLoading){
+            if (isLoading){
+                return false;
+            } else {
+                return posts == undefined || posts == null || posts.length == 0;
+            }
+        }
+        $scope.isShowNoPhotos = function(posts, isLoading){
+            if (isLoading){
+                return false;
+            } else {
+                return posts == undefined || posts == null || getPhotosCount(posts) == 0;
+            }
+        }
+        function getPhotosCount(posts){
+            return _.filter(posts,
+                function(post){
+                    return post.image && post.image != "";
+                }).length;
+        }
+        $scope.isShowNoMeters = function(meters, isLoading){
+            if (isLoading){
+                return false;
+            } else {
+                return meters == undefined || meters == null || meters.length == 0;
+            }
+        }
+
 
         var len = 200;
         $scope.toShortStr = function(message){
@@ -32,21 +75,30 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
 
             return result;
         }
-        $scope.gotoGallery = function(){
-            if ($scope.view == undefined || $scope.view == null){
-                $location.path( $location.path() + "/gallery" );
-            } else if ($scope.view.toLowerCase() != 'gallery'){
-                log("todo path: ", $location.path());
-            }
-        }
-        $scope.gotoMeters = function(){
-            if ($scope.view == undefined || $scope.view == null){
-                $location.path( $location.path() + "/meters" );
-            } else if ($scope.view.toLowerCase() != 'meters'){
-                log("todo path: ", $location.path());
+        $scope.gotoPartial = function(partialEnumItem){
+            var index   = $location.path().indexOf($routeParams.view),
+                url     = $location.path().substr(0, index-1);
 
+            if( partialEnumItem == 'posts' ){
+                $location.path( url );
+
+            } else {
+                if ($scope.view == undefined || $scope.view == null){
+                    $location.path( $location.path() + '/' + partialEnumItem );
+
+                } else if ($scope.view.toLowerCase() != partialEnumItem){
+                    $location.path( url + '/' + partialEnumItem );
+                }
             }
+            $scope.activePage = partialEnumItem;
         }
+        $scope.gotoMeter = function(meter){
+            $location.path($location.path() + '/' + meter.name);
+        }
+        $scope.gotoGroupSettings = function(){
+            $location.path('group/' + $routeParams.groupName + '/settings');
+        }
+
         $scope.isShowPartial = function(view, partial){
             if (view == undefined || partial == undefined){
                 return false;

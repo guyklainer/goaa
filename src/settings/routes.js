@@ -36,6 +36,7 @@ module.exports = function( app, passport ) {
     app.post( '/creategroup', groups.makeGroup );
     app.post( '/getgroups', groups.getGroupsByUser );
     app.post( '/getgroupbyname', groups.getGroupByName );
+    app.post( '/getgrouppreview', groups.getGroupPreviewByName );
     app.post( '/searchgroups', groups.searchGroup );
     app.post( '/joingroup', groups.joinGroup );
     app.post( '/isgroupexist', groups.isGroupExist );
