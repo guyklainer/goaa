@@ -9,7 +9,7 @@ app.directive('imageUploader', function($timeout) {
             imageUploadSettings: "="
         },
         link: function(scope, element, attrs, controller){
-            log("link");
+            log("link image uploader:", scope);
 
             scope.progressValue     = 0;
             scope.uploadedImageUrl  = "/img/logo.png";
