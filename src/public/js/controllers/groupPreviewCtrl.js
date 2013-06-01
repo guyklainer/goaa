@@ -8,13 +8,11 @@ angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$htt
 
         groupDb.getGroupPreview($routeParams.groupName,
             function(g){
-                log("group preview res:" , g);
                 if (g != null){
                     $scope.group = g;
                     addAddressString($scope.group);
-                    getIsUserInGroup(account.user()._id, $scope.group.id);
+                    getIsUserInGroup(account.user()._id, $scope.group._id);
                 } else {
-                    log("group is null");
                     $location.path("/");
                 }
             }
@@ -24,9 +22,11 @@ angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$htt
 
             if ($scope.joinDisabledEnabledClass == ''){
                 log("inside");
-                groupDb.joinGroup(userId, group.id, function(result){
-                    if (result != null){
+                groupDb.joinGroup(userId, group._id, function(result){
+                    if (result != null && result.result){
                         $location.path('/home');
+                    } else {
+                        $scope.errorMsg = "Could not join this group";
                     }
                 });
             }
@@ -43,6 +43,7 @@ angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$htt
 
         function getIsUserInGroup(userId, groupId) {
             groupDb.isUserInGroup(userId, groupId, function(result){
+                log("is user in group: ", result);
                 $scope.joinDisabledEnabledClass = result ? 'disabled' : '';
             });
         }

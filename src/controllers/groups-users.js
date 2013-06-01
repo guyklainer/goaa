@@ -15,7 +15,7 @@ module.exports.createUserGroupConnection = function( user, group, isAdmin, callb
     params.approved     = isAdmin ? true : false;
 
     isUserInGroup( user, group, function( result ){
-        if( !result.result ){
+        if( result.result ){
             callback( result );
             return false;
         }
@@ -172,7 +172,10 @@ function isUserInGroup( user, group, callback ) {
             result = utils.createResult( false, err, "dbError" );
 
         else if( groupUser )
-            result = utils.createResult( false, null, "allreadyInGroup" );
+            result = utils.createResult( true, null, "allreadyInGroup" );
+
+        else
+            result = utils.createResult( false, null, "notInGroup" );
 
         callback( result );
     });
