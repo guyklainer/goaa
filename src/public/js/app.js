@@ -19,6 +19,10 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
             templateUrl: '/partials/signup',
             controller: 'SignupCtrl'
         }).
+        when('/test', {
+            templateUrl: '/partials/test',
+            controller: 'TestCtrl'
+        }).
         when('/createGroup', {
             templateUrl: '/partials/createGroup',
             controller: 'CreateGroupCtrl'
@@ -27,35 +31,18 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
             templateUrl: '/partials/joinGroup',
             controller: 'JoinGroupCtrl'
         }).
-        when('/groupPreview/:groupName', {
+        when('/groupPreview', {
             templateUrl: '/partials/groupPreview',
             controller: 'GroupPreviewCtrl'
         }).
-
-        //group views
-        when('/group/:groupName', {
+        when('/group/:name', {
             templateUrl: '/partials/group',
             controller: 'GroupCtrl'
         }).
-        when('/group/:groupName/settings', {
-            templateUrl: '/partials/groupSettings',
-            controller: 'GroupSettingsCtrl'
-        }).
-        when('/group/:groupName/:view', {
+        when('/group/:name/:view', {
             templateUrl: '/partials/group',
             controller: 'GroupCtrl'
         }).
-        when('/group/:groupName/meters/:meter', {
-            templateUrl: '/partials/meter',
-            controller: 'MeterCtrl'
-        }).
-
-        //temporary
-        when('/test', {
-            templateUrl: '/partials/test',
-            controller: 'TestCtrl'
-        }).
-
         otherwise({
             redirectTo: '/'
         });
