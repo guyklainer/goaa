@@ -9,25 +9,59 @@
         <h4>{{group.name}}</h4>
     </div>
 
-    <div group-address="group.address"></div>
+    <div ng-hide="isGroupAdmin" style="display: none;">
+        <div group-address="group.address"></div>
+    </div>
+    <div ng-show="isGroupAdmin" class="row-fluid" style="display: none;">
+        <p>Address:</p>
+        <input type="text" required class="input-block-level" placeholder="street" ng-model="group.address.street">
+        <input type="number" required class="half-left" placeholder="House" ng-model="group.address.house">
+        <input type="number" required class="half-right" placeholder="Apartment" ng-model="group.address.apartment">
+        <input type="text"  required class="half-left" placeholder="city" ng-model="group.address.city">
+        <input type="text" required class="half-right" placeholder="country" ng-model="group.address.country">
+    </div>
 
     <div google-map address="group.addressString"></div>
+
+    <div image-uploader image="group.image" image-upload-settings="imageUploadSettings"></div>
 
     <table class="table table-striped">
         <thead>
         <tr>
             <th></th>
             <th>Members</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
             <tr ng-repeat="member in group.members">
                 <td>
-                    <span ng-show="member.isAdmin"><strong>Admin</strong></span>
-                    <span ng-hide="member.isAdmin"><i class="icon-user"></i></span>
+                    <span ng-show="isAdmin(member)"><strong>Admin</strong></span>
+                    <span ng-hide="isAdmin(member)"><i class="icon-user"></i></span>
                 </td>
-                <td>{{member.user}}</td>
+                <td>{{member.firstname}} {{member.lastname}} ({{member.username}})</td>
+                <td><button ng-show="!member.isApproved" class="btn btn-info">Confirm</button></td>
             </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Meters</th>
+            <th><button class="btn btn-success btn-block btn-small">Add</button></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="member in group.meter">
+            <td>
+                <span ng-show="isAdmin(member)"><strong>Admin</strong></span>
+                <span ng-hide="isAdmin(member)"><i class="icon-user"></i></span>
+            </td>
+            <td>{{member.firstname}} {{member.lastname}} ({{member.username}})</td>
+            <td><button ng-show="!member.isApproved" class="btn btn-info">Confirm</button></td>
+        </tr>
         </tbody>
     </table>
 

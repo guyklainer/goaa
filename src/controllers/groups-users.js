@@ -6,28 +6,58 @@ var mongoose    = require( 'mongoose' ),
 
 module.exports.createUserGroupConnection = function( user, group, isAdmin, callback ){
     var params = {},
-        result = {};
+        result = null;
 
     params.createdOn    = new Date();
     params.user         = user;
     params.group        = group;
     params.isAdmin      = isAdmin;
+    params.approved     = isAdmin ? true : false;
 
-    var groupUser = new GroupUser( params );
+    GroupUser.findOne( { user: user, group: group }, function( err, groupUser ){
+        if( err )
+            result = utils.createResult( false, err, "dbError" );
 
-    groupUser.save( function( err, group, count ){
-        if( err ){
-            result.result   = false;
-            result.data     = err;
-            result.msg      = "noUserGroupConnection";
-        } else {
-            result.result   = true;
-            result.data     = { groupID: group };
-            result.msg      = "connectionSuccess";
+        else if( groupUser )
+            result = utils.createResult( false, null, "allreadyInGroup" );
+    });
 
+    if( result != null )
+        callback( result );
+
+    else {
+        var groupUser = new GroupUser( params );
+
+        groupUser.save( function( err, group, count ){
+            if( err ){
+                result = utils.createResult( false, err, "dbError" );
+
+            } else {
+                result = utils.createResult( true, { groupID: group }, "connectionSuccess" );
+            }
+
+            callback( result );
+        });
+    }
+}
+
+module.exports.approveUser = function( req, res ){
+    var params = req.body;
+
+    GroupUser.findOne( { user: params.admin, group: params.group }, function( err, userGroup ){
+        if( err )
+            res.json( utils.createResult( false, err, "dbError" ) );
+
+        else {
+            GroupUser.update( { user: params.user, group: params.group }, { $set: { approved: true } }, function( err ){
+                if( err )
+                    res.json( utils.createResult( false, err, "dbError" ) );
+
+                else
+                    res.json( utils.createResult( true, null, "userApproved" ) );
+            });
         }
 
-        callback( result );
     });
 }
 
@@ -72,7 +102,7 @@ module.exports.isAdmin = function( user, group, callback ){
         if( err ){
             return utils.createResult( false, err, "dbError" );
 
-        } else if( groupUser.lngth > 0 && groupUser.isAdmin ){
+        } else if( groupUser && groupUser.isAdmin ){
             result = utils.createResult( true, null, "isAdmin" );
 
         } else {
