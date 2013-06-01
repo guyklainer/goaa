@@ -35,13 +35,17 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
             templateUrl: '/partials/groupPreview',
             controller: 'GroupPreviewCtrl'
         }).
-        when('/group/:name', {
+        when('/group/:groupName', {
             templateUrl: '/partials/group',
             controller: 'GroupCtrl'
         }).
-        when('/group/:name/:view', {
+        when('/group/:groupName/:view', {
             templateUrl: '/partials/group',
             controller: 'GroupCtrl'
+        }).
+        when('/compose', {
+            templateUrl: '/partials/composeView',
+            controller: 'ComposeCtrl'
         }).
         otherwise({
             redirectTo: '/'
