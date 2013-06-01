@@ -6,6 +6,7 @@ var mongoose        = require( 'mongoose' ),
     GroupUsers      = require( './groups-users' ),
     GroupUsersModel = mongoose.model( 'GroupUser' ),
     Group           = mongoose.model( 'Group' ),
+    User            = mongoose.model( 'User' ),
     settings        = config.settings;
 
 module.exports.joinGroup = function( req, res ){
@@ -48,12 +49,14 @@ module.exports.getGroupsByUser = function( req, res ){
 
 module.exports.getGroupByName = function( req, res ){
 
-    var groupName = req.body.name,
-        result;
+    var groupName   = req.body.name,
+        users       = [];
 
     Group.findOne( { name: groupName  }, function( err, group ) {
+        var returnedGroup = {};
+
         if( err ){
-            result = utils.createResult( false, err, "dbError" );
+            res.json( utils.createResult( false, err, "dbError" ) );
             return false;
 
         } else {
@@ -61,10 +64,52 @@ module.exports.getGroupByName = function( req, res ){
                 return ( -1 ) * post.createdOn;
             });
 
-            result = utils.createResult( true, group, "fetchGroupByName" );
-        }
+            returnedGroup.meters    = group.meters      ? group.meters  : [];
+            returnedGroup.todos     = group.todos       ? group.todos   : [];
+            returnedGroup.posts     = group.posts       ? group.posts   : [];
+            returnedGroup._id       = group._id;
+            returnedGroup.address   = group.address;
+            returnedGroup.createdOn = group.createdOn;
+            returnedGroup.image     = group.image;
+            returnedGroup.name      = group.name;
 
-        res.json( result );
+            GroupUsersModel.find({ group: returnedGroup._id }, function( err, groupUsers ){
+                if( err )
+                    res.json( utils.createResult( true, err, "dbError" ) );
+
+                else {
+                    returnedGroup.approved = [];
+                    _.each( groupUsers, function( groupUser ){
+                        if( groupUser.isAdmin )
+                            returnedGroup.adminID = groupUser.user;
+
+                        if( groupUser.approved )
+                            returnedGroup.approved.push = groupUser.user;
+
+                        users.push( groupUser.user );
+                    });
+
+                    User.find( { _id: { $in: users } }, function( err, users ){
+                        if( err )
+                            res.json( utils.createResult( false, err, "dbError" ) );
+
+                        else {
+                            returnedGroup.members = [];
+                            _.each( users, function( user ){
+                                returnedGroup.members.push( {
+                                    username    : user.username,
+                                    firstname   : user.firstName,
+                                    lastname    : user.lastName,
+                                    _id         : user._id
+                                } );
+                            });
+
+                            res.json( utils.createResult( true, returnedGroup, "fetchGroupByName" ) );
+                        }
+                    });
+                }
+            });
+        }
     });
 }
 

@@ -37,6 +37,20 @@ app.factory('groupDb', ['$http', function($http){
                         callback(null);
                     }
                 });
+        },
+        isGroupAdmin: function(userId, groupId, callback){
+            $http.post('/isgroupadmin', { user: userId, group: groupId })
+                .error(function(data, status, headers, config){
+                    httpErrorCallback(data, status, headers, config);
+                    callback(false);
+                })
+                .success(function(data, status, headers, config) {
+                    if (data != null){
+                        callback(data.result);
+                    } else {
+                        callback(false);
+                    }
+                });
         }
     };
 }]);
