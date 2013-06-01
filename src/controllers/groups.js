@@ -181,6 +181,15 @@ module.exports.makeGroup = function( req, res ) {
     });
 }
 
+module.exports.isGroupAdmin = function( req, res ) {
+    var params = req.body;
+
+    GroupUsers.isAdmin( params.user, params.group, function( result ){
+        res.json( result );
+    });
+
+}
+
 function validateGroupRequest ( params, callback ){
 
     var result = utils.isAllFieldsAreNotNullOrEmpty( params );
@@ -197,8 +206,6 @@ function validateGroupRequest ( params, callback ){
     } else {
         callback( result );
     }
-
-
 }
 
 function isGroupExist( name, callback ) {
