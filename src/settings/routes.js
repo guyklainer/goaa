@@ -6,10 +6,11 @@ var mongoose    = require('mongoose'),
 
 module.exports = function( app, passport ) {
 
-    var users   = require( '../controllers/users'),
-        groups  = require( '../controllers/groups'),
-        todos   = require( '../controllers/todos' ),
-        posts   = require( '../controllers/posts');
+    var users           = require( '../controllers/users'),
+        groups          = require( '../controllers/groups'),
+        groupsUsers     = require( '../controllers/groups-users'),
+        todos           = require( '../controllers/todos' ),
+        posts           = require( '../controllers/posts');
 
     //*****************************
     // Home
@@ -41,6 +42,7 @@ module.exports = function( app, passport ) {
     app.post( '/joingroup', groups.joinGroup );
     app.post( '/isgroupexist', groups.isGroupExist );
     app.post( '/isgroupadmin', groups.isGroupAdmin );
+    app.post( '/isuseringroup', groupsUsers.isUserInGroup );
 
     //*****************************
     // Posts
