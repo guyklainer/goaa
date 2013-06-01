@@ -2,8 +2,38 @@
 <%- include ../shared/header.ejs %>
 
 
-<div class="container-fluid">
-    <h2>Settings</h2>
+<!-- Content -->
+<div class="container-fluid main">
+    <div class="row-fluid cover-image-wrapper">
+        <img src="{{group.image}}" alt="Group Image"/>
+        <h4>{{group.name}}</h4>
+    </div>
+
+    <div group-address="group.address"></div>
+
+    <div google-map address="group.addressString"></div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Members</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="member in group.members">
+                <td>
+                    <span ng-show="member.isAdmin"><strong>Admin</strong></span>
+                    <span ng-hide="member.isAdmin"><i class="icon-user"></i></span>
+                </td>
+                <td>{{member.user}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="row-fluid">
+        <button class="btn btn-large btn-block btn-danger">Leave</button>
+    </div>
 </div>
 
 
