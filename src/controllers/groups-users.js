@@ -14,31 +14,35 @@ module.exports.createUserGroupConnection = function( user, group, isAdmin, callb
     params.isAdmin      = isAdmin;
     params.approved     = isAdmin ? true : false;
 
-    GroupUser.findOne( { user: user, group: group }, function( err, groupUser ){
-        if( err )
-            result = utils.createResult( false, err, "dbError" );
-
-        else if( groupUser )
-            result = utils.createResult( false, null, "allreadyInGroup" );
+    isUserInGroup( user, group, function( result ){
+        if( result.result ){
+            callback( result );
+            return false;
+        }
     });
 
-    if( result != null )
+    var groupUser = new GroupUser( params );
+
+    groupUser.save( function( err, group, count ){
+        if( err ){
+            result = utils.createResult( false, err, "dbError" );
+
+        } else {
+            result = utils.createResult( true, { groupID: group }, "connectionSuccess" );
+        }
+
         callback( result );
+    });
+}
 
-    else {
-        var groupUser = new GroupUser( params );
+module.exports.isUserInGroup = function( req, res ){
+    var params          = {};
+        params.user     = req.body.user;
+        params.group    = req.body.group;
 
-        groupUser.save( function( err, group, count ){
-            if( err ){
-                result = utils.createResult( false, err, "dbError" );
-
-            } else {
-                result = utils.createResult( true, { groupID: group }, "connectionSuccess" );
-            }
-
-            callback( result );
-        });
-    }
+    isUserInGroup( params.user, params.group, function( result ){
+        res.json( result );
+    });
 }
 
 module.exports.approveUser = function( req, res ){
@@ -157,5 +161,25 @@ function removeGroupIfIsEmpty( group ){
         } else {
             return utils.createResult( false, null, "groupNotEmpty" );
         }
+    });
+}
+
+function isUserInGroup( user, group, callback ) {
+    var result = {};
+
+    GroupUser.findOne( { user: user, group: group }, function( err, groupUser ){
+        if( err )
+            result = utils.createResult( false, err, "dbError" );
+
+        else if( groupUser && groupUser.approved )
+            result = utils.createResult( true, null, "allreadyInGroup" );
+
+        else if( groupUser && !groupUser.approved )
+            result = utils.createResult( true, null, "notApprovedYet" );
+
+        else
+            result = utils.createResult( false, null, "notInGroup" );
+
+        callback( result );
     });
 }

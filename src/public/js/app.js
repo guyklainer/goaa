@@ -31,7 +31,7 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
             templateUrl: '/partials/joinGroup',
             controller: 'JoinGroupCtrl'
         }).
-        when('/groupPreview', {
+        when('/groupPreview/:groupName', {
             templateUrl: '/partials/groupPreview',
             controller: 'GroupPreviewCtrl'
         }).
@@ -39,9 +39,17 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
             templateUrl: '/partials/group',
             controller: 'GroupCtrl'
         }).
+        when('/group/:groupName/settings', {
+            templateUrl: '/partials/groupSettings',
+            controller: 'GroupSettingsCtrl'
+        }).
         when('/group/:groupName/:view', {
             templateUrl: '/partials/group',
             controller: 'GroupCtrl'
+        }).
+        when('/group/:groupName/meters/:meter', {
+            templateUrl: '/partials/meter',
+            controller: 'MeterCtrl'
         }).
         when('/compose', {
             templateUrl: '/partials/composeView',

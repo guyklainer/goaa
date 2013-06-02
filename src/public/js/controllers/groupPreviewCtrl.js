@@ -4,16 +4,34 @@ angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$htt
 
         log("groupName:", $routeParams.groupName);
 
+        $scope.joinDisabledEnabledClass = 'disabled';
+        $scope.joinBtnName = "Join";
+
         groupDb.getGroupPreview($routeParams.groupName,
             function(g){
                 if (g != null){
                     $scope.group = g;
                     addAddressString($scope.group);
+                    getIsUserInGroup(account.user()._id, $scope.group._id);
                 } else {
                     $location.path("/");
                 }
             }
         );
+
+        $scope.joinGroup = function(group, userId){
+
+            if ($scope.joinDisabledEnabledClass == ''){
+                log("inside");
+                groupDb.joinGroup(userId, group._id, function(result){
+                    if (result){
+                        $location.path('/home');
+                    } else {
+                        $scope.errorMsg = "could not join this group";
+                    }
+                });
+            }
+        }
 
         function addAddressString(group){
             if (group != undefined && group != null && group.address != null){
@@ -22,6 +40,24 @@ angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$htt
             } else {
                 group.addressString = "";
             }
+        }
+
+        function getIsUserInGroup(userId, groupId) {
+            groupDb.isUserInGroup(userId, groupId, function(result){
+                log("is user in group: ", result);
+                if (result != null){
+                    $scope.joinDisabledEnabledClass = result.result ? 'disabled' : '';
+                    if (result.msg){
+                        if (result.msg.toLocaleLowerCase() == "notapprovedyet"){
+                            $scope.joinBtnName = "Waiting For Approval";
+                        } else if (result.msg.toLocaleLowerCase() == "allreadyingroup"){
+                            $scope.joinBtnName = "Allready In This Group";
+                        } else {
+                            $scope.joinBtnName = "Join";
+                        }
+                    }
+                }
+            });
         }
 
         $scope.account = account;

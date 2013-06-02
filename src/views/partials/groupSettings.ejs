@@ -60,7 +60,7 @@
                 <span ng-hide="isAdmin(member)"><i class="icon-user"></i></span>
             </td>
             <td>{{member.firstname}} {{member.lastname}} ({{member.username}})</td>
-            <td><button ng-show="!member.isApproved" class="btn btn-info">Confirm</button></td>
+            <td><button ng-show="member.isApproved" class="btn btn-info">Confirm</button></td>
         </tr>
         </tbody>
     </table>

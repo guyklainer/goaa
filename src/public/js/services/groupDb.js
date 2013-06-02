@@ -51,6 +51,34 @@ app.factory('groupDb', ['$http', function($http){
                         callback(false);
                     }
                 });
+        },
+        isUserInGroup: function(userId, groupId, callback){
+            $http.post('/isuseringroup', { user: userId, group: groupId })
+                .error(function(data, status, headers, config){
+                    httpErrorCallback(data, status, headers, config);
+                    callback(null);
+                })
+                .success(function(data, status, headers, config) {
+                    if (data != null){
+                        callback(data);
+                    } else {
+                        callback(null);
+                    }
+                });
+        },
+        joinGroup: function(userId, groupId, callback){
+            $http.post('/joingroup', { user: userId, group: groupId })
+                .error(function(data, status, headers, config){
+                    httpErrorCallback(data, status, headers, config);
+                    callback(false);
+                })
+                .success(function(data, status, headers, config) {
+                    if (data != null){
+                        callback(data.result);
+                    } else {
+                        callback(false);
+                    }
+                });
         }
     };
 }]);

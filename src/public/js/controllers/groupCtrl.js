@@ -93,6 +93,7 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
             $scope.activePage = partialEnumItem;
         }
         $scope.gotoMeter = function(meter){
+            log("meter : ", meter);
             $location.path($location.path() + '/' + meter.name);
         }
         $scope.gotoGroupSettings = function(){
