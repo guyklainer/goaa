@@ -6,7 +6,23 @@
 <div class="container-fluid main">
     <h3>Add meter to {{groupName}}</h3>
 
-    <button ng-click="addMember(newMember, group._id)" class="btn btn-info btn-block btn-large">Add Member</button>
+    <form name="signupForm" class="form-signin" ng-submit="addMeter(newMeter, group._id)">
+        <p ng-show="formInvalid" class="red">Some fields are incorrect.</p>
+
+        <input type="text" required ng-model="newMeter.name" ng-change="checkIsMeterNameExist(newMeter, group._id)" class="input-block-level" placeholder="Name">
+        <p class="red" ng-show="isMeterNameExist">This name is taken</p>
+        <input type="url" required ng-model="newMeter.url" class="input-block-level" placeholder="Management Url">
+        <input type="text" required ng-model="newMeter.username" class="input-block-level" placeholder="Username">
+        <input type="text" required ng-model="newMeter.password" class="input-block-level" placeholder="Password">
+
+
+        <div class="row-fluid">&nbsp;</div>
+        <div class="alert alert-error span12" ng-show="isShowError">
+            <strong>Oops we have a problem..</strong>
+        </div>
+
+        <button class="btn btn-large btn-primary btn-block" type="submit">Add Meter</button>
+    </form>
 </div>
 
 

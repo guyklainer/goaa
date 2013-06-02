@@ -25,13 +25,20 @@ app.controller('GroupAddMeterCtrl', ['$scope', 'blockui', '$location', 'account'
         };
 
         $scope.addMeter = function(meter, groupId){
-            groupDb.addMember(member.name, groupId, function(result){
+            groupDb.addMeter(meter, groupId, function(result){
                 log("add member result: ", result);
                 if (result){
                     history.back();
                 } else {
                     $scope.isShowError = true;
                 }
+            });
+        }
+
+        $scope.checkIsMeterNameExist = function(meter, groupId){
+            groupDb.isMeterNameExist(meter.name, groupId, function(result){
+                log("is meter name exist result: ", result);
+                $scope.isMeterNameExist = result;
             });
         }
 
