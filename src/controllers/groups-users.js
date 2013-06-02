@@ -48,17 +48,30 @@ module.exports.isUserInGroup = function( req, res ){
 module.exports.approveUser = function( req, res ){
     var params = req.body;
 
-    GroupUser.findOne( { user: params.admin, group: params.group }, function( err, userGroup ){
-        if( err )
+    GroupUser.findOne( { user: req.user._id, group: group }, function( err, groupUser ){
+        if( err ){
             res.json( utils.createResult( false, err, "dbError" ) );
+            return false;
 
-        else {
-            GroupUser.update( { user: params.user, group: params.group }, { $set: { approved: true } }, function( err ){
+        } else if( !groupUser.isAdmin ) {
+            res.json( utils.createResult( false, null, "youAreNotAdmin" ) );
+            return false;
+
+        } else {
+            GroupUser.findOne( { user: params.admin, group: params.group }, function( err, userGroup ){
                 if( err )
                     res.json( utils.createResult( false, err, "dbError" ) );
 
-                else
-                    res.json( utils.createResult( true, null, "userApproved" ) );
+                else {
+                    GroupUser.update( { user: params.user, group: params.group }, { $set: { approved: true } }, function( err ){
+                        if( err )
+                            res.json( utils.createResult( false, err, "dbError" ) );
+
+                        else
+                            res.json( utils.createResult( true, null, "userApproved" ) );
+                    });
+                }
+
             });
         }
 
