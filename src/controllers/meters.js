@@ -10,7 +10,7 @@ module.exports.connect = function( io ) {
 
             meterSocket.on( 'invalid', function( data ){
                 client.emit( 'invalid', data );
-                clients.splice( clients.indexOf( client ), 1 );
+                meterSocket.emit( 'disconnect' );
             });
 
             meterSocket.on( 'data', function( data ){
@@ -22,7 +22,6 @@ module.exports.connect = function( io ) {
             });
 
             client.on( 'disconnect', function(){
-                clients.splice( clients.indexOf( client ), 1 );
                 meterSocket.emit( 'disconnect' );
             });
         });
