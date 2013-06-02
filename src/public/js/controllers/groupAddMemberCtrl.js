@@ -24,7 +24,7 @@ app.controller('GroupAddMemberCtrl', ['$scope', 'blockui', '$location', 'account
         $scope.getUserNames = function(value){
             log("getUserNames for val:", value);
 
-            return $http.post("/getUserNames?filter=" + value).then(function(response){
+            return $http.post("/searchusers?filter=" + value).then(function(response){
                     return response.data;
                 },
                 function(error){

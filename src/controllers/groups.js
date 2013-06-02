@@ -164,7 +164,6 @@ module.exports.searchGroup = function ( req, res ){
             res.json( result );
         });
     }
-
 }
 
 module.exports.editGroup = function( req, res ) {

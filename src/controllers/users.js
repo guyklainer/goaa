@@ -152,6 +152,33 @@ module.exports.resetPassword = function( req, res ) {
     }
 }
 
+module.exports.searchUser = function ( req, res ){
+    var filter      = req.body.filter,
+        pattern     = "^" + filter,
+        exp         = new RegExp( pattern, "i" ),
+        result      = {};
+
+    if( filter == undefined || filter == "" ){
+        res.json( utils.createResult( false, [], "emptyQuery" ) );
+
+    } else {
+        User.find( { name: exp }, { username: 1, _id: 0 }, function( err, docs ) {
+            if ( err ){
+                result = utils.createResult( false, err, "dbError" );
+
+            } else if( !docs || docs.length == 0 ) {
+                result = utils.createResult( false, [], "noResults" );
+
+            } else {
+                result = utils.createResult( true, docs, "foundUsers" );
+
+            }
+
+            res.json( result );
+        });
+    }
+}
+
 function sendResetPasswordMail( user, callback ){
     var subject     = "Goaa - Reset your password",
         newToken    = {
