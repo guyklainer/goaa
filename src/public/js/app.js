@@ -47,7 +47,11 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
             templateUrl: '/partials/groupAddMember',
             controller: 'GroupAddMemberCtrl'
         }).
-        when('/group/:groupName/settings/Meters/addMeter', {
+        when('/group/:groupName/settings/Meters/meter', {
+            templateUrl: '/partials/groupAddMeter',
+            controller: 'GroupAddMeterCtrl'
+        }).
+        when('/group/:groupName/settings/Meters/meter/:meterId', {
             templateUrl: '/partials/groupAddMeter',
             controller: 'GroupAddMeterCtrl'
         }).

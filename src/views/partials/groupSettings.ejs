@@ -85,7 +85,7 @@
             <tr>
                 <th></th>
                 <th>Meters</th>
-                <th><button ng-click="gotoAddMeter()" class="btn btn-success btn-block btn-small">Add</button></th>
+                <th><button ng-click="gotoMeter()" class="btn btn-success btn-block btn-small">Add</button></th>
             </tr>
             </thead>
             <tbody>
@@ -93,8 +93,9 @@
                 <td></td>
                 <td>{{meter.name}}</td>
                 <td>
-                    <button class="btn btn-info">Edit</button>
-                    <button class="btn btn-danger">Delete</button>
+                    <button ng-click="gotoMeter(meter._id)" class="btn btn-info">Edit</button>
+                    <button ng-click="deleteMeter(meter, group._id)" class="btn btn-danger">Delete</button>
+                    <p class="red pull-right" ng-show="meter.isDeleteError">Oops we have a problem..</p>
                 </td>
             </tr>
             </tbody>

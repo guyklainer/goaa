@@ -25,6 +25,11 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
 
                 getIsGroupAdmin(account.user()._id, $scope.group._id);
                 updateMemberIsApprovedField($scope.group);
+                $scope.group.meters = [
+                    {name:"name1", _id:1},
+                    {name:"name2", _id:2},
+                    {name:"name3", _id:3}
+                ];
                 addAddressString($scope.group); //for use in google map
             } else {
                 $location.path("/home");
@@ -52,21 +57,37 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
             $location.path($location.path() + "/addMember");
         };
 
-        $scope.gotoAddMeter = function(){
-            $location.path($location.path() + "/addMeter");
+        $scope.gotoMeter = function(meterId){
+            if (meterId){
+                $location.path($location.path() + "/meter/" + meterId);
+            } else {
+                $location.path($location.path() + "/meter");
+            }
+        };
+
+        $scope.deleteMeter = function(meter, groupId){
+            blockui.block();
+            groupDb.deleteMeter(meter._id, groupId, function(result){
+                blockui.unblock();
+                log("delete meter result: ", result);
+                if (result){
+                    $scope.group.meters = _.without($scope.group.meters, meter);
+                } else {
+                    meter.isDeleteError = true;
+                }
+            });
         };
 
         $scope.leaveGroup = function(group){
             log("leaveGroup: ", group);
             blockui.block();
-            groupDb.leaveGroup(account.user()._id, group._id,
-                function(result){
-                    blockui.unblock();
-                    log("leave group result:", result);
-                    if (result){
-                        $location.path("/home");
-                    }
-                });
+            groupDb.leaveGroup(account.user()._id, group._id, function(result){
+                blockui.unblock();
+                log("leave group result:", result);
+                if (result){
+                    $location.path("/home");
+                }
+            });
         };
 
         $scope.saveChanges = function(group){
