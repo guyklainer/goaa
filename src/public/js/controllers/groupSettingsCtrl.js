@@ -27,13 +27,25 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
             return $scope.group.adminID == member._id;
         };
 
+        $scope.confirmMember = function(member){
+            log("confirm member", member);
+            blockui.block();
+            groupDb.confirmMember(account.user()._id, member._id, $scope.group._id,
+                function(result){
+                    blockui.unblock();
+                    log("confirm result:", result);
+                    if (result){
+                        member.isApproved = result;
+                    }
+            });
+        };
+
         function updateMemberIsApprovedField(group) {
             _.each(group.members, function(member){
                 member.isApproved = isApproved(member);
             });
         }
         function isApproved(member){
-            log("isApproved", member);
             var result = true;
 
             _.each($scope.group.notApproved, function(elem){
@@ -44,7 +56,6 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
 
             return result;
         };
-
         function addAddressString(group){
             if (group != undefined && group != null && group.address != null){
                 group.addressString =  group.address.street + " " + group.address.house + ", "
