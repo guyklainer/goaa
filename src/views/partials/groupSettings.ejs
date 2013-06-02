@@ -40,27 +40,27 @@
                     <span ng-hide="isAdmin(member)"><i class="icon-user"></i></span>
                 </td>
                 <td>{{member.firstname}} {{member.lastname}} ({{member.username}})</td>
-                <td><button ng-show="!member.isApproved" class="btn btn-info">Confirm</button></td>
+                <td><button ng-show="!member.isApproved" ng-click="confirmMember(member)" class="btn btn-info">Confirm</button></td>
             </tr>
         </tbody>
     </table>
 
+    <!-- Meters -->
+    <legend>Legend</legend>
     <table class="table table-striped">
         <thead>
         <tr>
-            <th></th>
             <th>Meters</th>
             <th><button class="btn btn-success btn-block btn-small">Add</button></th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="member in group.meter">
+        <tr ng-repeat="meter in group.meter">
+            <td>{{meter.name}}</td>
             <td>
-                <span ng-show="isAdmin(member)"><strong>Admin</strong></span>
-                <span ng-hide="isAdmin(member)"><i class="icon-user"></i></span>
+                <button class="btn btn-info">Edit</button>
+                <button class="btn btn-danger">Delete</button>
             </td>
-            <td>{{member.firstname}} {{member.lastname}} ({{member.username}})</td>
-            <td><button ng-show="member.isApproved" class="btn btn-info">Confirm</button></td>
         </tr>
         </tbody>
     </table>

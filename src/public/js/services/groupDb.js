@@ -79,6 +79,22 @@ app.factory('groupDb', ['$http', function($http){
                         callback(false);
                     }
                 });
+        },
+        confirmMember: function(adminId, userId, groupId, callback){
+            callback(false);
+            //todo
+//            $http.post('/confirmUser', { adminId: adminId, userId: userId, groupId: groupId })
+//                .error(function(data, status, headers, config){
+//                    httpErrorCallback(data, status, headers, config);
+//                    callback(false);
+//                })
+//                .success(function(data, status, headers, config) {
+//                    if (data != null){
+//                        callback(data.result);
+//                    } else {
+//                        callback(false);
+//                    }
+//                });
         }
     };
 }]);
