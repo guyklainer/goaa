@@ -12,12 +12,6 @@ app.controller('GroupAddMeterCtrl', ['$scope', 'blockui', '$location', 'account'
 
                 $scope.group = g;
 
-                $scope.group.meters = [
-                    {name:"name1", url:"http://www.url.com", username:"user", password:'pass', _id:1},
-                    {name:"name2", url:"url", username:"user", password:'pass', _id:2},
-                    {name:"name3", url:"url", username:"user", password:'pass', _id:3}
-                ];
-
                 log('meterId', $scope.meterId);
                 if ($scope.meterId){
                     _.each($scope.group.meters, function(meter){
