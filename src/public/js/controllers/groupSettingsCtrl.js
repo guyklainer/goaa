@@ -72,7 +72,7 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
         $scope.saveChanges = function(group){
             log("group save", group);
             blockui.block();
-            groupDb.editGroup(group.address, group.image, function(result){
+            groupDb.editGroup(group.address, group.image, group._id, function(result){
                 blockui.unblock();
                 log("edit group result:", result);
                 $scope.isSaveError = !result;

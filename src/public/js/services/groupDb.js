@@ -108,25 +108,24 @@ app.factory('groupDb', ['$http', function($http){
                     }
                 });
         },
-        editGroup: function(address, image, callback){
-            callback(false);
-//            $http.post('/editgroup',{ address: address, image: image})
-//                .error(function(data, status, headers, config){
-//                    httpErrorCallback(data, status, headers, config);
-//                    callback(false);
-//                })
-//                .success(function(data, status, headers, config) {
-//                    if (data != null)
-//                    {
-//                        if (data.result){
-//                            callback(true);
-//                        } else {
-//                            callback(false);
-//                        }
-//                    } else {
-//                        callback(false);
-//                    }
-//                });
+        editGroup: function(address, image, groupId, callback){
+            $http.post('/editgroup',{ address: address, image: image, groupID: groupId })
+                .error(function(data, status, headers, config){
+                    httpErrorCallback(data, status, headers, config);
+                    callback(false);
+                })
+                .success(function(data, status, headers, config) {
+                    if (data != null)
+                    {
+                        if (data.result){
+                            callback(true);
+                        } else {
+                            callback(false);
+                        }
+                    } else {
+                        callback(false);
+                    }
+                });
         },
         addMember: function(memberName, groupId, callback){
             callback(false);
