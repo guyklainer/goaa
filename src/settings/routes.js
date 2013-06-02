@@ -42,8 +42,14 @@ module.exports = function( app, passport ) {
     app.post( '/joingroup', groups.joinGroup );
     app.post( '/isgroupexist', groups.isGroupExist );
     app.post( '/isgroupadmin', groups.isGroupAdmin );
+
+
+    //*****************************
+    // Users Groups connections
+    //*****************************
     app.post( '/isuseringroup', groupsUsers.isUserInGroup );
     app.post( '/approveuser', groupsUsers.approveUser );
+    app.post( '/leavegroup', groupsUsers.removeUserFromGroup );
 
     //*****************************
     // Posts
