@@ -1,4 +1,10 @@
 
+var Mongoose    = require( 'mongoose' ),
+    _           = require( 'underscore' ),
+    Utils       = require( '../utils/utils' ),
+    Crypto      = require( 'crypto' ),
+    Group       = Mongoose.model( 'Group' );
+
 module.exports.connect = function( io ) {
     io.sockets.on( 'connection', function( client ){
 
@@ -26,4 +32,75 @@ module.exports.connect = function( io ) {
             });
         });
     });
+}
+
+module.exports.addMeter = function( req, res ){
+    var params = req.body;
+
+    if( !params.meter || !params.groupID )
+        res.json( Utils.createResult( false, null, "missing params" ) );
+
+    Group.findOne( { _id: params.groupID }, function( err, group ){
+
+        if ( err )
+            res.json( Utils.createResult( false, err, "dbError" ) );
+
+        if( !group )
+            res.json( Utils.createResult( false, null, "noGroupFound" ) );
+
+        else {
+            if( isMeterNameExist( params.meter.name, group.meters ) )
+                res.json( Utils.createResult( false, null, "meterNameExist" ) );
+
+            else {
+                var timestamp = new Date().getTime();
+                params.meter._id = Crypto.randomBytes( 48 ).toString('hex') + timestamp;
+
+                group.meters.push( params.meter );
+                group.save( function( err ){
+
+                    if( err ){
+                        res.json( Utils.createResult( false, err, "dbError" ) );
+
+                    } else {
+                        res.json( Utils.createResult( true, null, "meterAdded" ) );
+                    }
+                });
+            }
+        }
+    });
+}
+
+module.exports.isMeterNameExist = function( req, res ){
+    var params = req.body;
+
+    if( !params.name || !params.groupID )
+        res.json( Utils.createResult( false, null, "missing params" ) );
+
+    Group.findOne( { _id: params.groupID }, function( err, group ){
+        if ( err )
+            res.json( Utils.createResult( false, err, "dbError" ) );
+
+        if( !group )
+            res.json( Utils.createResult( false, null, "noGroupFound" ) );
+
+        else {
+            if( isMeterNameExist( params.name, group.meters ) )
+                res.json( Utils.createResult( true, null, "meterNameExist" ) );
+
+            else
+                res.json( Utils.createResult( false, null, "meterNameNotExist" ) );
+        }
+    });
+}
+
+function isMeterNameExist( name, meters ){
+    var exist = false;
+
+    _.each( meters, function( meter ){
+        if( meter.name == name )
+            exist = true;
+    });
+
+    return exist;
 }

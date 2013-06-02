@@ -148,44 +148,42 @@ app.factory('groupDb', ['$http', function($http){
 //                });
         },
         isMeterNameExist: function(meterName, groupId, callback){
-            callback(true);
-//            $http.post('/isMeterNameExist',{ name: meterName, groupId: groupId})
-//                .error(function(data, status, headers, config){
-//                    httpErrorCallback(data, status, headers, config);
-//                    callback(true);
-//                })
-//                .success(function(data, status, headers, config) {
-//                    if (data != null)
-//                    {
-//                        if (data.result){
-//                            callback(true);
-//                        } else {
-//                            callback(false);
-//                        }
-//                    } else {
-//                        callback(true);
-//                    }
-//                });
+            $http.post('/checkmetername',{ name: meterName, groupID: groupId})
+                .error(function(data, status, headers, config){
+                    httpErrorCallback(data, status, headers, config);
+                    callback(true);
+                })
+                .success(function(data, status, headers, config) {
+                    if (data != null)
+                    {
+                        if (data.result){
+                            callback(true);
+                        } else {
+                            callback(false);
+                        }
+                    } else {
+                        callback(true);
+                    }
+                });
         },
         addMeter: function(meter, groupId, callback){
-            callback(false);
-//            $http.post('/addmeter',{ meter: meter, groupId: groupId})
-//                .error(function(data, status, headers, config){
-//                    httpErrorCallback(data, status, headers, config);
-//                    callback(false);
-//                })
-//                .success(function(data, status, headers, config) {
-//                    if (data != null)
-//                    {
-//                        if (data.result){
-//                            callback(true);
-//                        } else {
-//                            callback(false);
-//                        }
-//                    } else {
-//                        callback(false);
-//                    }
-//                });
+            $http.post('/addmeter',{ meter: meter, groupID: groupId})
+                .error(function(data, status, headers, config){
+                    httpErrorCallback(data, status, headers, config);
+                    callback(false);
+                })
+                .success(function(data, status, headers, config) {
+                    if (data != null)
+                    {
+                        if (data.result){
+                            callback(true);
+                        } else {
+                            callback(false);
+                        }
+                    } else {
+                        callback(false);
+                    }
+                });
         }
     };
 }]);

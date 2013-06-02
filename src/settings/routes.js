@@ -10,6 +10,7 @@ module.exports = function( app, passport ) {
         groups          = require( '../controllers/groups'),
         groupsUsers     = require( '../controllers/groups-users'),
         todos           = require( '../controllers/todos' ),
+        meters          = require( '../controllers/meters' ),
         posts           = require( '../controllers/posts');
 
     //*****************************
@@ -67,6 +68,12 @@ module.exports = function( app, passport ) {
     app.post( '/addtodo', todos.addTodo );
     app.post( '/removetodo', todos.removeTodo );
     app.post( '/toggletodo', todos.toggleTodo );
+
+    //*****************************
+    // Meters
+    //*****************************
+    app.post( '/addmeter', meters.addMeter );
+    app.post( '/checkmetername', meters.isMeterNameExist );
 
     //*****************************
     // API
