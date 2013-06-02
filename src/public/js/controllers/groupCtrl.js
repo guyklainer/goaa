@@ -99,7 +99,9 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
         $scope.gotoGroupSettings = function(){
             $location.path('group/' + $routeParams.groupName + '/settings');
         }
-
+        $scope.gotoComposePost = function(){
+            $location.path("compose/" + $routeParams.groupName);
+        }
         $scope.isShowPartial = function(view, partial){
             if (view == undefined || partial == undefined){
                 return false;

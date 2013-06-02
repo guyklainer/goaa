@@ -1,6 +1,6 @@
 //angular.module('App')
-app.controller('ComposeCtrl', ['$scope', 'blockui', '$http', '$location','$timeout','account','groupDb',
-    function($scope, blockui, $http, $location,$timeout, account,groupDb){
+app.controller('ComposeCtrl', ['$scope', 'blockui', '$http', '$location','$timeout','account','groupDb','$routeParams',
+    function($scope, blockui, $http, $location,$timeout, account,groupDb,$routeParams){
 
         // public var
          $scope.compose = {
@@ -11,14 +11,34 @@ app.controller('ComposeCtrl', ['$scope', 'blockui', '$http', '$location','$timeo
 
          };
          $scope.groupNotSelectedErr=true;
-        $scope.errorMsg="";
+         $scope.errorMsg="";
+
         groupDb.getGroups(account.user()._id, function(groupsResult){
             if (groupsResult != null){
                 $scope.groups = groupsResult;
+                _.each($scope.groups, function(group){
+                    if($routeParams.groupName)
+                    {
+                        if($routeParams.groupName == group.name )
+                        {
+                            $scope.compose.groupID = group._id;
+                        }
+                    }
+                });
             } else {
                 $scope.isNoGroups = true;
             }
         });
+
+
+        if($routeParams.groupName)   //params is define
+        {
+            groupDb.getGroup($routeParams.groupName, function(g){
+                log("getGroup result: ", g);
+                $scope.isLoading = false;
+                $scope.group = g;
+            });
+        }
 
         $scope.imageUploadSettings = {
             stage: "posts",
@@ -32,25 +52,22 @@ app.controller('ComposeCtrl', ['$scope', 'blockui', '$http', '$location','$timeo
             log("image details: ");
             log($scope.imageUploadSettings);
 
-           blockui.block();
-
+             blockui.block();
             if($scope.compose.groupID=="")
             {
                 $scope.isShowError = true;
                 $scope.errorMsg="You must choose a group";
-                $timeout(function(){blockui.unblock()},200)     ;
+               blockui.unblock();     ;
 
             }
             else if($scope.compose.data=="" && $scope.compose.image=="")
             {
                 $scope.isShowError = true;
                 $scope.errorMsg="You must fill in post or image";
-                $timeout(function(){blockui.unblock()},200)
+                blockui.unblock();
             }
             else
             {
-
-
             $http.post('/addpost',$scope.compose)
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
@@ -67,9 +84,7 @@ app.controller('ComposeCtrl', ['$scope', 'blockui', '$http', '$location','$timeo
                             blockui.unblock();
                         }
 
-
                         blockui.unblock();
-
                     } else  if (data != null && data.result){ //case success
                        blockui.unblock();
                         $scope.isShowError = false;
@@ -82,6 +97,25 @@ app.controller('ComposeCtrl', ['$scope', 'blockui', '$http', '$location','$timeo
                     }
                });
 
-        $scope.account = account;
 
-    }}}]);
+
+    }}
+
+        $scope.isSelected = function(group){
+
+              if($routeParams.groupName)
+               {
+                   if($routeParams.groupName == group.name )
+                   {
+                       return true;
+                   }
+                   else
+                   {
+                       return false;
+                   }
+
+               }
+            $scope.account = account;
+        }
+        $scope.account = account;
+    }]);
