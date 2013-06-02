@@ -43,6 +43,7 @@ module.exports = function( app, passport ) {
     app.post( '/isgroupexist', groups.isGroupExist );
     app.post( '/isgroupadmin', groups.isGroupAdmin );
     app.post( '/isuseringroup', groupsUsers.isUserInGroup );
+    app.post( '/approveuser', groupsUsers.approveUser );
 
     //*****************************
     // Posts
