@@ -35,6 +35,7 @@ module.exports = function( app, passport ) {
     // Groups
     //*****************************
     app.post( '/creategroup', groups.makeGroup );
+    app.post( '/editgroup', groups.editGroup );
     app.post( '/getgroups', groups.getGroupsByUser );
     app.post( '/getgroupbyname', groups.getGroupByName );
     app.post( '/getgrouppreview', groups.getGroupPreviewByName );

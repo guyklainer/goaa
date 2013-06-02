@@ -176,26 +176,24 @@ module.exports.editGroup = function( req, res ) {
         { _id: groupID },
 
         { $set: {
-            "address.country"   : params.country,
-            "address.city"      : params.city,
-            "address.street"    : params.street,
-            "address.house"     : params.house,
-            "address.apartment" : params.apartment
+            "address.country"   : params.address.country,
+            "address.city"      : params.address.city,
+            "address.street"    : params.address.street,
+            "address.house"     : params.address.house,
+            "address.apartment" : params.address.apartment,
+            "image"             : params.image ? params.image : settings.defaultAvatar
         } },
 
         { upsert: true },
 
         function( err ){
-            if ( err ) {
-                result.result   = false;
-                result.data     = err;
-                result.msg      = "errorInUpdate";
+            if ( err )
+                result = utils.createResult( false, err, "dbError" );
 
-            } else {
-                result.result   = true;
-                result.data     = null;
-                result.msg      = "addressUpdated";
-            }
+            else
+                result = utils.createResult( true, null, "groupUpdated" );
+
+            res.json( result );
         }
     );
 }
