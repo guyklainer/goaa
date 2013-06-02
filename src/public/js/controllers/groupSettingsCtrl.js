@@ -25,6 +25,11 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
 
                 getIsGroupAdmin(account.user()._id, $scope.group._id);
                 updateMemberIsApprovedField($scope.group);
+                $scope.group.meters = [
+                    {name:"name1", _id:1},
+                    {name:"name2", _id:2},
+                    {name:"name3", _id:3}
+                ];
                 addAddressString($scope.group); //for use in google map
             } else {
                 $location.path("/home");
@@ -52,9 +57,15 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
             $location.path($location.path() + "/addMember");
         };
 
-        $scope.gotoAddMeter = function(){
-            $location.path($location.path() + "/addMeter");
+        $scope.gotoMeter = function(meterId){
+            if (meterId){
+                $location.path($location.path() + "/meter/" + meterId);
+            } else {
+                $location.path($location.path() + "/meter");
+            }
         };
+
+
 
         $scope.leaveGroup = function(group){
             log("leaveGroup: ", group);
