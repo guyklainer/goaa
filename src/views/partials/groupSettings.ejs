@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <div ng-show="tab == 'Members'">
+    <div ng-show="tab == 'Members' && isGroupAdmin">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -79,13 +79,13 @@
         </table>
     </div>
 
-    <div ng-show="tab == 'Meters'">
+    <div ng-show="tab == 'Meters' && isGroupAdmin">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th></th>
                 <th>Meters</th>
-                <th><button class="btn btn-success btn-block btn-small">Add</button></th>
+                <th><button ng-click="gotoAddMeter()" class="btn btn-success btn-block btn-small">Add</button></th>
             </tr>
             </thead>
             <tbody>

@@ -25,13 +25,6 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
 
                 getIsGroupAdmin(account.user()._id, $scope.group._id);
                 updateMemberIsApprovedField($scope.group);
-
-                $scope.group.meters = [
-                    {name:"name1"},
-                    {name:"name2"},
-                    {name:"name3"}
-                ];
-
                 addAddressString($scope.group); //for use in google map
             } else {
                 $location.path("/home");
@@ -57,6 +50,10 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
 
         $scope.gotoAddMember = function(){
             $location.path($location.path() + "/addMember");
+        };
+
+        $scope.gotoAddMeter = function(){
+            $location.path($location.path() + "/addMeter");
         };
 
         $scope.leaveGroup = function(group){
@@ -110,6 +107,9 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
             groupDb.isGroupAdmin(userId, groupId, function(isAdminResult){
                 if (isAdminResult != null) {
                     $scope.isGroupAdmin = isAdminResult;
+                }
+                if (!$scope.isGroupAdmin && $scope.tab != 'General'){
+                    $location.path("/home");
                 }
             });
         }
