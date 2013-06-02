@@ -1,68 +1,29 @@
 
-var io          = require( 'socket.io'),
-    Utils       = require( '../utils/utils' ),
-    ioClient    = require('socket.io-client'),
-    Group       = mongoose.model('Group');
+module.exports.connect = function( io ) {
+    io.sockets.on( 'connection', function( client ){
 
-module.exports.connect = function( req, res ){
+        client.on( 'connect', function( params ){
 
-    var meterName   = req.body.meter,
-        foundMeter  = false;
+            var meterSocket = ioClient.connect( params.url );
+            console.log(params);
+            meterSocket.emit( 'connect', { username: params.username, password: params.password } );
 
-    Group.findOne({}, function( err, group ){
-        if( err )
-            res.json( Utils.createResult( false, err, "dbError" ) );
-
-        else if( !group || !group.meters )
-            res.json( Utils.createResult( false, null, "groupProblem" ) );
-
-        else {
-            _.each( group.meters, function( meter ){
-                if( meter.name == meterName ){
-                    connectToMeter( req, res, meter );
-                    foundMeter = true;
-                }
+            meterSocket.on( 'invalid', function( data ){
+                client.emit( 'invalid', data );
+                meterSocket.emit( 'disconnect' );
             });
 
-            if( !foundMeter )
-                res.json( Utils.createResult( false, null, "noSuchMeter" ) );
+            meterSocket.on( 'data', function( data ){
+                client.emit( 'data', data );
+            });
 
-        }
+            client.on( 'status', function( data ){
+                meterSocket.emit( 'status', data );
+            });
+
+            client.on( 'disconnect', function(){
+                meterSocket.emit( 'disconnect' );
+            });
+        });
     });
-}
-
-function connectToMeter( req, res, meter ){
-    // Connect to server
-    var meterSocket = ioClient.connect( meter.url );
-    var uiSocket    = io.connect();
-
-    meterSocket.emit( 'connect', { username: meter.username, password: meter.password } );
-
-    meterSocket.on( 'invalid', function( data ){
-        $scope.authError = data.field;
-        log(data);
-    });
-
-    meterSocket.on( 'invalid', function( data ){
-        $scope.authError = data.field;
-        $scope.$apply();
-        $scope.socket.emit( 'disconnect' );
-        log(data);
-    });
-
-    meterSocket.on( 'boiler', function( boiler ){
-        $scope.boiler = boiler;
-        $scope.$apply();
-    });
-}
-    // Connect to server
-    var meterSocket = ioClient.connect( 'localhost:8080', {reconnect: true} );
-
-    console.log('2');
-
-// Add a connect listener
-    socket.on('connect', function(socket) {
-        console.log('Connected!');
-    });
-
 }
