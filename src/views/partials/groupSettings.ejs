@@ -30,7 +30,7 @@
         <tr>
             <th></th>
             <th>Members</th>
-            <th><button class="btn btn-success btn-block btn-small">Add</button></th>
+            <th><button ng-click="gotoAddMember()" class="btn btn-success btn-block btn-small">Add</button></th>
         </tr>
         </thead>
         <tbody>
@@ -46,7 +46,7 @@
     </table>
 
     <!-- Meters -->
-    <table ng-hide="editMeter" class="table table-striped img-polaroid">
+    <table class="table table-striped img-polaroid">
         <thead>
             <tr>
                 <th></th>
@@ -65,12 +65,6 @@
             </tr>
         </tbody>
     </table>
-    <div ng-show="editMeter">
-        <div add-edit-meter>
-            <h2>Edit meter</h2>
-
-        </div>
-    </div>
 
     <div class="row-fluid">
         <button class="btn btn-large btn-block btn-danger">Leave</button>

@@ -3,7 +3,7 @@
 angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$location', 'account', '$routeParams','$timeout', 'groupDb',
     function($scope, blockui, $location, account, $routeParams, $timeout, groupDb){
 
-        log($routeParams.groupName);
+        //log($routeParams.groupName);
         $scope.isGroupAdmin = false;
 
         $scope.imageUploadSettings = {
@@ -21,7 +21,7 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
                 $scope.group.meters = [
                     {name:"name1"},
                     {name:"name2"},
-                    {name:"name3"},
+                    {name:"name3"}
                 ];
 
                 addAddressString($scope.group); //for use in google map
@@ -46,6 +46,10 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
                     }
             });
         };
+
+        $scope.gotoAddMember = function(){
+            $location.path($location.path() + "/addMember");
+        }
 
         function updateMemberIsApprovedField(group) {
             _.each(group.members, function(member){
