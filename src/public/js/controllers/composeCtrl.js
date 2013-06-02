@@ -58,20 +58,20 @@ app.controller('ComposeCtrl', ['$scope', 'blockui', '$http', '$location','$timeo
             log("image details: ");
             log($scope.imageUploadSettings);
 
-           blockui.block();
+             blockui.block();
 
             if($scope.compose.groupID=="" /*&& !$routeParams.groupName*/)
             {
                 $scope.isShowError = true;
                 $scope.errorMsg="You must choose a group";
-                $timeout(function(){blockui.unblock()},200)     ;
+               // $timeout(function(){blockui.unblock()},200)     ;
 
             }
             else if($scope.compose.data=="" && $scope.compose.image=="")
             {
                 $scope.isShowError = true;
                 $scope.errorMsg="You must fill in post or image";
-                $timeout(function(){blockui.unblock()},200)
+               // $timeout(function(){blockui.unblock()},200)
             }
             else
             {
@@ -112,15 +112,16 @@ app.controller('ComposeCtrl', ['$scope', 'blockui', '$http', '$location','$timeo
 
     }}
 
-
+         $scope.selectedMsg="";
         // ng-selected="isSelected(group)"
         $scope.isSelected = function(group){
+
               if($routeParams.groupName)
                {
                    if($routeParams.groupName == group.name )
                    {
-                       $scope.compose.groupID = group._id;
-
+                       //$scope.compose.groupID = group._id;
+                       log("show compose",$scope.compose) ;
                        return true;
                    }
                    else

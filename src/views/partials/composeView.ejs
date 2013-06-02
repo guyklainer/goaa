@@ -10,7 +10,7 @@
             <textarea  ng-model=compose.data rows="8" class="span1"></textarea>
             <h3>Choose Group</h3>
             <select   ng-model="compose.groupID" class="span1">
-                <option ng-repeat="group in groups" value={{group._id}}>{{group.name}}</option>
+                <option ng-selected="isSelected(group)" ng-repeat="group in groups" value={{group._id}}>{{group.name}}</option>
             </select>
             <div class="alert alert-error" ng-show="isShowError">
                 <strong>Error</strong> {{errorMsg}}
