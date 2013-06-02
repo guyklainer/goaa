@@ -35,6 +35,7 @@ module.exports = function( app, passport ) {
     // Groups
     //*****************************
     app.post( '/creategroup', groups.makeGroup );
+    app.post( '/editgroup', groups.editGroup );
     app.post( '/getgroups', groups.getGroupsByUser );
     app.post( '/getgroupbyname', groups.getGroupByName );
     app.post( '/getgrouppreview', groups.getGroupPreviewByName );
@@ -42,8 +43,14 @@ module.exports = function( app, passport ) {
     app.post( '/joingroup', groups.joinGroup );
     app.post( '/isgroupexist', groups.isGroupExist );
     app.post( '/isgroupadmin', groups.isGroupAdmin );
+
+
+    //*****************************
+    // Users Groups connections
+    //*****************************
     app.post( '/isuseringroup', groupsUsers.isUserInGroup );
     app.post( '/approveuser', groupsUsers.approveUser );
+    app.post( '/leavegroup', groupsUsers.removeUserFromGroup );
 
     //*****************************
     // Posts

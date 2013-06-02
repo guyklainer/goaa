@@ -59,7 +59,7 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
         $scope.leaveGroup = function(group){
             log("leaveGroup: ", group);
             blockui.block();
-            groupDb.leaveGroup(group._id,
+            groupDb.leaveGroup(account.user()._id, group._id,
                 function(result){
                     blockui.unblock();
                     log("leave group result:", result);

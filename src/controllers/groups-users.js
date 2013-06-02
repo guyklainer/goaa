@@ -78,41 +78,40 @@ module.exports.approveUser = function( req, res ){
     });
 }
 
-module.exports.removeUserFromGroup = function( user, group ){
-    var result = {};
+module.exports.removeUserFromGroup = function( req, res ){
+    var params = req.body,
+        result = {};
 
-    GroupUser.remove( { group: group, user: user }, function( err ){
+    isAdmin( params.user, params.group, function( result ){
+        if( result.result )
+            changeAdmin( params.group, function( result ){
+                if( !result.result && result.msg == "dbError" )
+                    res.json( result );
+            });
+
+        else if( result.msg == "dbError" )
+            res.json( result );
+    });
+
+    GroupUser.remove( { group: params.group, user: params.user }, function( err ){
         if( err ){
-            return utils.createResult( false, err, "dbError" );
+            res.json( utils.createResult( false, err, "dbError" ) );
         }
 
-        var groupIsEmpty = removeGroupIfIsEmpty( group );
+        removeGroupIfIsEmpty( params.group, function( result ){
+            if( !result.result && result.msg == "dbError" )
+                res.json( utils.createResult( true, result, "userRemovedDbErrorCheckGroupEmpty" ) );
 
-        if( !groupIsEmpty.result && groupIsEmpty.msg == 'dbError' ){
-            result = utils.createResult( false, err, "dbError" );
+            else if( !result.result )
+                res.json( utils.createResult( true, result, "userRemoved") );
 
-        } else if( !groupIsEmpty.result ){
-            var isAdminRes = isAdmin( user, group );
-
-            if( isAdminRes.result ){
-                result = changeAdmin( group );
-
-            } else if( isAdminRes.msg == "dbError" ) {
-                result = utils.createResult( false, null, "dbError" );
-
-            } else {
-                result = utils.createResult( true, null, "userRemoved" );
-            }
-
-        } else {
-            result = utils.createResult( true, null, "userAndGroupRemoved" );
-        }
-
-        return result;
+            else
+                res.json( utils.createResult( true, result, "userAndGroupRemoved" ) );
+        });
     });
 }
 
-module.exports.isAdmin = function( user, group, callback ){
+function isAdmin( user, group, callback ){
     var result = {};
 
     GroupUser.findOne( { user: user, group: group }, function( err, groupUser ){
@@ -131,48 +130,49 @@ module.exports.isAdmin = function( user, group, callback ){
 
 }
 
-function changeAdmin( group ){
-    GroupUser.findOne( { group: group } ).sort( { createdOn: 1 } ).exec( function( err, groupUser ){
-        if ( err ) {
-            return utils.createResult( false, err, "dbError" );
+module.exports.isAdmin = isAdmin;
 
-        } else {
+function changeAdmin( group, callback ){
+    GroupUser.findOne( { isAdmin: false, group: group } ).sort( { createdOn: 1 } ).exec( function( err, groupUser ){
+        if ( err )
+            callback( utils.createResult( false, err, "dbError" ) );
+
+        else if( !groupUser )
+            callback( utils.createResult( false, err, "noMoreUsers" ) );
+
+        else {
             GroupUser.update( { _id: groupUser._id }, { $set: { isAdmin: true } }, function( err ){
                 if ( err ) {
-                    return utils.createResult( false, err, "dbError" );
+                    callback( utils.createResult( false, err, "dbError" ) );
 
                 } else {
-                    return utils.createResult( true, { admin: groupUser }, "adminChanged" );
+                    callback( utils.createResult( true, { admin: groupUser }, "adminChanged" ) );
                 }
             });
-
         }
     });
 }
 
-function removeGroupIfIsEmpty( group ){
+function removeGroupIfIsEmpty( group, callback ){
     var result = {};
 
-    GroupUser.findOne( { group: group }, function( err, groupUser ){
-        if ( err ) {
-            return utils.createResult( false, err, "dbError" );
-        }
+    GroupUser.count({ group: group }, function ( err, count ) {
+        console.log(count);
 
-        if( !groupUser ){
-            Group.remove({ group: group }, function( err ){
-                if( err ){
-                    result = utils.createResult( false, err, "dbError" );
+        if( err )
+            callback( utils.createResult( false, err, "dbError" ) );
 
-                } else {
-                    result = utils.createResult( true, null, "groupRemoved" );
+        else if( count == 0 ) {
+            Group.remove( { _id: group }, function( err ){
+                if( err )
+                    callback( utils.createResult( false, err, "dbError" ) );
 
-                }
-
-                return result;
+                else
+                    callback( utils.createResult( true, count, "groupRemoved" ) );
             });
 
         } else {
-            return utils.createResult( false, null, "groupNotEmpty" );
+            callback( utils.createResult( false, count, "groupNotEmpty" ) );
         }
     });
 }
