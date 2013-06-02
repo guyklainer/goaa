@@ -65,19 +65,29 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
             }
         };
 
-
+        $scope.deleteMeter = function(meter, groupId){
+            blockui.block();
+            groupDb.deleteMeter(meter._id, groupId, function(result){
+                blockui.unblock();
+                log("delete meter result: ", result);
+                if (result){
+                    $scope.group.meters = _.without($scope.group.meters, meter);
+                } else {
+                    meter.isDeleteError = true;
+                }
+            });
+        };
 
         $scope.leaveGroup = function(group){
             log("leaveGroup: ", group);
             blockui.block();
-            groupDb.leaveGroup(account.user()._id, group._id,
-                function(result){
-                    blockui.unblock();
-                    log("leave group result:", result);
-                    if (result){
-                        $location.path("/home");
-                    }
-                });
+            groupDb.leaveGroup(account.user()._id, group._id, function(result){
+                blockui.unblock();
+                log("leave group result:", result);
+                if (result){
+                    $location.path("/home");
+                }
+            });
         };
 
         $scope.saveChanges = function(group){

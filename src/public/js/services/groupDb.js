@@ -188,7 +188,7 @@ app.factory('groupDb', ['$http', function($http){
 //                });
         },
         deleteMeter: function(meterId, groupId, callback){
-            callback(false);
+            callback(true);
 //            $http.post('/deletemeter',{ meterId: meterId, groupId: groupId})
 //                .error(function(data, status, headers, config){
 //                    httpErrorCallback(data, status, headers, config);

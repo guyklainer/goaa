@@ -94,7 +94,8 @@
                 <td>{{meter.name}}</td>
                 <td>
                     <button ng-click="gotoMeter(meter._id)" class="btn btn-info">Edit</button>
-                    <button class="btn btn-danger">Delete</button>
+                    <button ng-click="deleteMeter(meter, group._id)" class="btn btn-danger">Delete</button>
+                    <p class="red pull-right" ng-show="meter.isDeleteError">Oops we have a problem..</p>
                 </td>
             </tr>
             </tbody>
