@@ -1,9 +1,10 @@
 
 var mongoose    = require( 'mongoose' ),
-    User        = mongoose.model('User' ),
-    Utils       = require('../utils/utils' ),
-    Mailer      = require( '../utils/mailer'),
-    crypto      = require( 'crypto' );
+    Utils       = require( '../utils/utils' ),
+    Mailer      = require( '../utils/mailer' ),
+    _           = require( 'underscore'),
+    crypto      = require( 'crypto' )
+    User        = mongoose.model( 'User' );
 
 module.exports.login = function( req, res ) {
     if( req.isAuthenticated() ) {
@@ -162,16 +163,20 @@ module.exports.searchUser = function ( req, res ){
         res.json( utils.createResult( false, [], "emptyQuery" ) );
 
     } else {
-        User.find( { name: exp }, { username: 1, _id: 0 }, function( err, docs ) {
+        User.find( { username: exp }, { username: 1, _id: 0 }, function( err, docs ) {
             if ( err ){
-                result = utils.createResult( false, err, "dbError" );
+                result = Utils.createResult( false, err, "dbError" );
 
             } else if( !docs || docs.length == 0 ) {
-                result = utils.createResult( false, [], "noResults" );
+                result = Utils.createResult( false, [], "noResults" );
 
             } else {
-                result = utils.createResult( true, docs, "foundUsers" );
+                var usersArray = [];
+                _.each( docs, function( doc ){
+                    usersArray.push( doc.username );
+                });
 
+                result = Utils.createResult( true, usersArray, "foundUsers" );
             }
 
             res.json( result );
