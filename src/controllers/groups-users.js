@@ -157,7 +157,6 @@ function removeGroupIfIsEmpty( group, callback ){
     var result = {};
 
     GroupUser.count({ group: group }, function ( err, count ) {
-        console.log(count);
 
         if( err )
             callback( utils.createResult( false, err, "dbError" ) );

@@ -30,6 +30,10 @@ module.exports = function( app, passport ) {
     app.post( '/forgotpassword', users.forgotPassword );
     app.post( '/resetpassword', users.resetPassword );
 
+    //*****************************
+    // Users
+    //*****************************
+    app.post( '/searchusers', users.searchUser );
 
     //*****************************
     // Groups
@@ -43,7 +47,6 @@ module.exports = function( app, passport ) {
     app.post( '/joingroup', groups.joinGroup );
     app.post( '/isgroupexist', groups.isGroupExist );
     app.post( '/isgroupadmin', groups.isGroupAdmin );
-
 
     //*****************************
     // Users Groups connections
