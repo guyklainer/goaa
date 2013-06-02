@@ -82,10 +82,10 @@ module.exports.removeUserFromGroup = function( req, res ){
     var params = req.body,
         result = {};
 
-    this.isAdmin( params.user, params.group, function( result ){
+    isAdmin( params.user, params.group, function( result ){
         if( result.result )
             changeAdmin( params.group, function( result ){
-                if( result.msg == "dbError" )
+                if( !result.result && result.msg == "dbError" )
                     res.json( result );
             });
 
@@ -99,12 +99,19 @@ module.exports.removeUserFromGroup = function( req, res ){
         }
 
         removeGroupIfIsEmpty( params.group, function( result ){
-            res.json( result );
+            if( !result.result && result.msg == "dbError" )
+                res.json( utils.createResult( true, result, "userRemovedDbErrorCheckGroupEmpty" ) );
+
+            else if( !result.result )
+                res.json( utils.createResult( true, result, "userRemoved") );
+
+            else
+                res.json( utils.createResult( true, result, "userAndGroupRemoved" ) );
         });
     });
 }
 
-module.exports.isAdmin = function( user, group, callback ){
+function isAdmin( user, group, callback ){
     var result = {};
 
     GroupUser.findOne( { user: user, group: group }, function( err, groupUser ){
@@ -123,12 +130,17 @@ module.exports.isAdmin = function( user, group, callback ){
 
 }
 
+module.exports.isAdmin = isAdmin;
+
 function changeAdmin( group, callback ){
     GroupUser.findOne( { isAdmin: false, group: group } ).sort( { createdOn: 1 } ).exec( function( err, groupUser ){
-        if ( err ) {
+        if ( err )
             callback( utils.createResult( false, err, "dbError" ) );
 
-        } else {
+        else if( !groupUser )
+            callback( utils.createResult( false, err, "noMoreUsers" ) );
+
+        else {
             GroupUser.update( { _id: groupUser._id }, { $set: { isAdmin: true } }, function( err ){
                 if ( err ) {
                     callback( utils.createResult( false, err, "dbError" ) );
@@ -144,7 +156,9 @@ function changeAdmin( group, callback ){
 function removeGroupIfIsEmpty( group, callback ){
     var result = {};
 
-    GroupUser.count({}, function ( err, count ) {
+    GroupUser.count({ group: group }, function ( err, count ) {
+        console.log(count);
+
         if( err )
             callback( utils.createResult( false, err, "dbError" ) );
 
