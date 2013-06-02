@@ -44,17 +44,30 @@ mongoose.connect( settings.db.main, function( err ){
 logo.print();
 
 // -- Create the server
-var server  = http.createServer( app );
-    io      = require('socket.io').listen( server );
+var server      = http.createServer( app );
+    io          = require('socket.io').listen( server ),
+    ioClient    = require( './node_modules/socket.io/node_modules/socket.io-client' );
 
 server.listen( settings.port, function(){
     console.log("Express server listening on "+" port %d ".bold.inverse.red+" in " + " %s mode ".bold.inverse.green + " //", settings.port, env);
     console.log('Using Express %s...', express.version.red.bold);
 });
 
-clients = [];
-
 io.sockets.on( 'connection', function( client ){
-    clients.push( client );
-    //console.log(clients);
+
+    client.on( 'connect', function( params ){
+
+        var meterSocket = ioClient.connect( params.url );
+        console.log(meterSocket);
+        meterSocket.emit( 'connect', { username: params.username, password: params.password } );
+
+        meterSocket.on( 'invalid', function( data ){
+            client.emit( 'invalid', data );
+            clients.splice( clients.indexOf( client ), 1 );
+        });
+
+        meterSocket.on( 'data', function( data ){
+            client.emit( 'data', data );
+        });
+    });
 });

@@ -31,9 +31,7 @@ angular.module('App').controller('MeterCtrl', ['$scope', 'blockui', '$http', '$l
 
         $scope.startConnection = function( meter ){
             log(meter);
-            $scope.socket = $socketIO.socket;
-
-            $scope.socket.emit( 'connect', { username: meter.username, password: meter.password } );
+            $scope.socket = $socketIO.connect( meter );
 
             $scope.socket.on( 'invalid', function( data ){
                 $scope.authError = data.field;

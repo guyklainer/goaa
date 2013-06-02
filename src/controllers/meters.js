@@ -1,13 +1,12 @@
 
-var io          = require( 'socket.io'),
+var io          = require( 'socket.io' ),
     Utils       = require( '../utils/utils' ),
-    ioClient    = require('socket.io-client'),
-    Group       = mongoose.model('Group');
+    ioClient    = require( 'socket.io-client' ),
+    Group       = mongoose.model('Group' );
 
 module.exports.connect = function( req, res ){
 
-    var meterName   = req.body.meter,
-        foundMeter  = false;
+    var meterName   = req.body.meter;
 
     Group.findOne({}, function( err, group ){
         if( err )
@@ -19,50 +18,38 @@ module.exports.connect = function( req, res ){
         else {
             _.each( group.meters, function( meter ){
                 if( meter.name == meterName ){
-                    connectToMeter( req, res, meter );
-                    foundMeter = true;
+                    connectToMeter( meter );
+
+                    res.json( Utils.createResult( true, null, "meterConnected" ) );
+                    return false;
                 }
             });
 
-            if( !foundMeter )
-                res.json( Utils.createResult( false, null, "noSuchMeter" ) );
+            res.json( Utils.createResult( false, null, "noSuchMeter" ) );
 
         }
     });
 }
 
-function connectToMeter( req, res, meter ){
+function connectToMeter( meter ){
     // Connect to server
-    var meterSocket = ioClient.connect( meter.url );
-    var uiSocket    = io.connect();
 
-    meterSocket.emit( 'connect', { username: meter.username, password: meter.password } );
 
-    meterSocket.on( 'invalid', function( data ){
-        $scope.authError = data.field;
-        log(data);
-    });
+    _.each( clients, function( client ){
+        client.on( 'connect', function( params ){
 
-    meterSocket.on( 'invalid', function( data ){
-        $scope.authError = data.field;
-        $scope.$apply();
-        $scope.socket.emit( 'disconnect' );
-        log(data);
-    });
+            var meterSocket = ioClient.connect( params.url );
+            meterSocket.emit( 'connect', { username: params.username, password: params.password } );
 
-    meterSocket.on( 'boiler', function( boiler ){
-        $scope.boiler = boiler;
-        $scope.$apply();
-    });
-}
-    // Connect to server
-    var meterSocket = ioClient.connect( 'localhost:8080', {reconnect: true} );
+            meterSocket.on( 'invalid', function( data ){
+                client.emit( 'invalid', data );
+                clients.splice( clients.indexOf( client ), 1 );
+            });
 
-    console.log('2');
-
-// Add a connect listener
-    socket.on('connect', function(socket) {
-        console.log('Connected!');
+            meterSocket.on( 'data', function( data ){
+                client.emit( 'data', data );
+            });
+        });
     });
 
 }
