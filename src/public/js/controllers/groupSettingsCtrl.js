@@ -3,8 +3,16 @@
 angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$location', 'account', '$routeParams','$timeout', 'groupDb',
     function($scope, blockui, $location, account, $routeParams, $timeout, groupDb){
 
-        log($routeParams.groupName);
+        //log($routeParams.groupName);
         $scope.isGroupAdmin = false;
+        $scope.tabs = ['General', 'Members', 'Meters'];
+        $scope.tab = $routeParams.tab;
+        $scope.gotoTab = function(tab){
+            var index   = $location.path().indexOf($routeParams.tab),
+                url     = $location.path().substr(0, index-1);
+
+            $location.path( url + '/' + tab );
+        }
 
         $scope.imageUploadSettings = {
             stage: "newGroup"
@@ -21,7 +29,7 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
                 $scope.group.meters = [
                     {name:"name1"},
                     {name:"name2"},
-                    {name:"name3"},
+                    {name:"name3"}
                 ];
 
                 addAddressString($scope.group); //for use in google map
@@ -34,10 +42,10 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
             return $scope.group.adminID == member._id;
         };
 
-        $scope.confirmMember = function(member){
+        $scope.confirmMember = function(member, groupId){
             log("confirm member", member);
             blockui.block();
-            groupDb.confirmMember(account.user()._id, member._id, $scope.group._id,
+            groupDb.confirmMember(member._id, groupId,
                 function(result){
                     blockui.unblock();
                     log("confirm result:", result);
@@ -46,6 +54,33 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
                     }
             });
         };
+
+        $scope.gotoAddMember = function(){
+            $location.path($location.path() + "/addMember");
+        };
+
+        $scope.leaveGroup = function(group){
+            log("leaveGroup: ", group);
+            blockui.block();
+            groupDb.leaveGroup(group._id,
+                function(result){
+                    blockui.unblock();
+                    log("leave group result:", result);
+                    if (result){
+                        $location.path("/home");
+                    }
+                });
+        };
+
+        $scope.saveChanges = function(group){
+            log("group save", group);
+            blockui.block();
+            groupDb.editGroup(group.address, group.image, function(result){
+                blockui.unblock();
+                log("edit group result:", result);
+                $scope.isSaveError = !result;
+            });
+        }
 
         function updateMemberIsApprovedField(group) {
             _.each(group.members, function(member){

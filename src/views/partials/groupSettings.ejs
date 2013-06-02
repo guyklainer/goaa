@@ -4,57 +4,91 @@
 
 <!-- Content -->
 <div class="container-fluid main">
+
+
     <div class="row-fluid cover-image-wrapper">
         <img src="{{group.image}}" alt="Group Image"/>
         <h4>{{group.name}}</h4>
     </div>
 
-    <div ng-hide="isGroupAdmin" style="display: none;">
-        <div group-address="group.address"></div>
+    <h4>Settings</h4>
+    <div ng-show="isGroupAdmin">
+        <center>
+            <div class="btn-group">
+                <button class="btn"
+                        ng-repeat="t in tabs"
+                        ng-class="{'active': tab == t}"
+                        ng-click="gotoTab(t)">{{t}}</button>
+            </div>
+        </center>
     </div>
-    <div ng-show="isGroupAdmin" class="row-fluid" style="display: none;">
-        <p>Address:</p>
-        <input type="text" required class="input-block-level" placeholder="street" ng-model="group.address.street">
-        <input type="number" required class="half-left" placeholder="House" ng-model="group.address.house">
-        <input type="number" required class="half-right" placeholder="Apartment" ng-model="group.address.apartment">
-        <input type="text"  required class="half-left" placeholder="city" ng-model="group.address.city">
-        <input type="text" required class="half-right" placeholder="country" ng-model="group.address.country">
+
+    <div ng-show="tab == 'General'">
+        <div ng-hide="isGroupAdmin" style="display: none;">
+            <div group-address="group.address"></div>
+        </div>
+        <div ng-show="isGroupAdmin" class="row-fluid" style="display: none;">
+            <p>Address:</p>
+            <input type="text" required class="input-block-level" placeholder="street" ng-model="group.address.street">
+            <input type="number" required class="half-left" placeholder="House" ng-model="group.address.house">
+            <input type="number" required class="half-right" placeholder="Apartment" ng-model="group.address.apartment">
+            <input type="text"  required class="half-left" placeholder="city" ng-model="group.address.city">
+            <input type="text" required class="half-right" placeholder="country" ng-model="group.address.country">
+        </div>
+
+        <div google-map address="group.addressString"></div>
+
+        <div ng-show="isGroupAdmin">
+            <div image-uploader image="group.image" image-upload-settings="imageUploadSettings"></div>
+
+            <div class="row-fluid">
+                <button ng-click="saveChanges(group)" class="btn btn-large btn-block"><i class="icon-save"></i> Save Changes</button>
+                <div class="row-fluid">&nbsp;</div>
+                <div class="alert alert-error span12" ng-show="isSaveError">
+                    <strong>Oops Problem with the saving..</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-fluid">&nbsp;</div>
+
+        <div class="row-fluid">
+            <button ng-click="leaveGroup(group)" class="btn btn-large btn-block btn-danger">Leave</button>
+        </div>
     </div>
 
-    <div google-map address="group.addressString"></div>
-
-    <div image-uploader image="group.image" image-upload-settings="imageUploadSettings"></div>
-
-    <table class="table table-striped img-polaroid">
-        <thead>
-        <tr>
-            <th></th>
-            <th>Members</th>
-            <th><button class="btn btn-success btn-block btn-small">Add</button></th>
-        </tr>
-        </thead>
-        <tbody>
+    <div ng-show="tab == 'Members'">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Members</th>
+                <th><button ng-click="gotoAddMember()" class="btn btn-success btn-block btn-small">Add</button></th>
+            </tr>
+            </thead>
+            <tbody>
             <tr ng-repeat="member in group.members">
                 <td>
                     <span ng-show="isAdmin(member)"><strong>Admin</strong></span>
                     <span ng-hide="isAdmin(member)"><i class="icon-user"></i></span>
                 </td>
                 <td>{{member.firstname}} {{member.lastname}} ({{member.username}})</td>
-                <td><button ng-show="!member.isApproved" ng-click="confirmMember(member)" class="btn btn-info">Confirm</button></td>
+                <td><button ng-show="!member.isApproved" ng-click="confirmMember(member, group._id)" class="btn btn-info">Confirm</button></td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 
-    <!-- Meters -->
-    <table ng-hide="editMeter" class="table table-striped img-polaroid">
-        <thead>
+    <div ng-show="tab == 'Meters'">
+        <table class="table table-striped">
+            <thead>
             <tr>
                 <th></th>
                 <th>Meters</th>
                 <th><button class="btn btn-success btn-block btn-small">Add</button></th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             <tr ng-repeat="meter in group.meters">
                 <td></td>
                 <td>{{meter.name}}</td>
@@ -63,17 +97,8 @@
                     <button class="btn btn-danger">Delete</button>
                 </td>
             </tr>
-        </tbody>
-    </table>
-    <div ng-show="editMeter">
-        <div add-edit-meter>
-            <h2>Edit meter</h2>
-
-        </div>
-    </div>
-
-    <div class="row-fluid">
-        <button class="btn btn-large btn-block btn-danger">Leave</button>
+            </tbody>
+        </table>
     </div>
 </div>
 

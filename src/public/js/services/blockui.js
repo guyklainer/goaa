@@ -32,7 +32,7 @@ angular.module('App').factory('blockui', ['$dialog', '$timeout', function($dialo
         unblock = function(){
             log("unblock");
 
-            var delayInMiliSec = 200;
+            var delayInMiliSec = 500;
 
             $timeout(function(){
                 if (blockui.isOpen()){
