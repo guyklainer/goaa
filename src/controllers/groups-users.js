@@ -48,7 +48,7 @@ module.exports.isUserInGroup = function( req, res ){
 module.exports.approveUser = function( req, res ){
     var params = req.body;
 
-    GroupUser.findOne( { user: req.user._id, group: group }, function( err, groupUser ){
+    GroupUser.findOne( { user: req.user._id, group: params.group }, function( err, groupUser ){
         if( err ){
             res.json( utils.createResult( false, err, "dbError" ) );
             return false;
