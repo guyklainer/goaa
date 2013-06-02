@@ -7,7 +7,7 @@ app.factory('socketIO', [ function(){
         connect: function( params ){
             var socket = io.connect();
 
-            socket.emit( 'connect', { username: params.username, password: params.password } );
+            socket.emit( 'connect', params );
             return socket;
         }
     };

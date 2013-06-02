@@ -45,8 +45,8 @@ angular.module('App').controller('MeterCtrl', ['$scope', 'blockui', '$http', '$l
                 log(data);
             });
 
-            $scope.socket.on( 'boiler', function( boiler ){
-                $scope.boiler = boiler;
+            $scope.socket.on( 'data', function( data ){
+                $scope.boiler = data;
                 $scope.$apply();
             });
 

@@ -53,21 +53,5 @@ server.listen( settings.port, function(){
     console.log('Using Express %s...', express.version.red.bold);
 });
 
-io.sockets.on( 'connection', function( client ){
-
-    client.on( 'connect', function( params ){
-
-        var meterSocket = ioClient.connect( params.url );
-        console.log(meterSocket);
-        meterSocket.emit( 'connect', { username: params.username, password: params.password } );
-
-        meterSocket.on( 'invalid', function( data ){
-            client.emit( 'invalid', data );
-            clients.splice( clients.indexOf( client ), 1 );
-        });
-
-        meterSocket.on( 'data', function( data ){
-            client.emit( 'data', data );
-        });
-    });
-});
+// -- socket.io meters
+require( './controllers/meters' ).connect( io );
