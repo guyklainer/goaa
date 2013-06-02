@@ -17,6 +17,13 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
 
                 getIsGroupAdmin(account.user()._id, $scope.group._id);
                 updateMemberIsApprovedField($scope.group);
+
+                $scope.group.meters = [
+                    {name:"name1"},
+                    {name:"name2"},
+                    {name:"name3"},
+                ];
+
                 addAddressString($scope.group); //for use in google map
             } else {
                 $location.path("/home");
