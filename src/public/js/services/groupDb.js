@@ -128,6 +128,26 @@ app.factory('groupDb', ['$http', function($http){
 //                        callback(false);
 //                    }
 //                });
+        },
+        addMember: function(memberName, groupId, callback){
+            callback(false);
+//            post('/addmember',{ memberName: memberName, groupId: groupId})
+//                .error(function(data, status, headers, config){
+//                    httpErrorCallback(data, status, headers, config);
+//                    callback(false);
+//                })
+//                .success(function(data, status, headers, config) {
+//                    if (data != null)
+//                    {
+//                        if (data.result){
+//                            callback(true);
+//                        } else {
+//                            callback(false);
+//                        }
+//                    } else {
+//                        callback(false);
+//                    }
+//                });
         }
     };
 }]);
