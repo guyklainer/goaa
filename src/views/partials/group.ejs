@@ -3,10 +3,10 @@
 
 <center class="top-buttons">
     <div class="btn-group">
-        <button ng-class="{true:'btn-warning', false:''}[activePage == 'posts']" ng-click="gotoPartial(partialEnum.posts)" class="btn btn-small"><i class="icon-home icon-white"></i> Group</button>
-        <button ng-class="{true:'btn-warning', false:''}[activePage == 'gallery']" ng-click="gotoPartial(partialEnum.gallery)" class="btn btn-small"><i class="icon-th icon-white"></i> Gallery</button>
-        <button ng-class="{true:'btn-warning', false:''}[activePage == 'meters']" ng-click="gotoPartial(partialEnum.meters)" class="btn btn-small"><i class="icon-signal icon-white"></i> Meters</button>
-        <button ng-class="{true:'btn-warning', false:''}[activePage == 'todos']" ng-click="gotoPartial(partialEnum.todos)" class="btn btn-small"><i class="icon-check icon-white"></i> Todos</button>
+        <button ng-class="{'btn-warning': activePage == 'posts'}" ng-click="gotoPartial(partialEnum.posts)" class="btn btn-small"><i class="icon-home icon-white"></i> Group</button>
+        <button ng-class="{'btn-warning': activePage == 'gallery'}" ng-click="gotoPartial(partialEnum.gallery)" class="btn btn-small"><i class="icon-th icon-white"></i> Gallery</button>
+        <button ng-class="{'btn-warning': activePage == 'meters'}" ng-click="gotoPartial(partialEnum.meters)" class="btn btn-small"><i class="icon-signal icon-white"></i> Meters</button>
+        <button ng-class="{'btn-warning': activePage == 'todos'}" ng-click="gotoPartial(partialEnum.todos)" class="btn btn-small"><i class="icon-check icon-white"></i> Todos</button>
     </div>
 </center>
 

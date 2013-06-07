@@ -94,6 +94,10 @@ a:hover, a:focus {
     float: right !important;
 }
 
+.semi-trasparent {
+    opacity: 0.5;
+}
+
 /******************************
 // Colors
 //******************************/
@@ -220,15 +224,20 @@ img.logo {
     border-bottom: 1px solid rgba(128, 128, 128, 0.26);
     padding: 1% 2%;
     position: relative;
-    height: 30px;
+    height: 35px;
     cursor: pointer;
+    line-height: 35px;
 }
 
 .list-item:last-child {
     border: none;
 }
 
-.list-item i {
+.list-item:nth-child(even) {
+background: rgba(151, 142, 142, 0.07);
+}
+
+.list-item i.icon-chevron-right {
     opacity: 0.5;
     position: absolute;
     right: 15px;
@@ -257,7 +266,6 @@ img.logo {
 .list-item .title {
     font-size: 16px;
     margin-left: 20px;
-    margin-top: 4px;
     float: left;
 }
 
@@ -314,6 +322,37 @@ button.compose {
     margin-top: -30px;
     float: right;
 }
+
+.members-list .member-type {
+    width: 20%;
+    float: left;
+    margin-right: 2%;
+    text-align: center;
+}
+
+.members-list .member-name {
+    width: 45%;
+    float: left;
+}
+
+.members-list .member-buttons {
+    width: 30%;
+    float: right;
+    text-align: right;
+}
+
+.meters-list .meter-name {
+    width: 60%;
+    padding-left: 5px;
+    float: left;
+}
+
+.meters-list .meter-remove {
+    width: 30%;
+    float: right;
+    text-align: right;
+}
+
 
 /******************************
 // Posts
