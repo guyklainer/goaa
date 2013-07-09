@@ -37,7 +37,11 @@ angular.module('App').controller('GroupToDosCtrl', ['$scope', 'blockui', '$http'
 
             if($scope.todoText) {
 
-                groupDb.addTodoItem($scope.todoText, $scope.group._id, account.user()._id, function(result){
+                groupDb.addTodoItem($scope.todoText,
+                                    $scope.group._id,
+                                    account.user()._id,
+                                    account.user().firstName + ' ' + account.user().lastName,
+                    function(result){
 
                     if(result) {
                         $scope.isLoading = true;
@@ -56,22 +60,25 @@ angular.module('App').controller('GroupToDosCtrl', ['$scope', 'blockui', '$http'
 
         $scope.editTodo = function(todoItem){
             log("edit todoItem", todoItem);
-
-            groupDb.editTodoItem(todoItem, $scope.group._id, account.user()._id, function(result){
-                if (result){
-                    todoItem.isEdit = false;
-                } else {
-                    showTodoItemErrorMsg(todoItem, function(){
-                        loadGroup();
-                    });
-                }
-            });
+            if (todoItem.data){
+                groupDb.updateTodoItem(todoItem, $scope.group._id, function(result){
+                    if (result){
+                        todoItem.isEdit = false;
+                    } else {
+                        showTodoItemErrorMsg(todoItem, function(){
+                            loadGroup();
+                        });
+                    }
+                });
+            } else {
+                showTodoItemErrorMsg(todoItem);
+            }
         };
 
         $scope.markDone = function(todoItem){
             log("marking as done", todoItem);
 
-            groupDb.markTodoItem(todoItem, $scope.group._id, account.user()._id, function(result){
+            groupDb.updateTodoItem(todoItem, $scope.group._id, function(result){
                 if (!result){ //case error
 
                     todoItem.isDone = !todoItem.isDone;
@@ -83,7 +90,7 @@ angular.module('App').controller('GroupToDosCtrl', ['$scope', 'blockui', '$http'
         $scope.deleteTodo = function(todoItem){
             log("deleting todoItem", todoItem);
 
-            groupDb.deleteTodoItem(todoItem, $scope.group._id, account.user()._id, function(result){
+            groupDb.deleteTodoItem(todoItem._id, $scope.group._id, function(result){
                 if (result){
                     var index = $scope.group.todos.indexOf(todoItem);
                     $scope.group.todos.splice(index,1);
