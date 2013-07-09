@@ -28,6 +28,18 @@ angular.module('App').controller('GroupToDosCtrl', ['$scope', 'blockui', '$http'
             }, 2000);
         }
 
+        function parseForDb(todoItem) {
+            var dbItem = {
+                _id: todoItem._id,
+                userID: todoItem.userID,
+                username: todoItem.username,
+                data: todoItem.data,
+                isDone: todoItem.isDone,
+                createdOn: todoItem.createdOn
+            };
+            return dbItem;
+        }
+
         loadGroup();
 
 
@@ -61,7 +73,7 @@ angular.module('App').controller('GroupToDosCtrl', ['$scope', 'blockui', '$http'
         $scope.editTodo = function(todoItem){
             log("edit todoItem", todoItem);
             if (todoItem.data){
-                groupDb.updateTodoItem(todoItem, $scope.group._id, function(result){
+                groupDb.updateTodoItem(parseForDb(todoItem), $scope.group._id, function(result){
                     if (result){
                         todoItem.isEdit = false;
                     } else {
@@ -78,7 +90,7 @@ angular.module('App').controller('GroupToDosCtrl', ['$scope', 'blockui', '$http'
         $scope.markDone = function(todoItem){
             log("marking as done", todoItem);
 
-            groupDb.updateTodoItem(todoItem, $scope.group._id, function(result){
+            groupDb.updateTodoItem(parseForDb(todoItem), $scope.group._id, function(result){
                 if (!result){ //case error
 
                     todoItem.isDone = !todoItem.isDone;

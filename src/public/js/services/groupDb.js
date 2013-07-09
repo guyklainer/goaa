@@ -219,7 +219,7 @@ app.factory('groupDb', ['$http', function($http){
                     }
                 });
         },
-        updateTodoItem: function(todoItem, groupId, userId, callback){
+        updateTodoItem: function(todoItem, groupId, callback){
             $http.post('/updatetodo', { data: todoItem, groupID: groupId })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
@@ -233,9 +233,9 @@ app.factory('groupDb', ['$http', function($http){
                     }
                 });
         },
-        deleteTodoItem: function(todoItem, groupId, userId, callback){
+        deleteTodoItem: function(todoId, groupId, callback){
             callback(true);
-            $http.post('/removetodo', { todoID: todoItem, groupID: groupId })
+            $http.post('/removetodo', { todoID: todoId, groupID: groupId })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
                     callback(false);

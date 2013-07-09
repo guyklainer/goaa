@@ -29,7 +29,7 @@
                 <div class="thumbnail" ng-style="{true: {'background-color': 'gray'}, false: {'background-color': '#f8f8ff'}}[item.isDone]">
                     <div class="row-fluid" ng-hide="item.isEdit">
                         <span class="pull-right">
-                            <small>Username</small>
+                            <small>{{ item.username }}</small>
                             <button ng-hide="item.isDone" class="btn" type="button" ng-click="item.isEdit = true"><i class="icon-edit"></i></button>
                             <button ng-show="item.isDone" class="btn btn-danger" type="button" ng-click="deleteTodo(item)"><i class="icon-trash"></i></button>
                         </span>
