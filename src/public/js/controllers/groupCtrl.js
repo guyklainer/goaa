@@ -92,6 +92,9 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
             }
             $scope.activePage = partialEnumItem;
         }
+        $scope.gotoTodos = function(){
+            $location.path('group/' + $routeParams.groupName + "/todos");
+        }
         $scope.gotoMeter = function(meter){
             log("meter : ", meter);
             $location.path($location.path() + '/' + meter.name);
