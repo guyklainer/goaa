@@ -104,8 +104,7 @@ angular.module('App').controller('GroupToDosCtrl', ['$scope', 'blockui', '$http'
 
             groupDb.deleteTodoItem(todoItem._id, $scope.group._id, function(result){
                 if (result){
-                    var index = $scope.group.todos.indexOf(todoItem);
-                    $scope.group.todos.splice(index,1);
+                    loadGroup();
                 } else {
                     showTodoItemErrorMsg(todoItem);
                 }
