@@ -23,6 +23,7 @@ module.exports.addTodo = function( req, res ) {
                 todo = {
                     _id         : Crypto.randomBytes( 48 ).toString('hex') + timestamp,
                     userID      : params.userID,
+                    username    : params.name,
                     data        : params.data,
                     isDone      : false,
                     createdOn   : new Date()
