@@ -206,7 +206,7 @@ app.factory('groupDb', ['$http', function($http){
 //                });
         },
         addTodoItem: function(todoItem, groupId, userId, callback){
-            $http.post('/addtodo', { data: todoItem, groupID: groupId,userID:userId })
+            $http.post('/addtodo', { data: todoItem, groupID: groupId, userID:userId })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
                     callback(false);
@@ -218,6 +218,51 @@ app.factory('groupDb', ['$http', function($http){
                         callback(false);
                     }
                 });
+        },
+        editTodoItem: function(todoItem, groupId, userId, callback){
+            callback(true);
+//            $http.post('/edittodo', { data: todoItem, groupID: groupId, userID:userId })
+//                .error(function(data, status, headers, config){
+//                    httpErrorCallback(data, status, headers, config);
+//                    callback(false);
+//                })
+//                .success(function(data, status, headers, config) {
+//                    if (data != null){
+//                        callback(data.result);
+//                    } else {
+//                        callback(false);
+//                    }
+//                });
+        },
+        markTodoItem: function(todoItem, groupId, userId, callback){
+            callback(true);
+//            $http.post('/marktodo', { data: todoItem, groupID: groupId, userID:userId })
+//                .error(function(data, status, headers, config){
+//                    httpErrorCallback(data, status, headers, config);
+//                    callback(false);
+//                })
+//                .success(function(data, status, headers, config) {
+//                    if (data != null){
+//                        callback(data.result);
+//                    } else {
+//                        callback(false);
+//                    }
+//                });
+        },
+        deleteTodoItem: function(todoItem, groupId, userId, callback){
+            callback(true);
+//            $http.post('/deletetodo', { data: todoItem, groupID: groupId, userID:userId })
+//                .error(function(data, status, headers, config){
+//                    httpErrorCallback(data, status, headers, config);
+//                    callback(false);
+//                })
+//                .success(function(data, status, headers, config) {
+//                    if (data != null){
+//                        callback(data.result);
+//                    } else {
+//                        callback(false);
+//                    }
+//                });
         }
     };
 }]);

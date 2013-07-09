@@ -1,18 +1,7 @@
 <!-- Header -->
 <%- include ../shared/header.ejs %>
 
-<center class="top-buttons">
-    <div class="btn-group">
-        <button ng-class="{'btn-warning': activePage == 'posts'}" ng-click="gotoPartial(partialEnum.posts)" class="btn btn-small"><i class="icon-home icon-white"></i> Group</button>
-        <button ng-class="{'btn-warning': activePage == 'gallery'}" ng-click="gotoPartial(partialEnum.gallery)" class="btn btn-small"><i class="icon-th icon-white"></i> Gallery</button>
-        <button ng-class="{'btn-warning': activePage == 'meters'}" ng-click="gotoPartial(partialEnum.meters)" class="btn btn-small"><i class="icon-signal icon-white"></i> Meters</button>
-        <button ng-class="{'btn-warning': activePage == 'todos'}" ng-click="gotoPartial(partialEnum.todos)" class="btn btn-small"><i class="icon-check icon-white"></i> Todos</button>
-        <!--<button ng-class="{true:'btn-warning', false:''}[activePage == 'todos']" ng-click="gotoTodos()" class="btn btn-small"><i class="icon-check icon-white"></i> Todos</button>-->
-    </div>
-</center>
-
-<h4 class="page-title" class="muted">{{groupName}}</h4>
-<button class="btn btn-info btn-small compose" ng-click="gotoComposePost()"><i class="icon-pencil icon-white"></i> Compose</button>
+<div group-header view='view' group-name='groupName'></div>
 
 <!-- News Content -->
 <div class="container-fluid top-space" ng-show="isShowNews(view)">
@@ -31,7 +20,7 @@
 <div class="container-fluid top-space" ng-show="isShowPartial(view, 'gallery')">
     <div class="row-fluid">
         <ul class="thumbnails">
-            <li class="span4" ng-repeat="post in group.posts">
+            <li class="span4" ng-repeat="post in group.posts | images">
                 <div gallery-thumb post="post"></div>
             </li>
         </ul>
@@ -52,11 +41,6 @@
     </ul>
     <center><h4 class="page-title" ng-show="isLoading">Loading...</h4></center>
     <center><h4 class="page-title" ng-show="isShowNoMeters(group.meters, isLoading)">No Meters</h4></center>
-</div>
-
-<!-- Todos Content -->
-<div class="container-fluid" ng-show="isShowPartial(view, 'todos')">
-
 </div>
 
 <!-- Footer -->

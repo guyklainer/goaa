@@ -1,79 +1,97 @@
 
-angular.module('App').controller('GroupToDosCtrl', ['$scope', 'blockui', '$http', '$location', 'account', '$cookies', 'groupDb','$routeParams',
-    function($scope, blockui, $http, $location, account, $cookies,groupDb,$routeParams){
+angular.module('App').controller('GroupToDosCtrl', ['$scope', 'blockui', '$http', '$location', 'account', '$cookies', 'groupDb','$routeParams', '$timeout',
+    function($scope, blockui, $http, $location, account, $cookies, groupDb, $routeParams, $timeout){
 
-         $scope.editTodos="";
-        groupDb.getGroup($routeParams.groupName, function(g){
-            log("getGroup result: ", g);
-            $scope.isLoading = false;
-            $scope.group = g;
-            log("todos:",$scope.group);
-        });
-         $scope.errorMsg="";
-        $scope.isShowError=false;
+        $scope.isLoading        = true;
+        $scope.view             = 'todos';
+        $scope.groupName        = $routeParams.groupName;
+        $scope.editTodos        = "";
+        $scope.errorMsg         = "";
 
-            $scope.addTodo = function() {
-                if($scope.todoText)
-                {
-                    log("$scope.todoText")
-                    groupDb.addTodoItem($scope.todoText, $scope.group._id,account.user()._id, function(result){
-                        if(result)
-                        {
 
-                            log("todo item:",$scope.todoText)
-                            $scope.group.todos.push({data:$scope.todoText, isDone:false});
-                            // $scope.todoText = '';
-                        }
-                    } );
+        function loadGroup() {
+            groupDb.getGroup($routeParams.groupName, function (g) {
+                log("todos getGroup result: ", g);
+                $scope.isLoading = false;
+                $scope.group = g;
+            });
+        }
+
+        function showTodoItemErrorMsg(todoItem, doneCallback) {
+            todoItem.ErrorMsg = "oops we have a problem..";
+
+            $timeout(function () {
+                todoItem.ErrorMsg = "";
+                if (doneCallback){
+                    doneCallback();
                 }
-                else
-                {
-                    $scope.errorMsg="you must eneter todo's discrption";
-                    $scope.isShowError=true;
-                }
+            }, 2000);
+        }
+
+        loadGroup();
 
 
+        $scope.addTodo = function() {
+            //clearing the error msg
+            $scope.errorMsg = "";
 
+            if($scope.todoText) {
 
-                };
+                groupDb.addTodoItem($scope.todoText, $scope.group._id, account.user()._id, function(result){
 
+                    if(result) {
+                        $scope.isLoading = true;
+                        $scope.todoText = "";
+                        loadGroup();
+                    } else {
+                        //error adding the new item
+                        $scope.errorMsg = "oops, could not save it";
+                    }
 
-            $scope.remaining = function() {
-                var count = 0;
-                angular.forEach($scope.todos, function(todo) {
-                    count += todo.done ? 0 : 1;
-                });
-                return count;
-            };
-
-            $scope.archive = function() {
-                var oldTodos = $scope.todos;
-                $scope.todos = [];
-                angular.forEach(oldTodos, function(todo) {
-                    if (!todo.done) $scope.todos.push(todo);
-                });
-            };
-        $scope.clearDoneItem=function(){
-            $scope.todos= _.filter($scope.todos,function(todo){
-            return !todo.done;
-            })
+                } );
+            } else {
+                $scope.errorMsg = "enter something todo...";
+            }
         };
 
-        $scope.showEditText = function(todo){
-            if(todo.edit==false)
-            {
-                todo.edit=true;
-            }
-            else
-            {
-                todo.edit=false;
-            }
+        $scope.editTodo = function(todoItem){
+            log("edit todoItem", todoItem);
 
+            groupDb.editTodoItem(todoItem, $scope.group._id, account.user()._id, function(result){
+                if (result){
+                    todoItem.isEdit = false;
+                } else {
+                    showTodoItemErrorMsg(todoItem, function(){
+                        loadGroup();
+                    });
+                }
+            });
         };
 
+        $scope.markDone = function(todoItem){
+            log("marking as done", todoItem);
 
+            groupDb.markTodoItem(todoItem, $scope.group._id, account.user()._id, function(result){
+                if (!result){ //case error
 
-        // public functions
+                    todoItem.isDone = !todoItem.isDone;
+                    showTodoItemErrorMsg(todoItem);
+                }
+            });
+        };
+
+        $scope.deleteTodo = function(todoItem){
+            log("deleting todoItem", todoItem);
+
+            groupDb.deleteTodoItem(todoItem, $scope.group._id, account.user()._id, function(result){
+                if (result){
+                    var index = $scope.group.todos.indexOf(todoItem);
+                    $scope.group.todos.splice(index,1);
+                } else {
+                    showTodoItemErrorMsg(todoItem);
+                }
+            });
+        };
 
         $scope.account = account;
     }]);

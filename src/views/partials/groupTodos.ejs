@@ -2,38 +2,55 @@
 <!-- Header -->
 <%- include ../shared/header.ejs %>
 
+<div group-header view='view' group-name='groupName'></div>
 
-<div class="container-fluid main">
-    <h4 class="page-title">Todo's</h4>
-
+<div class="container-fluid top-space">
     <center>
-        <ul class="unstyled">
-            <li ng-repeat="todo in group.todos" class="pull-left">
-                <form class="form-inline">
-                    <label ng-show="!todo.edit" class="done-{{group.todos.data.isDone}} checkbox pull-left">
-                        <input  type="checkbox" ng-model="todo.isDone">{{todo.data}}
-                    </label>
-                    <button ng-show="!todo.edit" class="btn pull-right" ng-click="showEditText(todo)"  type="button"><i class="icon-edit"></i>Edit</button>
-                    <input ng-show="todo.edit"  type="text" ng-model="todo.data"  size="30"  >
-                </form>
+        <!-- Add Todos -->
+        <div class="row-fluid">
+            <form ng-submit="addTodo()" style="margin: 0px;">
+                <div class="input-append">
+                    <input type="text" ng-model="todoText" size="30" placeholder="What needs to be done?">
+                    <button class="btn" type="submit"><i class="icon-plus"></i> Add</button>
+                </div>
+                <div class="alert alert-error" ng-show="errorMsg">
+                    <strong>Error</strong> {{errorMsg}}
+                </div>
+            </form>
+        </div>
 
-                <button class="btn" ng-show="todo.edit" ng-click="showEditText(todo)"  type="button"><i class="icon-upload-alt"></i>Subimt Text</button>
-            </li>
-        </ul>
-
-        <form ng-submit="addTodo()">
-            <input type="text" ng-model="todoText"  size="30" placeholder="add new todo here">
-            <button class="btn" type="submit"><i class="icon-plus"></i> Add</button>
-            <div class="alert alert-error" ng-show="isShowError">
-                <strong>Error</strong> {{errorMsg}}
-            </div>
-            <button type="button" class="btn" ng-click="clearDoneItem()"><i class="icon-minus"></i> Move mark item</button>
-
-        </form>
     </center>
 
-    </div>
+    <div class="row-fluid">&nbsp;</div>
 
+    <div class="row-fluid">
+        <ul class="thumbnails">
+            <li class="span4" ng-repeat="item in group.todos">
+                <div class="thumbnail" ng-style="{true: {'background-color': 'gray'}, false: {'background-color': '#f8f8ff'}}[item.isDone]">
+                    <div class="row-fluid" ng-hide="item.isEdit">
+                        <span class="pull-right">
+                            <small>Username</small>
+                            <button ng-hide="item.isDone" class="btn" type="button" ng-click="item.isEdit = true"><i class="icon-edit"></i></button>
+                            <button ng-show="item.isDone" class="btn btn-danger" type="button" ng-click="deleteTodo(item)"><i class="icon-trash"></i></button>
+                        </span>
+                    </div>
+                    <div class="row-fluid" ng-hide="item.isEdit">
+                        <input type="checkbox" ng-model="item.isDone" ng-change="markDone(item)">
+                        <span ng-style="{true: {'text-decoration': 'line-through'}, false: {}}[item.isDone]">{{item.data}}</span>
+                    </div>
+
+                    <div class="alert alert-error" ng-show="item.ErrorMsg">
+                        <strong>Error</strong> {{item.ErrorMsg}}
+                    </div>
+
+                    <div class="row-fluid" ng-show="item.isEdit">
+                        <input type="text" class="input-large" ng-model="item.data" />
+                        <button class="btn btn-block" type="button" ng-click="editTodo(item)"><i class="icon-save"></i></button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
 </div>
 
 <!-- Footer -->

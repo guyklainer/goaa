@@ -8,13 +8,6 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
         $scope.isNoMeters       = false;
         $scope.view             = $routeParams.view;
         $scope.groupName        = $routeParams.groupName;
-        $scope.activePage       = $scope.view ? $scope.view.toLocaleLowerCase() : 'posts';
-        $scope.partialEnum      = {
-            gallery : 'gallery',
-            meters  : 'meters',
-            todos   : 'todos',
-            posts   : 'posts'
-        };
 
 
         groupDb.getGroup($routeParams.groupName, function(g){
@@ -75,35 +68,12 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
 
             return result;
         }
-        $scope.gotoPartial = function(partialEnumItem){
-            var index   = $location.path().indexOf($routeParams.view),
-                url     = $location.path().substr(0, index-1);
-
-            if( partialEnumItem == 'posts' ){
-                $location.path( url );
-
-            } else {
-                if ($scope.view == undefined || $scope.view == null){
-                    $location.path( $location.path() + '/' + partialEnumItem );
-
-                } else if ($scope.view.toLowerCase() != partialEnumItem){
-                    $location.path( url + '/' + partialEnumItem );
-                }
-            }
-            $scope.activePage = partialEnumItem;
-        }
-        $scope.gotoTodos = function(){
-            $location.path('group/' + $routeParams.groupName + "/todos");
-        }
         $scope.gotoMeter = function(meter){
             log("meter : ", meter);
             $location.path($location.path() + '/' + meter.name);
         }
         $scope.gotoGroupSettings = function(){
             $location.path('group/' + $routeParams.groupName + '/settings/General');
-        }
-        $scope.gotoComposePost = function(){
-            $location.path("compose/" + $routeParams.groupName);
         }
         $scope.isShowPartial = function(view, partial){
             if (view == undefined || partial == undefined){
