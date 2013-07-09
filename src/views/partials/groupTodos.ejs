@@ -1,0 +1,40 @@
+
+<!-- Header -->
+<%- include ../shared/header.ejs %>
+
+
+<div class="container-fluid main">
+    <h4 class="page-title">Todo's</h4>
+
+    <center>
+        <ul class="unstyled">
+            <li ng-repeat="todo in group.todos" class="pull-left">
+                <form class="form-inline">
+                    <label ng-show="!todo.edit" class="done-{{group.todos.data.isDone}} checkbox pull-left">
+                        <input  type="checkbox" ng-model="todo.isDone">{{todo.data}}
+                    </label>
+                    <button ng-show="!todo.edit" class="btn pull-right" ng-click="showEditText(todo)"  type="button"><i class="icon-edit"></i>Edit</button>
+                    <input ng-show="todo.edit"  type="text" ng-model="todo.data"  size="30"  >
+                </form>
+
+                <button class="btn" ng-show="todo.edit" ng-click="showEditText(todo)"  type="button"><i class="icon-upload-alt"></i>Subimt Text</button>
+            </li>
+        </ul>
+
+        <form ng-submit="addTodo()">
+            <input type="text" ng-model="todoText"  size="30" placeholder="add new todo here">
+            <button class="btn" type="submit"><i class="icon-plus"></i> Add</button>
+            <div class="alert alert-error" ng-show="isShowError">
+                <strong>Error</strong> {{errorMsg}}
+            </div>
+            <button type="button" class="btn" ng-click="clearDoneItem()"><i class="icon-minus"></i> Move mark item</button>
+
+        </form>
+    </center>
+
+    </div>
+
+</div>
+
+<!-- Footer -->
+<%- include ../shared/footer.ejs %>
