@@ -40,7 +40,7 @@ module.exports.addTodo = function( req, res ) {
             });
         }
     });
-}
+};
 
 module.exports.removeTodo = function( req, res ) {
     var params  = req.body;
@@ -67,9 +67,9 @@ module.exports.removeTodo = function( req, res ) {
             }
         }
     });
-}
+};
 
-module.exports.toggleTodo = function( req, res ) {
+module.exports.updateTodo = function( req, res ) {
     var params  = req.body;
 
     Group.findOne( { _id: params.groupID }, function( err, group ){
@@ -86,12 +86,8 @@ module.exports.toggleTodo = function( req, res ) {
 
             for( var i = 0; i < todos.length; i++ ){
 
-                if ( todos[i]._id == params.todoID ){
-                    if ( todos[i].isDone ){
-                        todos[i].isDone = false;
-                    } else {
-                        todos[i].isDone = true;
-                    }
+                if ( todos[i]._id == params.data._id ){
+                    todos[i] = params.data;
 
                     updateTodos( group._id, todos, res );
                     break;
@@ -99,14 +95,14 @@ module.exports.toggleTodo = function( req, res ) {
             }
         }
     });
-}
+};
 
 function updateTodos( groupID, todos, res ) {
     Group.update( { _id: groupID }, { $set: { todos: todos } }, function( err ){
         if( err ){
             res.json( Utils.createResult( false, err, "dbError" ) );
         } else {
-            res.json( Utils.createResult( true, null, "todoRemoved" ) );
+            res.json( Utils.createResult( true, null, "todoUpdated" ) );
         }
     });
 }

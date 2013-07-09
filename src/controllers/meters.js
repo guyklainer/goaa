@@ -11,7 +11,8 @@ module.exports.connect = function( io, ioClient ) {
         client.on( 'connect', function( params ){
 
             var meterSocket = ioClient.connect( params.url );
-            console.log(params);
+            console.log(meterSocket);
+
             meterSocket.emit( 'connect', { username: params.username, password: params.password } );
 
             meterSocket.on( 'invalid', function( data ){

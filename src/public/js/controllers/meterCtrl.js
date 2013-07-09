@@ -27,6 +27,10 @@ angular.module('App').controller('MeterCtrl', ['$scope', 'blockui', '$http', '$l
 
         $scope.startConnection = function( meter ){
             log(meter);
+            if( $scope.socket ) {
+                $scope.socket.emit( 'disconnect' );
+            }
+
             $scope.socket = io.connect();
             $scope.socket.emit( 'connect', meter );
 

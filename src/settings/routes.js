@@ -67,7 +67,7 @@ module.exports = function( app, passport ) {
     //*****************************
     app.post( '/addtodo', todos.addTodo );
     app.post( '/removetodo', todos.removeTodo );
-    app.post( '/toggletodo', todos.toggleTodo );
+    app.post( '/updatetodo', todos.toggleTodo );
 
     //*****************************
     // Meters
