@@ -16,8 +16,9 @@ angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', '$l
     loginFailed = false;
 
     // public var
-    $scope.form = form;
-    $scope.loginFailed = loginFailed;
+    $scope.hideBottomMenu   = true;
+    $scope.form             = form;
+    $scope.loginFailed      = loginFailed;
 
     var login = function() {
 

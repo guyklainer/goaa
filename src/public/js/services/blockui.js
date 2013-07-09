@@ -1,30 +1,27 @@
 "use strict";
 
-angular.module('App').factory('blockui', ['$dialog', function($dialog){
+angular.module('App').factory('blockui', ['$dialog', '$timeout', function($dialog, $timeout){
 
     var diagOptions = {
             backdrop: true,
             keyboard: false,
             backdropClick: false,
-            templateUrl:  'partials/blockui.ejs'
+            templateUrl:  '/partials/blockui.ejs'
         },
         blockui = $dialog.dialog(diagOptions)
-        ,
-        isOpen = false
         ,
         timeout = 15 * 1000 // in millisec
         ,
         block = function() {
             log("block");
-            if (isOpen) {
+            if (blockui.isOpen()) {
                 log("modal allready opened");
             } else {
                 blockui.open();
-                isOpen = true;
 
                 // unblock after timeout
                 setTimeout(function() {
-                    if (isOpen) {
+                    if (blockui.isOpen()) {
                         log("timeout over - unblocking");
                         unblock();
                     }
@@ -34,8 +31,15 @@ angular.module('App').factory('blockui', ['$dialog', function($dialog){
         ,
         unblock = function(){
             log("unblock");
-            blockui.close();
-            isOpen = false;
+
+            var delayInMiliSec = 500;
+
+            $timeout(function(){
+                if (blockui.isOpen()){
+                    blockui.close();
+                }
+            }, delayInMiliSec);
+
         };
 
 

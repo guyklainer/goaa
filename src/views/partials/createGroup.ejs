@@ -4,11 +4,14 @@
 
 
 <div class="container-fluid">
-    <h3>New Group</h3>
+    <h4 class="page-title">New Group</h4>
     <form class="form-create-group" ng-submit="groupcreator()" enctype="multipart/form-data">
-        <input type="text" required class="input-block-level" placeholder="Group name" ng-model="Group.name">
-        <p ng-show="isShowError" class="text-centered red"><strong>Group name Already exist</strong></p>
+        <input type="text" required class="input-block-level" placeholder="Group name" ng-model="Group.name"  ng-change="change()">
+        <p ng-show="isShowError" class="text-centered red">
 
+        <div class="alert alert-error" ng-show="isShowError">
+            <strong>Error</strong> {{errorMsg}}
+        </div>
         <p>Address:</p>
         <input type="text" required class="input-block-level" placeholder="street" ng-model="Group.address.street">
         <input type="number" required class="half-left" placeholder="House" ng-model="Group.address.house">
@@ -26,3 +29,6 @@
     </form>
 
 </div>
+
+<!-- Footer -->
+<%- include ../shared/footer.ejs %>

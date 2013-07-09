@@ -7,7 +7,7 @@
     <form name="signupForm" class="form-signin" ng-submit="signup()">
         <p ng-show="formInvalid" class="red">Some fields are incorrect.</p>
 
-        <input type="text" required ng-model="form.firstName" class="input-block-level" integer placeholder="First Name">
+        <input type="text" required ng-model="form.firstName" class="input-block-level" placeholder="First Name">
         <input type="text" required ng-model="form.lastName" class="input-block-level" placeholder="Last Name">
 
         <input type="text" name="username" ui-event="{ blur: 'validateUserName(form.username)' }" required ng-model="form.username" class="input-block-level" placeholder="Username">

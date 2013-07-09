@@ -10,7 +10,8 @@ var Group = new Schema({
     image    :      String,
     address  : 		{ country: String, city: String, street: String, house: Number, apartment: Number },
     posts    :      [],
-    todos    :      []
+    todos    :      [],
+    meters   :      []
 });
 
 mongoose.model( 'Group', Group );

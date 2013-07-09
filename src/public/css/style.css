@@ -22,7 +22,7 @@
 //******************************/
 
 html {
-    background: url('../img/bg.png' ) rgba(200, 236, 200, 0.47);
+    background: url('../img/bg.png' ) rgba(245, 242, 220, 0.47);
 }
 
 body {
@@ -39,10 +39,6 @@ a {
 
 .bold {
     font-weight: bold;
-}
-
-.red {
-    color: red;
 }
 
 .text-centered {
@@ -70,18 +66,52 @@ a:hover, a:focus {
     margin-bottom: 20px;
 }
 
+.top-space {
+    margin-top: 20px;
+}
+
 .underline {
     text-decoration: underline;
 }
 
 .half-left {
-    width: 45%;
+    width: 44%;
     float: left;
 }
 
 .half-right {
-    width: 45%;
+    width: 44%;
     float: right;
+}
+
+.page-title {
+    margin-top: 0;
+    color: rgba(0, 0, 0, 0.64);
+    text-shadow: 1px 1px 0px rgba(128, 128, 128, 0.34);
+}
+
+.pull-right {
+    float: right !important;
+}
+
+.semi-trasparent {
+    opacity: 0.5;
+}
+
+/******************************
+// Colors
+//******************************/
+
+.red {
+    color: #a90a15;
+}
+
+.green{
+    color: green;
+}
+
+.blue{
+    color: #3f66ff;
 }
 
 /******************************
@@ -139,6 +169,17 @@ a:hover, a:focus {
     margin: 0;
 }
 
+.navbar-fixed-bottom .nav li {
+    //border-right: 1px solid rgba(128, 128, 128, 0.25);
+}
+
+.navbar-fixed-bottom .nav li:last-child {
+    border-right: none;
+}
+
+.navbar-fixed-bottom .nav {
+    width: 100%;
+}
 
 /******************************
 // Login
@@ -183,15 +224,20 @@ img.logo {
     border-bottom: 1px solid rgba(128, 128, 128, 0.26);
     padding: 1% 2%;
     position: relative;
-    height: 30px;
+    height: 35px;
     cursor: pointer;
+    line-height: 35px;
 }
 
 .list-item:last-child {
     border: none;
 }
 
-.list-item i {
+.list-item:nth-child(even) {
+background: rgba(151, 142, 142, 0.07);
+}
+
+.list-item i.icon-chevron-right {
     opacity: 0.5;
     position: absolute;
     right: 15px;
@@ -199,10 +245,11 @@ img.logo {
 }
 
 .list-item .badge {
-    opacity: 0.5;
     position: absolute;
     right: 40px;
     top: 32%;
+    opacity: 0.7;
+    box-shadow: 1px 1px 0px rgba(128, 128, 128, 0.34);
 }
 
 .list-item i:hover,
@@ -216,14 +263,9 @@ img.logo {
     width: 50px;
 }
 
-.list-item .img-continer img {
-    height: 30px;
-}
-
 .list-item .title {
     font-size: 16px;
     margin-left: 20px;
-    margin-top: 4px;
     float: left;
 }
 
@@ -276,13 +318,72 @@ input[type="search"].search-group {
     margin: 0;
 }
 
+button.compose {
+    margin-top: -30px;
+    float: right;
+}
+
+.members-list .member-type {
+    width: 20%;
+    float: left;
+    margin-right: 2%;
+    text-align: center;
+}
+
+.members-list .member-name {
+    width: 45%;
+    float: left;
+}
+
+.members-list .member-buttons {
+    width: 30%;
+    float: right;
+    text-align: right;
+}
+
+.meters-list .meter-name {
+    width: 60%;
+    padding-left: 5px;
+    float: left;
+}
+
+.meters-list .meter-remove {
+    width: 30%;
+    float: right;
+    text-align: right;
+}
+
+
+/******************************
+// Posts
+//******************************/
+.post-details {
+    color: rgba(87, 66, 44, 0.87);
+    font-weight: normal;
+    padding: 0 2%;
+}
+
+.post-content {
+    padding: 0 2%;
+    color: rgb(73, 72, 72);
+}
+
+.post-image-small {
+    width: 100px;
+}
+
+.post-image {
+    margin: 0 auto;
+    float: none;
+    display: block;
+}
 
 /******************************
 // Upload image
 //******************************/
 .upload-area .group-image {
-    width: 150px;
-    max-height: 150px;
+    width: 100px;
+    max-height: 100px;
     max-width: 100%;
     border-radius: 10px;
     box-shadow: 0px 0 10px 1px gray;
@@ -295,7 +396,7 @@ input[type="search"].search-group {
 }
 
 .upload-area button {
-    margin-top: 60px;
+    margin-top: 35px;
 }
 
 .upload-area .image-loader {
@@ -314,16 +415,55 @@ input[type="search"].search-group {
     width: 25px;
 }
 
+/******************************
+// Boiler meter
+//******************************/
+.temp {
+    height: 70px;
+    bottom: 167px;
+    position: absolute;
+    width: 9px;
+    margin: 0 52px;
+}
+
+.temp div {
+    background: #C53439;
+    bottom: 0px;
+    position: absolute;
+    width: 9px;
+}
+
+.temp-helper {
+    background: #C53439;
+    border-radius: 10px;
+    bottom: 50px;
+    position: absolute;
+    width: 9px;
+    margin: 0 52px;
+    height: 122px;
+}
+
+.temp-wrapper {
+    height: 403px;
+    width: 114px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 1px gray;
+    position: relative;
+    background: url(../img/temp.jpg ) no-repeat center top;
+    margin: 20px 0;
+}
+
+.number{
+    font-size: 22px;
+}
+
+
 input.ng-invalid.ng-dirty{
     background-color: pink;
 }
 
 .upload-area .progress {
     width: 100%;
-}
-
-.green{
-    color: green;
 }
 
 /*input.ng-valid.ng-dirty{*/

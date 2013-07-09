@@ -2,6 +2,6 @@
 
 app.filter('celTemp', function() {
     return function(number) {
-        return number + " °C";
+        return number + "°C";
     }
 });

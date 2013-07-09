@@ -1,9 +1,10 @@
 
 var mongoose    = require( 'mongoose' ),
-    User        = mongoose.model('User' ),
-    Utils       = require('../utils/utils' ),
-    Mailer      = require( '../utils/mailer'),
-    crypto      = require( 'crypto' );
+    Utils       = require( '../utils/utils' ),
+    Mailer      = require( '../utils/mailer' ),
+    _           = require( 'underscore'),
+    crypto      = require( 'crypto' )
+    User        = mongoose.model( 'User' );
 
 module.exports.login = function( req, res ) {
     if( req.isAuthenticated() ) {
@@ -149,6 +150,37 @@ module.exports.resetPassword = function( req, res ) {
     } else {
 
         res.json( Utils.createResult( false, {}, "passwordNotEqual" ) );
+    }
+}
+
+module.exports.searchUser = function ( req, res ){
+    var filter      = req.body.filter,
+        pattern     = "^" + filter,
+        exp         = new RegExp( pattern, "i" ),
+        result      = {};
+
+    if( filter == undefined || filter == "" ){
+        res.json( utils.createResult( false, [], "emptyQuery" ) );
+
+    } else {
+        User.find( { username: exp }, { username: 1, _id: 0 }, function( err, docs ) {
+            if ( err ){
+                result = Utils.createResult( false, err, "dbError" );
+
+            } else if( !docs || docs.length == 0 ) {
+                result = Utils.createResult( false, [], "noResults" );
+
+            } else {
+                var usersArray = [];
+                _.each( docs, function( doc ){
+                    usersArray.push( doc.username );
+                });
+
+                result = Utils.createResult( true, usersArray, "foundUsers" );
+            }
+
+            res.json( result );
+        });
     }
 }
 

@@ -6,6 +6,7 @@ var mongoose        = require( 'mongoose' ),
     GroupUsers      = require( './groups-users' ),
     GroupUsersModel = mongoose.model( 'GroupUser' ),
     Group           = mongoose.model( 'Group' ),
+    User            = mongoose.model( 'User' ),
     settings        = config.settings;
 
 module.exports.joinGroup = function( req, res ){
@@ -17,12 +18,11 @@ module.exports.joinGroup = function( req, res ){
 }
 
 module.exports.getGroupsByUser = function( req, res ){
-
     var userID          = req.body.userID,
         groupIDsArray   = [],
         result;
 
-    GroupUsersModel.find( { user: userID }, { group: 1, _id: 0 }, function( err, groupIDs ){
+    GroupUsersModel.find( { user: userID, approved: true }, { group: 1, _id: 0 }, function( err, groupIDs ){
         if( err )
             res.json( utils.createResult( false, err, "dbError" ) );
 
@@ -48,12 +48,14 @@ module.exports.getGroupsByUser = function( req, res ){
 
 module.exports.getGroupByName = function( req, res ){
 
-    var groupName = req.body.name,
-        result;
+    var groupName   = req.body.name,
+        users       = [];
 
     Group.findOne( { name: groupName  }, function( err, group ) {
+        var returnedGroup = {};
+
         if( err ){
-            result = utils.createResult( false, err, "dbError" );
+            res.json( utils.createResult( false, err, "dbError" ) );
             return false;
 
         } else {
@@ -61,10 +63,57 @@ module.exports.getGroupByName = function( req, res ){
                 return ( -1 ) * post.createdOn;
             });
 
-            result = utils.createResult( true, group, "fetchGroupByName" );
-        }
+            returnedGroup.meters    = group.meters      ? group.meters  : [];
+            returnedGroup.todos     = group.todos       ? group.todos   : [];
+            returnedGroup.posts     = group.posts       ? group.posts   : [];
+            returnedGroup._id       = group._id;
+            returnedGroup.address   = group.address;
+            returnedGroup.createdOn = group.createdOn;
+            returnedGroup.image     = group.image;
+            returnedGroup.name      = group.name;
 
-        res.json( result );
+            GroupUsersModel.find({ group: returnedGroup._id }, function( err, groupUsers ){
+                if( err )
+                    res.json( utils.createResult( true, err, "dbError" ) );
+
+                else {
+                    returnedGroup.notApproved = [];
+                    _.each( groupUsers, function( groupUser ){
+
+                        if( groupUser.user == req.user._id && !groupUser.approved ){
+                            res.json( utils.createResult( false, null, "userNotApproved" ) );
+                            return false;
+
+                        } else if( groupUser.isAdmin )
+                            returnedGroup.adminID = groupUser.user;
+
+                        else if( !groupUser.approved )
+                            returnedGroup.notApproved.push( groupUser.user );
+
+                        users.push( groupUser.user );
+                    });
+
+                    User.find( { _id: { $in: users } }, function( err, users ){
+                        if( err )
+                            res.json( utils.createResult( false, err, "dbError" ) );
+
+                        else {
+                            returnedGroup.members = [];
+                            _.each( users, function( user ){
+                                returnedGroup.members.push( {
+                                    username    : user.username,
+                                    firstname   : user.firstName,
+                                    lastname    : user.lastName,
+                                    _id         : user._id
+                                } );
+                            });
+
+                            res.json( utils.createResult( true, returnedGroup, "fetchGroupByName" ) );
+                        }
+                    });
+                }
+            });
+        }
     });
 }
 
@@ -115,7 +164,6 @@ module.exports.searchGroup = function ( req, res ){
             res.json( result );
         });
     }
-
 }
 
 module.exports.editGroup = function( req, res ) {
@@ -127,26 +175,24 @@ module.exports.editGroup = function( req, res ) {
         { _id: groupID },
 
         { $set: {
-            "address.country"   : params.country,
-            "address.city"      : params.city,
-            "address.street"    : params.street,
-            "address.house"     : params.house,
-            "address.apartment" : params.apartment
+            "address.country"   : params.address.country,
+            "address.city"      : params.address.city,
+            "address.street"    : params.address.street,
+            "address.house"     : params.address.house,
+            "address.apartment" : params.address.apartment,
+            "image"             : params.image ? params.image : settings.defaultAvatar
         } },
 
         { upsert: true },
 
         function( err ){
-            if ( err ) {
-                result.result   = false;
-                result.data     = err;
-                result.msg      = "errorInUpdate";
+            if ( err )
+                result = utils.createResult( false, err, "dbError" );
 
-            } else {
-                result.result   = true;
-                result.data     = null;
-                result.msg      = "addressUpdated";
-            }
+            else
+                result = utils.createResult( true, null, "groupUpdated" );
+
+            res.json( result );
         }
     );
 }
@@ -181,6 +227,15 @@ module.exports.makeGroup = function( req, res ) {
     });
 }
 
+module.exports.isGroupAdmin = function( req, res ) {
+    var params = req.body;
+
+    GroupUsers.isAdmin( params.user, params.group, function( result ){
+        res.json( result );
+    });
+
+}
+
 function validateGroupRequest ( params, callback ){
 
     var result = utils.isAllFieldsAreNotNullOrEmpty( params );
@@ -197,8 +252,6 @@ function validateGroupRequest ( params, callback ){
     } else {
         callback( result );
     }
-
-
 }
 
 function isGroupExist( name, callback ) {
@@ -208,7 +261,7 @@ function isGroupExist( name, callback ) {
 }
 
 module.exports.isGroupExist = function( req, res ){
-    isGroupExist( req.name, function( exist, group ){
+    isGroupExist( req.body.name, function( exist, group ){
         if( exist ){
             res.json( utils.createResult( false, group, "groupExist" ) );
 

@@ -3,27 +3,24 @@
 angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location', 'account', '$routeParams','$timeout', 'groupDb',
     function($scope, blockui, $location, account, $routeParams, $timeout, groupDb){
 
-        $scope.isLoading = true;
-        $scope.isNoMeters = false;
-        $scope.view = $routeParams.view;
-        $scope.groupName = $routeParams.groupName;
-        $scope.partialEnum = {
-            gallery: 'gallery',
-            meters: 'meters',
-            todos: 'todos'
+        $scope.showSettings     = true;
+        $scope.isLoading        = true;
+        $scope.isNoMeters       = false;
+        $scope.view             = $routeParams.view;
+        $scope.groupName        = $routeParams.groupName;
+        $scope.activePage       = $scope.view ? $scope.view.toLocaleLowerCase() : 'posts';
+        $scope.partialEnum      = {
+            gallery : 'gallery',
+            meters  : 'meters',
+            todos   : 'todos',
+            posts   : 'posts'
         };
+
 
         groupDb.getGroup($routeParams.groupName, function(g){
             log("getGroup result: ", g);
             $scope.isLoading = false;
             $scope.group = g;
-
-            //temporary
-            $scope.group['meters'] = [
-                {name: "boiler"},
-                {name: "Living Room Light"},
-                {name: "Air Conditioner"}
-            ];
         });
 
 
@@ -79,21 +76,32 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
             return result;
         }
         $scope.gotoPartial = function(partialEnumItem){
-            if ($scope.view == undefined || $scope.view == null){
-                $location.path( $location.path() + '/' + partialEnumItem );
-            } else if ($scope.view.toLowerCase() != partialEnumItem){
-                var index = $location.path().indexOf($routeParams.view);
-                var url = $location.path().substr(0, index-1);
-                $location.path( url + '/' + partialEnumItem );
+            var index   = $location.path().indexOf($routeParams.view),
+                url     = $location.path().substr(0, index-1);
+
+            if( partialEnumItem == 'posts' ){
+                $location.path( url );
+
+            } else {
+                if ($scope.view == undefined || $scope.view == null){
+                    $location.path( $location.path() + '/' + partialEnumItem );
+
+                } else if ($scope.view.toLowerCase() != partialEnumItem){
+                    $location.path( url + '/' + partialEnumItem );
+                }
             }
+            $scope.activePage = partialEnumItem;
         }
         $scope.gotoMeter = function(meter){
+            log("meter : ", meter);
             $location.path($location.path() + '/' + meter.name);
         }
         $scope.gotoGroupSettings = function(){
-            $location.path('group/' + $routeParams.groupName + '/settings');
+            $location.path('group/' + $routeParams.groupName + '/settings/General');
         }
-
+        $scope.gotoComposePost = function(){
+            $location.path("compose/" + $routeParams.groupName);
+        }
         $scope.isShowPartial = function(view, partial){
             if (view == undefined || partial == undefined){
                 return false;

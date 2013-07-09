@@ -6,10 +6,12 @@ var mongoose    = require('mongoose'),
 
 module.exports = function( app, passport ) {
 
-    var users   = require( '../controllers/users'),
-        groups  = require( '../controllers/groups'),
-        todos   = require( '../controllers/todos' ),
-        posts   = require( '../controllers/posts');
+    var users           = require( '../controllers/users'),
+        groups          = require( '../controllers/groups'),
+        groupsUsers     = require( '../controllers/groups-users'),
+        todos           = require( '../controllers/todos' ),
+        meters          = require( '../controllers/meters' ),
+        posts           = require( '../controllers/posts');
 
     //*****************************
     // Home
@@ -29,17 +31,30 @@ module.exports = function( app, passport ) {
     app.post( '/forgotpassword', users.forgotPassword );
     app.post( '/resetpassword', users.resetPassword );
 
+    //*****************************
+    // Users
+    //*****************************
+    app.post( '/searchusers', users.searchUser );
 
     //*****************************
     // Groups
     //*****************************
     app.post( '/creategroup', groups.makeGroup );
+    app.post( '/editgroup', groups.editGroup );
     app.post( '/getgroups', groups.getGroupsByUser );
     app.post( '/getgroupbyname', groups.getGroupByName );
     app.post( '/getgrouppreview', groups.getGroupPreviewByName );
     app.post( '/searchgroups', groups.searchGroup );
     app.post( '/joingroup', groups.joinGroup );
     app.post( '/isgroupexist', groups.isGroupExist );
+    app.post( '/isgroupadmin', groups.isGroupAdmin );
+
+    //*****************************
+    // Users Groups connections
+    //*****************************
+    app.post( '/isuseringroup', groupsUsers.isUserInGroup );
+    app.post( '/approveuser', groupsUsers.approveUser );
+    app.post( '/leavegroup', groupsUsers.removeUserFromGroup );
 
     //*****************************
     // Posts
@@ -53,6 +68,12 @@ module.exports = function( app, passport ) {
     app.post( '/addtodo', todos.addTodo );
     app.post( '/removetodo', todos.removeTodo );
     app.post( '/toggletodo', todos.toggleTodo );
+
+    //*****************************
+    // Meters
+    //*****************************
+    app.post( '/addmeter', meters.addMeter );
+    app.post( '/checkmetername', meters.isMeterNameExist );
 
     //*****************************
     // API

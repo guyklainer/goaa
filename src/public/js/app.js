@@ -19,6 +19,10 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
             templateUrl: '/partials/signup',
             controller: 'SignupCtrl'
         }).
+        when('/test', {
+            templateUrl: '/partials/test',
+            controller: 'TestCtrl'
+        }).
         when('/createGroup', {
             templateUrl: '/partials/createGroup',
             controller: 'CreateGroupCtrl'
@@ -31,15 +35,25 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
             templateUrl: '/partials/groupPreview',
             controller: 'GroupPreviewCtrl'
         }).
-
-        //group views
         when('/group/:groupName', {
             templateUrl: '/partials/group',
             controller: 'GroupCtrl'
         }).
-        when('/group/:groupName/settings', {
+        when('/group/:groupName/settings/:tab', {
             templateUrl: '/partials/groupSettings',
             controller: 'GroupSettingsCtrl'
+        }).
+        when('/group/:groupName/settings/Members/addMember', {
+            templateUrl: '/partials/groupAddMember',
+            controller: 'GroupAddMemberCtrl'
+        }).
+        when('/group/:groupName/settings/Meters/meter', {
+            templateUrl: '/partials/groupAddMeter',
+            controller: 'GroupAddMeterCtrl'
+        }).
+        when('/group/:groupName/settings/Meters/meter/:meterId', {
+            templateUrl: '/partials/groupAddMeter',
+            controller: 'GroupAddMeterCtrl'
         }).
         when('/group/:groupName/:view', {
             templateUrl: '/partials/group',
@@ -49,13 +63,14 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
             templateUrl: '/partials/meter',
             controller: 'MeterCtrl'
         }).
-
-        //temporary
-        when('/test', {
-            templateUrl: '/partials/test',
-            controller: 'TestCtrl'
+        when('/compose', {
+            templateUrl: '/partials/composeView',
+            controller: 'ComposeCtrl'
         }).
-
+        when('/compose/:groupName',{
+            templateUrl: '/partials/composeView',
+            controller: 'ComposeCtrl'
+        }).
         otherwise({
             redirectTo: '/'
         });
