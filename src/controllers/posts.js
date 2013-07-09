@@ -94,7 +94,7 @@ function updatePosts( groupID, posts, res ) {
         if( err ){
             res.json( Utils.createResult( false, err, "dbError" ) );
         } else {
-            res.json( Utils.createResult( true, null, "postRemoved" ) );
+            res.json( Utils.createResult( true, null, "postUpdated" ) );
         }
     });
 }

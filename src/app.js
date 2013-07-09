@@ -44,8 +44,8 @@ mongoose.connect( settings.db.main, function( err ){
 logo.print();
 
 // -- Create the server
-var server      = http.createServer( app );
-    io          = require('socket.io').listen( server ),
+var server      = http.createServer( app ),
+    io          = require( 'socket.io' ).listen( server ),
     ioClient    = require( './node_modules/socket.io/node_modules/socket.io-client' );
 
 server.listen( settings.port, function(){
@@ -54,4 +54,4 @@ server.listen( settings.port, function(){
 });
 
 // -- socket.io meters
-require( './controllers/meters' ).connect( io );
+require( './controllers/meters' ).connect( io, ioClient );

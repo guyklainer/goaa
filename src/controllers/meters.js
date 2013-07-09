@@ -5,13 +5,14 @@ var Mongoose    = require( 'mongoose' ),
     Crypto      = require( 'crypto' ),
     Group       = Mongoose.model( 'Group' );
 
-module.exports.connect = function( io ) {
+module.exports.connect = function( io, ioClient ) {
     io.sockets.on( 'connection', function( client ){
 
         client.on( 'connect', function( params ){
 
             var meterSocket = ioClient.connect( params.url );
-            console.log(params);
+            console.log(meterSocket);
+
             meterSocket.emit( 'connect', { username: params.username, password: params.password } );
 
             meterSocket.on( 'invalid', function( data ){
@@ -69,7 +70,7 @@ module.exports.addMeter = function( req, res ){
             }
         }
     });
-}
+};
 
 module.exports.isMeterNameExist = function( req, res ){
     var params = req.body;
