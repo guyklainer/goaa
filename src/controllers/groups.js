@@ -63,6 +63,10 @@ module.exports.getGroupByName = function( req, res ){
                 return ( -1 ) * post.createdOn;
             });
 
+            group.todos = _.sortBy( group.todos, function( todo ){
+                return ( -1 ) * todo.createdOn;
+            });
+
             returnedGroup.meters    = group.meters      ? group.meters  : [];
             returnedGroup.todos     = group.todos       ? group.todos   : [];
             returnedGroup.posts     = group.posts       ? group.posts   : [];
