@@ -129,23 +129,23 @@ app.factory('groupDb', ['$http', function($http){
         },
         addMember: function(memberName, groupId, callback){
             callback(false);
-//            $http.post('/addmember',{ memberName: memberName, groupId: groupId})
-//                .error(function(data, status, headers, config){
-//                    httpErrorCallback(data, status, headers, config);
-//                    callback(false);
-//                })
-//                .success(function(data, status, headers, config) {
-//                    if (data != null)
-//                    {
-//                        if (data.result){
-//                            callback(true);
-//                        } else {
-//                            callback(false);
-//                        }
-//                    } else {
-//                        callback(false);
-//                    }
-//                });
+            $http.post('/addmember',{ member: memberName, groupID: groupId})
+                .error(function(data, status, headers, config){
+                    httpErrorCallback(data, status, headers, config);
+                    callback(false);
+                })
+                .success(function(data, status, headers, config) {
+                    if (data != null)
+                    {
+                        if (data.result){
+                            callback(true);
+                        } else {
+                            callback(false);
+                        }
+                    } else {
+                        callback(false);
+                    }
+                });
         },
         isMeterNameExist: function(meterName, groupId, callback){
             $http.post('/checkmetername',{ name: meterName, groupID: groupId})

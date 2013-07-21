@@ -1,10 +1,11 @@
 
 var mongoose    = require( 'mongoose' ),
-    utils       = require( '../utils/utils' )
+    utils       = require( '../utils/utils'),
     GroupUser   = mongoose.model( 'GroupUser' ),
+    User        = mongoose.model( 'User' ),
     Group       = mongoose.model( 'Group');
 
-module.exports.createUserGroupConnection = function( user, group, isAdmin, callback ){
+module.exports.createUserGroupConnection = function( user, group, isAdmin, callback, isApproved ){
     var params = {},
         result = null;
 
@@ -12,7 +13,7 @@ module.exports.createUserGroupConnection = function( user, group, isAdmin, callb
     params.user         = user;
     params.group        = group;
     params.isAdmin      = isAdmin;
-    params.approved     = isAdmin ? true : false;
+    params.approved     = isAdmin || isApproved ? true : false;
 
     isUserInGroup( user, group, function( result ){
         if( result.result ){
@@ -76,7 +77,28 @@ module.exports.approveUser = function( req, res ){
         }
 
     });
-}
+};
+
+module.exports.addUserByName = function( req, res ) {
+    var params = req.body;
+
+    User.findOne( { username: params.member }, function( err, user ){
+        if( err ){
+            res.json( utils.createResult( false, err, "dbError" ) );
+            return false;
+
+        } else if( !user ) {
+            res.json( utils.createResult( false, null, "noSuchUser" ) );
+            return false;
+
+        } else {
+            module.exports.createUserGroupConnection( user._id, params.groupID, false, function(){
+                res.json( utils.createResult( true, null, "success") );
+            }, true );
+        }
+
+    });
+};
 
 module.exports.removeUserFromGroup = function( req, res ){
     var params = req.body,

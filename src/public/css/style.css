@@ -98,6 +98,34 @@ a:hover, a:focus {
     opacity: 0.5;
 }
 
+.no-margin {
+    margin: 0;
+}
+
+.animate-setup,
+.animate-leave
+{
+    -webkit-transition: 1s linear all;
+    -moz-transition: 300ms linear all;
+    -ms-transition: 300ms linear all;
+    -o-transition: 300ms linear all;
+    transition: 1s linear all;
+    opacity: 0;
+}
+
+.animate-leave-setup {
+    opacity: 1;
+}
+
+.animate-enter-setup.animate-enter-start,
+{
+    opacity: 1;
+}
+
+.animate-leave-setup.animate-enter-start {
+    opacity: 0;
+}
+
 /******************************
 // Colors
 //******************************/
@@ -455,6 +483,21 @@ button.compose {
 
 .number{
     font-size: 22px;
+}
+
+/******************************
+// Boiler meter
+//******************************/
+.todo-done .todo-text {
+    text-decoration: line-through;
+}
+
+.todo-label {
+    margin-top: 7px;
+}
+
+.todo-label input {
+    margin: 0px;
 }
 
 

@@ -36,7 +36,7 @@ module.exports.addTodo = function( req, res ) {
                     res.json( Utils.createResult( false, err, "dbError" ) );
 
                 } else {
-                    res.json( Utils.createResult( true, null, "todoAdded" ) );
+                    res.json( Utils.createResult( true, todo, "todoAdded" ) );
                 }
             });
         }

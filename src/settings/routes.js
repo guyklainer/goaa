@@ -55,6 +55,7 @@ module.exports = function( app, passport ) {
     app.post( '/isuseringroup', groupsUsers.isUserInGroup );
     app.post( '/approveuser', groupsUsers.approveUser );
     app.post( '/leavegroup', groupsUsers.removeUserFromGroup );
+    app.post( '/addmember', groupsUsers.addUserByName );
 
     //*****************************
     // Posts
