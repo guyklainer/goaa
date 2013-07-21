@@ -72,6 +72,33 @@ module.exports.addMeter = function( req, res ){
     });
 };
 
+module.exports.removeMeter = function( req, res ) {
+    var params  = req.body;
+
+    Group.findOne( { _id: params.groupID }, function( err, group ){
+
+        if ( err ) {
+            res.json(Utils.createResult( false, err, "dbError" ));
+        }
+
+        if( !group ){
+            res.json(Utils.createResult( false, null, "noGroupFound" ));
+
+        } else {
+            var meters = group.meters;
+
+            for( var i = 0; i < meters.length; i++ ){
+
+                if ( meters[i]._id == params.meterID ){
+                    meters.splice( i, 1 );
+                    updateMeters( group._id, meters, res );
+                    break;
+                }
+            }
+        }
+    });
+};
+
 module.exports.isMeterNameExist = function( req, res ){
     var params = req.body;
 
@@ -104,4 +131,14 @@ function isMeterNameExist( name, meters ){
     });
 
     return exist;
+}
+
+function updateMeters( groupID, meters, res ) {
+    Group.update( { _id: groupID }, { $set: { meters: meters } }, function( err ){
+        if( err ){
+            res.json( Utils.createResult( false, err, "dbError" ) );
+        } else {
+            res.json( Utils.createResult( true, null, "todoUpdated" ) );
+        }
+    });
 }
