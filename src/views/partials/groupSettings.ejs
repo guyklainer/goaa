@@ -75,12 +75,18 @@
 
     <div ng-show="tab == 'Meters' && isGroupAdmin">
         <ul class="meters-list list">
-            <li ng-click="gotoMeter(meter._id)" class="list-item" ng-repeat="meter in group.meters">
-                <div class="meter-name">{{meter.name}}</div>
-                <div class="meter-remove">
-                    <button ng-click="deleteMeter(meter, group._id)" class="btn btn-danger btn-small"><i  class="icon-remove"></i></button>
+            <li class="list-item" ng-repeat="meter in group.meters">
+                <div class="row-fluid">
+                    <div class="span10" ng-click="gotoMeter(meter._id)">
+                        <div class="meter-name">{{meter.name}}</div>
+                        <p class="red pull-right" ng-show="meter.isDeleteError">Oops we have a problem..</p>
+                    </div>
+                    <div class="span2">
+                        <div class="meter-remove">
+                            <button ng-click="deleteMeter(meter, group._id)" class="btn btn-danger btn-small"><i  class="icon-remove"></i></button>
+                        </div>
+                    </div>
                 </div>
-                <p class="red pull-right" ng-show="meter.isDeleteError">Oops we have a problem..</p>
             </li>
         </ul>
 
