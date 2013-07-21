@@ -75,6 +75,7 @@ module.exports = function( app, passport ) {
     //*****************************
     app.post( '/addmeter', meters.addMeter );
     app.post( '/checkmetername', meters.isMeterNameExist );
+    app.post( '/removemeter', meters.removeMeter );
 
     //*****************************
     // API
