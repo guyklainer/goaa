@@ -128,15 +128,13 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         addMember: function(memberName, groupId, callback){
-            callback(false);
             $http.post('/addmember',{ member: memberName, groupID: groupId})
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
                     callback(false);
                 })
                 .success(function(data, status, headers, config) {
-                    if (data != null)
-                    {
+                    if (data != null) {
                         if (data.result){
                             callback(true);
                         } else {
@@ -186,24 +184,22 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         deleteMeter: function(meterId, groupId, callback){
-            callback(true);
-//            $http.post('/deletemeter',{ meterId: meterId, groupId: groupId})
-//                .error(function(data, status, headers, config){
-//                    httpErrorCallback(data, status, headers, config);
-//                    callback(false);
-//                })
-//                .success(function(data, status, headers, config) {
-//                    if (data != null)
-//                    {
-//                        if (data.result){
-//                            callback(true);
-//                        } else {
-//                            callback(false);
-//                        }
-//                    } else {
-//                        callback(false);
-//                    }
-//                });
+            $http.post('/removemeter',{ meterID: meterId, groupID: groupId})
+                .error(function(data, status, headers, config){
+                    httpErrorCallback(data, status, headers, config);
+                    callback(false);
+                })
+                .success(function(data, status, headers, config) {
+                    if (data != null) {
+                        if (data.result){
+                            callback(true);
+                        } else {
+                            callback(false);
+                        }
+                    } else {
+                        callback(false);
+                    }
+                });
         },
         addTodoItem: function(todoItem, groupId, userId, name, callback){
             $http.post('/addtodo', { data: todoItem, groupID: groupId, userID:userId, name: name })
