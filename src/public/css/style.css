@@ -102,28 +102,30 @@ a:hover, a:focus {
     margin: 0;
 }
 
-.animate-setup,
+.animate-enter,
 .animate-leave
 {
-    -webkit-transition: 300ms linear all;
+    -webkit-transition: 30s linear all;
     -moz-transition: 300ms linear all;
     -ms-transition: 300ms linear all;
     -o-transition: 300ms linear all;
-    transition: 300ms linear all;
-    opacity: 0;
+    transition: 30s linear all;
+    position: relative;
 }
 
-.animate-leave-setup {
-    opacity: 1;
+.animate-enter {
+    left: 500px;
 }
 
-.animate-enter-setup.animate-enter-start,
+.animate-leave.animate-leave-active
 {
-    opacity: 1;
+    left: -500px;
 }
 
-.animate-leave-setup.animate-enter-start {
-    opacity: 0;
+
+.animate-enter.animate-enter-active
+{
+    left: 0;
 }
 
 /******************************

@@ -34,7 +34,7 @@ module.exports.createUserGroupConnection = function( user, group, isAdmin, callb
 
         callback( result );
     });
-}
+};
 
 module.exports.isUserInGroup = function( req, res ){
     var params          = {};
@@ -44,7 +44,7 @@ module.exports.isUserInGroup = function( req, res ){
     isUserInGroup( params.user, params.group, function( result ){
         res.json( result );
     });
-}
+};
 
 module.exports.approveUser = function( req, res ){
     var params = req.body;
@@ -104,7 +104,7 @@ module.exports.removeUserFromGroup = function( req, res ){
     var params = req.body,
         result = {};
 
-    isAdmin( params.user, params.group, function( result ){
+    module.exports.isAdmin( params.user, params.group, function( result ){
         if( result.result )
             changeAdmin( params.group, function( result ){
                 if( !result.result && result.msg == "dbError" )
@@ -131,9 +131,9 @@ module.exports.removeUserFromGroup = function( req, res ){
                 res.json( utils.createResult( true, result, "userAndGroupRemoved" ) );
         });
     });
-}
+};
 
-function isAdmin( user, group, callback ){
+module.exports.isAdmin = function( user, group, callback ){
     var result = {};
 
     GroupUser.findOne( { user: user, group: group }, function( err, groupUser ){
@@ -150,9 +150,7 @@ function isAdmin( user, group, callback ){
         callback( result );
     });
 
-}
-
-module.exports.isAdmin = isAdmin;
+};
 
 function changeAdmin( group, callback ){
     GroupUser.findOne( { isAdmin: false, group: group } ).sort( { createdOn: 1 } ).exec( function( err, groupUser ){

@@ -33,7 +33,7 @@ module.exports.connect = function( io, ioClient ) {
             });
         });
     });
-}
+};
 
 module.exports.addMeter = function( req, res ){
     var params = req.body;
@@ -120,7 +120,7 @@ module.exports.isMeterNameExist = function( req, res ){
                 res.json( Utils.createResult( false, null, "meterNameNotExist" ) );
         }
     });
-}
+};
 
 function isMeterNameExist( name, meters ){
     var exist = false;
@@ -131,14 +131,14 @@ function isMeterNameExist( name, meters ){
     });
 
     return exist;
-}
+};
 
 function updateMeters( groupID, meters, res ) {
     Group.update( { _id: groupID }, { $set: { meters: meters } }, function( err ){
         if( err ){
             res.json( Utils.createResult( false, err, "dbError" ) );
         } else {
-            res.json( Utils.createResult( true, null, "todoUpdated" ) );
+            res.json( Utils.createResult( true, null, "metersUpdated" ) );
         }
     });
-}
+};
