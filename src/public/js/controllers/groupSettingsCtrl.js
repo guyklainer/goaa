@@ -3,7 +3,21 @@
 angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$location', 'account', '$routeParams','$timeout', 'groupDb',
     function($scope, blockui, $location, account, $routeParams, $timeout, groupDb){
 
-        //log($routeParams.groupName);
+        function getGroup() {
+            groupDb.getGroup($routeParams.groupName, function (g) {
+                if (g != null) {
+
+                    $scope.group = g;
+
+                    getIsGroupAdmin(account.user()._id, $scope.group._id);
+                    updateMemberIsApprovedField($scope.group);
+                    addAddressString($scope.group); //for use in google map
+                } else {
+                    $location.path("/home");
+                }
+            });
+        }
+
         $scope.isGroupAdmin = false;
         $scope.tabs = ['General', 'Members', 'Meters'];
         $scope.tab = $routeParams.tab;
@@ -18,18 +32,7 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
             stage: "newGroup"
         };
 
-        groupDb.getGroup($routeParams.groupName, function(g){
-            if (g != null){
-
-                $scope.group = g;
-
-                getIsGroupAdmin(account.user()._id, $scope.group._id);
-                updateMemberIsApprovedField($scope.group);
-                addAddressString($scope.group); //for use in google map
-            } else {
-                $location.path("/home");
-            }
-        });
+        getGroup();
 
         $scope.isAdmin = function(member){
             return $scope.group.adminID == member._id;
@@ -46,6 +49,20 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
                         member.isApproved = result;
                     }
             });
+        };
+
+        $scope.deleteMember = function(member, groupId){
+            log("delete member", member);
+            blockui.block();
+            groupDb.leaveGroup(member._id, groupId,
+                function(result){
+                    blockui.unblock();
+                    log("delete result:", result);
+                    if (result){
+                        //refresh the list
+                        getGroup();
+                    }
+                });
         };
 
         $scope.gotoAddMember = function(){
