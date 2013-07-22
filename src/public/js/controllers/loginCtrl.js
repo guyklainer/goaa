@@ -4,7 +4,7 @@ angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', '$l
 
     // checking if logged in allready redirecting to Home
     if (account.isLoggedIn()){
-        $location.path('/home')
+        $location.path('/home').replace(); //redirect wont create new page in the history
     }
 
     var form = {
@@ -45,7 +45,7 @@ angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', '$l
                     $scope.loginFailed = false;
                     $cookies.user = '12' + angular.toJson(data.user);
                     account.update();
-                    $location.path('/home');
+                    $location.path('/home').replace(); //redirect wont create new page in the history
                 }
             });
     };

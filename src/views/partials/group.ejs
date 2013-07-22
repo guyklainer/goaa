@@ -1,47 +1,112 @@
+<div class="container-fluid">
 <!-- Header -->
 <%- include ../shared/header.ejs %>
 
-<div group-header view='view' group-name='groupName'></div>
-
-<!-- News Content -->
-<div class="container-fluid top-space" ng-show="isShowNews(view)">
-    <div class="row-fluid">
-        <ul class="thumbnails">
-            <li class="span4" ng-repeat="post in group.posts">
-                <div news-thumb post="post"></div>
-            </li>
-        </ul>
+<!--<div group-header view='view' group-name='groupName'></div>-->
+<center class="top-buttons">
+    <div class="btn-group">
+        <button ng-class="{'btn-warning': view == 'news'}" ng-click="switchView(partialEnum.news)" class="btn btn-small"><i class="icon-home icon-white"></i> News</button>
+        <button ng-class="{'btn-warning': view == 'gallery'}" ng-click="switchView(partialEnum.gallery)" class="btn btn-small"><i class="icon-th icon-white"></i> Gallery</button>
+        <button ng-class="{'btn-warning': view == 'meters'}" ng-click="switchView(partialEnum.meters)" class="btn btn-small"><i class="icon-signal icon-white"></i> Meters</button>
+        <button ng-class="{'btn-warning': view == 'todos'}" ng-click="switchView(partialEnum.todos)" class="btn btn-small"><i class="icon-check icon-white"></i> Todos</button>
     </div>
-    <center><h4 class="page-title" ng-show="isLoading">Loading...</h4></center>
-    <center><h4 class="page-title" ng-show="isShowNoNews(group.posts, isLoading)">No News Yet</h4></center>
-</div>
+</center>
 
-<!-- Gallery Content -->
-<div class="container-fluid top-space" ng-show="isShowPartial(view, 'gallery')">
-    <div class="row-fluid">
-        <ul class="thumbnails">
-            <li class="span4" ng-repeat="post in group.posts | images">
-                <div gallery-thumb post="post"></div>
-            </li>
-        </ul>
-    </div>
-    <center><h4 class="page-title" ng-show="isLoading">Loading...</h4></center>
-    <center><h4 class="page-title" ng-show="isShowNoPhotos(group.posts, isLoading)">No Photos Yet</h4></center>
-</div>
+<h4 class="page-title" class="muted">{{groupName}}</h4>
+<button class="btn btn-info btn-small compose" ng-click="gotoComposePost()"><i class="icon-pencil icon-white"></i> Compose</button>
 
-<!-- Meters Content -->
-<div class="container-fluid top-space" ng-show="isShowPartial(view, 'meters')">
-    <ul class="list" ng-hide="isLoading || isShowNoMeters(group.meters, isLoading)">
-        <li class="list-item" ng-click="gotoMeter(meter)" ng-repeat="meter in group.meters">
-            <a href="#" class="title">
-                <i class="icon-chevron-right"></i>
-                {{meter.name}}
-            </a>
-        </li>
-    </ul>
-    <center><h4 class="page-title" ng-show="isLoading">Loading...</h4></center>
-    <center><h4 class="page-title" ng-show="isShowNoMeters(group.meters, isLoading)">No Meters</h4></center>
+
+<div ng-switch on="view" ng-animate="'wave'">
+    <span ng-switch-when="gallery">
+        <div class="container-fluid top-space">
+            <div class="row-fluid">
+                <ul class="thumbnails">
+                    <li class="span4" ng-repeat="post in group.posts | images">
+                        <div gallery-thumb post="post"></div>
+                    </li>
+                </ul>
+            </div>
+            <center><h4 class="page-title" ng-show="isLoading">Loading...</h4></center>
+            <center><h4 class="page-title" ng-show="isShowNoPhotos(group.posts, isLoading)">No Photos Yet</h4></center>
+        </div>
+    </span>
+
+    <span ng-switch-when="meters">
+        <div class="container-fluid top-space">
+            <ul class="list" ng-hide="isLoading || isShowNoMeters(group.meters, isLoading)">
+                <li class="list-item" ng-click="gotoMeter(meter)" ng-repeat="meter in group.meters">
+                    <a href="#" class="title">
+                        <i class="icon-chevron-right"></i>
+                        {{meter.name}}
+                    </a>
+                </li>
+            </ul>
+            <center><h4 class="page-title" ng-show="isLoading">Loading...</h4></center>
+            <center><h4 class="page-title" ng-show="isShowNoMeters(group.meters, isLoading)">No Meters</h4></center>
+        </div>
+    </span>
+
+    <span ng-switch-when="todos">
+        <div class="container-fluid top-space">
+            <center>
+                <!-- Add Todos -->
+                <div class="row-fluid">
+                    <form ng-submit="addTodo()" class="no-margin">
+                        <div class="input-append">
+                            <input type="text" ng-model="newTodo.data" size="30" placeholder="What needs to be done?">
+                            <button class="btn" type="submit"><i class="icon-plus"></i> Add</button>
+                        </div>
+                        <div class="alert alert-error" ng-show="errorMsg">
+                            <strong>Error</strong> {{errorMsg}}
+                        </div>
+                    </form>
+                </div>
+            </center>
+
+
+            <div class="row-fluid">
+                <ul class="list">
+                    <li class="list-item" ng-class="{'todo-done': item.isDone}" ng-repeat="item in group.todos">
+                        <span class="pull-right">
+                            <small>{{ item.username }}</small>
+                            <button ng-hide="item.isDone || item.isEdit" class="btn btn-small" type="button" ng-click="item.isEdit = true"><i class=" icon-pencil"></i></button>
+                            <button ng-show="item.isDone && !item.isEdit" class="btn btn-small btn-danger" type="button" ng-click="deleteTodo(item)"><i class="icon-trash"></i></button>
+                            <button ng-show="item.isEdit" class="btn  btn-small btn-success" type="button" ng-click="editTodo(item)"><i class="icon-save"></i></button>
+                        </span>
+
+                        <label class="pull-left todo-label">
+                            <input ng-hide="item.isEdit" type="checkbox" ng-model="item.isDone" ng-change="markDone(item)">
+                            <span ng-hide="item.isEdit" class="todo-text">{{item.data}}</span>
+
+                        </label>
+                        <label class="pull-left">
+                            <input ng-show="item.isEdit" type="text" class="input-large todo-large-input" ng-model="item.data">
+                        </label>
+
+                        <div class="alert alert-error" ng-show="item.ErrorMsg">
+                            <strong>Error</strong> {{item.ErrorMsg}}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </span>
+
+    <span ng-switch-default>
+        <div class="container-fluid top-space">
+            <div class="row-fluid">
+                <ul class="thumbnails">
+                    <li class="span4" ng-repeat="post in group.posts">
+                        <div news-thumb post="post"></div>
+                    </li>
+                </ul>
+            </div>
+            <center><h4 class="page-title" ng-show="isLoading">Loading...</h4></center>
+            <center><h4 class="page-title" ng-show="isShowNoNews(group.posts, isLoading)">No News Yet</h4></center>
+        </div>
+    </span>
 </div>
 
 <!-- Footer -->
 <%- include ../shared/footer.ejs %>
+</div>
