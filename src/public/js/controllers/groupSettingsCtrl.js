@@ -20,14 +20,10 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
 
         $scope.isGroupAdmin = false;
         $scope.tabs = ['General', 'Members', 'Meters'];
-        $scope.tab = $routeParams.tab;
+        $scope.tab = $scope.tabs[0];
         $scope.gotoTab = function(tab){
-            var index   = $location.path().indexOf($routeParams.tab),
-                url     = $location.path().substr(0, index-1);
-
-            $location.path( url + '/' + tab );
+            $scope.tab = tab;
         }
-
         $scope.imageUploadSettings = {
             stage: "newGroup"
         };

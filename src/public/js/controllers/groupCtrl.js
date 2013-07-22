@@ -106,7 +106,7 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
             $location.path($location.path() + '/' + meter.name);
         }
         $scope.gotoGroupSettings = function(){
-            $location.path('group/' + $routeParams.groupName + '/settings/General');
+            $location.path('group/' + $routeParams.groupName + '/settings');
         }
         $scope.gotoComposePost = function(){
             $location.path("compose/" + $scope.groupName);

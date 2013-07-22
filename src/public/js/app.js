@@ -39,10 +39,14 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
             templateUrl: '/partials/group',
             controller: 'GroupCtrl'
         }).
-        when('/group/:groupName/settings/:tab', {
+        when('/group/:groupName/settings', {
             templateUrl: '/partials/groupSettings',
             controller: 'GroupSettingsCtrl'
         }).
+//        when('/group/:groupName/settings/:tab', {
+//            templateUrl: '/partials/groupSettings',
+//            controller: 'GroupSettingsCtrl'
+//        }).
         when('/group/:groupName/settings/Members/addMember', {
             templateUrl: '/partials/groupAddMember',
             controller: 'GroupAddMemberCtrl'
