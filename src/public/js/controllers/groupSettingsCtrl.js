@@ -66,6 +66,7 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
         };
 
         $scope.gotoMeter = function(meterId){
+            log('gotometer', $location.path() + "/meter");
             if (meterId){
                 $location.path($location.path() + "/meter/" + meterId);
             } else {

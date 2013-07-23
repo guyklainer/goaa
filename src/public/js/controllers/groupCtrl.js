@@ -103,7 +103,7 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
         }
         $scope.gotoMeter = function(meter){
             log("meter : ", meter);
-            $location.path($location.path() + '/' + meter.name);
+            $location.path($location.path() + '/meters/' + meter.name);
         }
         $scope.gotoGroupSettings = function(){
             $location.path('group/' + $routeParams.groupName + '/settings');

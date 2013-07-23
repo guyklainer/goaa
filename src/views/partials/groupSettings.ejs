@@ -1,111 +1,113 @@
 <div class="container-fluid">
-<!-- Header -->
-<%- include ../shared/header.ejs %>
+    <!-- Header -->
+    <%- include ../shared/header.ejs %>
 
 
-<!-- Content -->
-<div class="container-fluid main">
+    <!-- Content -->
+    <div class="container-fluid main">
 
 
-    <div class="row-fluid cover-image-wrapper">
-        <img src="{{group.image}}" alt="Group Image"/>
-        <h4>{{group.name}}</h4>
-    </div>
+        <div class="row-fluid cover-image-wrapper">
+            <img src="{{group.image}}" alt="Group Image"/>
+            <h4>{{group.name}}</h4>
+        </div>
 
-    <h4 class="page-title">Settings</h4>
-    <div ng-show="isGroupAdmin">
-        <center>
-            <div class="btn-group bottom-space">
-                <button class="btn"
-                        ng-repeat="t in tabs"
-                        ng-class="{'active btn-warning': tab == t}"
-                        ng-click="gotoTab(t)">{{t}}
-                </button>
-            </div>
-        </center>
-    </div>
+        <h4 class="page-title">Settings</h4>
+        <div ng-show="isGroupAdmin">
+            <center>
+                <div class="btn-group bottom-space">
+                    <button class="btn"
+                            ng-repeat="t in tabs"
+                            ng-class="{'active btn-warning': tab == t}"
+                            ng-click="gotoTab(t)">{{t}}
+                    </button>
+                </div>
+            </center>
+        </div>
 
-    <div ng-switch on="tab" ng-animate="'wave'">
-        <!-- Members -->
-        <span ng-switch-when="Members">
-            <div ng-show="isGroupAdmin">
-                <ul class="members-list list">
-                    <li ng-repeat="member in group.members" class="list-item">
-                        <div class="member-type">
-                            <span ng-show="isAdmin(member)"><strong>Admin</strong></span>
-                            <span ng-class="{'semi-trasparent': !member.isApproved}" ng-hide="isAdmin(member)"><i class="icon-user"></i></span>
-                        </div>
-                        <div ng-class="{'semi-trasparent': !member.isApproved}" class="member-name">{{member.firstname}} {{member.lastname}}</div>
-                        <div class="member-buttons">
-                            <button ng-show="!member.isApproved" ng-click="confirmMember(member, group._id)" class="btn-small btn btn-info"><i  class="icon-ok"></i></button>
-                            <button ng-hide="isAdmin(member)" ng-click="deleteMember(member, group._id)" class="btn btn-danger btn-small"><i  class="icon-remove"></i></button>
-                        </div>
-                    </li>
-                </ul>
-
-                <button ng-click="gotoAddMember()" class="btn btn-success btn-block top-space">Add</button>
-            </div>
-        </span>
-
-        <!-- Meters -->
-        <span ng-switch-when="Meters">
-            <div ng-show="isGroupAdmin">
-                <ul class="meters-list list">
-                    <li class="list-item" ng-repeat="meter in group.meters">
-                        <div class="row-fluid">
-                            <div class="span10" ng-click="gotoMeter(meter._id)">
-                                <div class="meter-name">{{meter.name}}</div>
-                                <p class="red pull-right" ng-show="meter.isDeleteError">Oops we have a problem..</p>
+        <div ng-switch on="tab" ng-animate="'wave'">
+            <!-- Members -->
+            <span ng-switch-when="Members">
+                <div ng-show="isGroupAdmin">
+                    <ul class="members-list list">
+                        <li ng-repeat="member in group.members" class="list-item">
+                            <div class="member-type">
+                                <span ng-show="isAdmin(member)"><strong>Admin</strong></span>
+                                <span ng-class="{'semi-trasparent': !member.isApproved}" ng-hide="isAdmin(member)"><i class="icon-user"></i></span>
                             </div>
-                            <div class="span2">
-                                <div class="meter-remove">
-                                    <button ng-click="deleteMeter(meter, group._id)" class="btn btn-danger btn-small"><i  class="icon-remove"></i></button>
+                            <div ng-class="{'semi-trasparent': !member.isApproved}" class="member-name">{{member.firstname}} {{member.lastname}}</div>
+                            <div class="member-buttons">
+                                <button ng-show="!member.isApproved" ng-click="confirmMember(member, group._id)" class="btn-small btn btn-info"><i  class="icon-ok"></i></button>
+                                <button ng-hide="isAdmin(member)" ng-click="deleteMember(member, group._id)" class="btn btn-danger btn-small"><i  class="icon-remove"></i></button>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <button ng-click="gotoAddMember()" class="btn btn-success btn-block top-space">Add</button>
+                </div>
+            </span>
+
+            <!-- Meters -->
+            <span ng-switch-when="Meters">
+                <div ng-show="isGroupAdmin">
+                    <ul class="meters-list list">
+                        <li class="list-item" ng-repeat="meter in group.meters">
+                            <div class="row-fluid">
+                                <div class="span10" ng-click="gotoMeter(meter._id)">
+                                    <div class="meter-name">{{meter.name}}</div>
+                                    <p class="red pull-right" ng-show="meter.isDeleteError">Oops we have a problem..</p>
+                                </div>
+                                <div class="span2">
+                                    <div class="meter-remove">
+                                        <button ng-click="deleteMeter(meter, group._id)" class="btn btn-danger btn-small"><i  class="icon-remove"></i></button>
+                                    </div>
                                 </div>
                             </div>
+                        </li>
+                    </ul>
+
+                    <button ng-click="gotoMeter()" class="top-space btn btn-success btn-block">Add</button>
+                </div>
+            </span>
+
+            <!-- General -->
+            <span ng-switch-default>
+                <div>
+                    <div ng-hide="isGroupAdmin">
+                        <div group-address="group.address"></div>
+                    </div>
+                    <div ng-show="isGroupAdmin" class="row-fluid">
+                        <p>Address:</p>
+                        <input type="text" required class="input-block-level" placeholder="street" ng-model="group.address.street">
+                        <input type="number" required class="half-left" placeholder="House" ng-model="group.address.house">
+                        <input type="number" required class="half-right" placeholder="Apartment" ng-model="group.address.apartment">
+                        <input type="text"  required class="half-left" placeholder="city" ng-model="group.address.city">
+                        <input type="text" required class="half-right" placeholder="country" ng-model="group.address.country">
+                    </div>
+
+                    <div google-map address="group.addressString"></div>
+
+                    <div ng-show="isGroupAdmin">
+                        <div image-uploader image="group.image" image-upload-settings="imageUploadSettings"></div>
+
+                        <div class="row-fluid">
+                            <button ng-click="saveChanges(group)" class="btn btn-info btn-block"><i class="icon-save"></i> Save Changes</button>
+                            <div class="alert alert-error span12" ng-show="isSaveError">
+                                <strong>Oops Problem with the saving..</strong>
+                            </div>
                         </div>
-                    </li>
-                </ul>
+                    </div>
 
-                <button ng-click="gotoMeter()" class="top-space btn btn-success btn-block">Add</button>
-            </div>
-        </span>
-
-        <!-- General -->
-        <span ng-switch-default>
-            <div ng-hide="isGroupAdmin">
-                <div group-address="group.address"></div>
-            </div>
-            <div ng-show="isGroupAdmin" class="row-fluid">
-                <p>Address:</p>
-                <input type="text" required class="input-block-level" placeholder="street" ng-model="group.address.street">
-                <input type="number" required class="half-left" placeholder="House" ng-model="group.address.house">
-                <input type="number" required class="half-right" placeholder="Apartment" ng-model="group.address.apartment">
-                <input type="text"  required class="half-left" placeholder="city" ng-model="group.address.city">
-                <input type="text" required class="half-right" placeholder="country" ng-model="group.address.country">
-            </div>
-
-            <div google-map address="group.addressString"></div>
-
-            <div ng-show="isGroupAdmin">
-                <div image-uploader image="group.image" image-upload-settings="imageUploadSettings"></div>
-
-                <div class="row-fluid">
-                    <button ng-click="saveChanges(group)" class="btn btn-info btn-block"><i class="icon-save"></i> Save Changes</button>
-                    <div class="alert alert-error span12" ng-show="isSaveError">
-                        <strong>Oops Problem with the saving..</strong>
+                    <div class="row-fluid">
+                        <button ng-click="leaveGroup(group)" class="top-space btn btn-block btn-danger">Leave</button>
                     </div>
                 </div>
-            </div>
+            </span>
+        </div>
 
-            <div class="row-fluid">
-                <button ng-click="leaveGroup(group)" class="top-space btn btn-block btn-danger">Leave</button>
-            </div>
-        </span>
     </div>
 
-</div>
 
-
-<!-- Footer -->
-<%- include ../shared/footer.ejs %>
+    <!-- Footer -->
+    <%- include ../shared/footer.ejs %>
 </div>

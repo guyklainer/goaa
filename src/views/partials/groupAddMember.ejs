@@ -1,20 +1,23 @@
-<!-- Header -->
-<%- include ../shared/header.ejs %>
+<div class="container-fluid">
+
+    <!-- Header -->
+    <%- include ../shared/header.ejs %>
 
 
-<!-- Content -->
-<div class="container-fluid main">
-    <h3>Add member to {{groupName}}</h3>
-    <input class="span12 input-large" placeholder="Username" type="text" ng-model="newMember.name" typeahead="name for name in getUserNames($viewValue) | filter:$viewValue">
+    <!-- Content -->
+    <div class="container-fluid main">
+        <h3>Add member to {{groupName}}</h3>
+        <input class="span12 input-large" placeholder="Username" type="text" ng-model="newMember.name" typeahead="name for name in getUserNames($viewValue) | filter:$viewValue">
 
-    <div class="row-fluid">&nbsp;</div>
-    <div class="alert alert-error span12" ng-show="isShowError">
-        <strong>Oops we have a problem..</strong>
+        <div class="row-fluid">&nbsp;</div>
+        <div class="alert alert-error span12" ng-show="isShowError">
+            <strong>Oops we have a problem..</strong>
+        </div>
+
+        <button ng-click="addMember(newMember, group._id)" class="btn btn-info btn-block btn-large">Add Member</button>
     </div>
 
-    <button ng-click="addMember(newMember, group._id)" class="btn btn-info btn-block btn-large">Add Member</button>
+
+    <!-- Footer -->
+    <%- include ../shared/footer.ejs %>
 </div>
-
-
-<!-- Footer -->
-<%- include ../shared/footer.ejs %>
