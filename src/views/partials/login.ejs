@@ -1,23 +1,24 @@
+<div class="container-fluid">
+    <!-- Header -->
+    <%- include ../shared/header.ejs %>
 
-<!-- Header -->
-<%- include ../shared/header.ejs %>
+    <div class="container-fluid main">
 
-<div class="container-fluid main">
+        <center><img class="logo" src="/img/logo.png"></center>
 
-    <center><img class="logo" src="/img/logo.png"></center>
+        <form class="form-signin" ng-submit="login()">
+            <input type="text" class="input-block-level" autofocus="autofocus" placeholder="Username" ng-model="form.username">
+            <input type="password" class="input-block-level" placeholder="Password" ng-model="form.password">
+            <label class="checkbox">
+                <input type="checkbox" value="remember-me" ng-model="form.remeberme"> Remember me
+            </label>
+            <p ng-show="loginFailed" class="text-centered red"><strong>Username or password are incorrect</strong></p>
+            <button class="btn btn-large btn-info btn-block" type="submit">Sign In</button>
+        </form>
 
-    <form class="form-signin" ng-submit="login()">
-        <input type="text" class="input-block-level" autofocus="autofocus" placeholder="Username" ng-model="form.username">
-        <input type="password" class="input-block-level" placeholder="Password" ng-model="form.password">
-        <label class="checkbox">
-            <input type="checkbox" value="remember-me" ng-model="form.remeberme"> Remember me
-        </label>
-        <p ng-show="loginFailed" class="text-centered red"><strong>Username or password are incorrect</strong></p>
-        <button class="btn btn-large btn-info btn-block" type="submit">Sign In</button>
-    </form>
-
-    <div class="row-fluid">
-        <h4>New here?</h4>
-        <a class="btn btn-large btn-success btn-block" href="/signup">Create New Account</a>
+        <div class="row-fluid">
+            <h4>New here?</h4>
+            <a class="btn btn-large btn-success btn-block" href="/signup">Create New Account</a>
+        </div>
     </div>
 </div>

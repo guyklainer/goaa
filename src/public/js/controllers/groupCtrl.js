@@ -6,16 +6,49 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
         $scope.showSettings     = true;
         $scope.isLoading        = true;
         $scope.isNoMeters       = false;
-        $scope.view             = $routeParams.view;
         $scope.groupName        = $routeParams.groupName;
+        $scope.errorMsg         = "";
+        $scope.newTodo          = {
+            data: ""
+        };
+        $scope.partialEnum      = {
+            gallery : 'gallery',
+            meters  : 'meters',
+            todos   : 'todos',
+            news   : 'news'
+        };
+        $scope.view             = $scope.partialEnum.news;
 
+        function loadGroup() {
+            groupDb.getGroup($routeParams.groupName, function(g){
+                log("getGroup result: ", g);
+                $scope.isLoading = false;
+                $scope.group = g;
+            });
+        }
+        function showTodoItemErrorMsg(todoItem, doneCallback) {
+            todoItem.ErrorMsg = "oops we have a problem..";
 
-        groupDb.getGroup($routeParams.groupName, function(g){
-            log("getGroup result: ", g);
-            $scope.isLoading = false;
-            $scope.group = g;
-        });
+            $timeout(function () {
+                todoItem.ErrorMsg = "";
+                if (doneCallback){
+                    doneCallback();
+                }
+            }, 2000);
+        }
 
+        function parseForDb(todoItem) {
+            var dbItem = {
+                _id: todoItem._id,
+                userID: todoItem.userID,
+                username: todoItem.username,
+                data: todoItem.data,
+                isDone: todoItem.isDone,
+                createdOn: todoItem.createdOn
+            };
+            return dbItem;
+        }
+        loadGroup();
 
         $scope.isShowNoNews = function(posts, isLoading){
             if (isLoading){
@@ -70,21 +103,84 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
         }
         $scope.gotoMeter = function(meter){
             log("meter : ", meter);
-            $location.path($location.path() + '/' + meter.name);
+            $location.path($location.path() + '/meters/' + meter.name);
         }
         $scope.gotoGroupSettings = function(){
-            $location.path('group/' + $routeParams.groupName + '/settings/General');
+            $location.path('group/' + $routeParams.groupName + '/settings');
         }
-        $scope.isShowPartial = function(view, partial){
-            if (view == undefined || partial == undefined){
-                return false;
+        $scope.gotoComposePost = function(){
+            $location.path("compose/" + $scope.groupName);
+        }
+        $scope.switchView = function(view){
+            $scope.view = view;
+        }
+
+        $scope.addTodo = function() {
+            //clearing the error msg
+            $scope.errorMsg = "";
+            if($scope.newTodo.data) {
+
+                groupDb.addTodoItem($scope.newTodo.data,
+                    $scope.group._id,
+                    account.user()._id,
+                    account.user().firstName + ' ' + account.user().lastName,
+                    function(result){
+
+                        if(result) {
+                            $scope.isLoading = true;
+                            $scope.newTodo.data = "";
+                            loadGroup();
+                        } else {
+                            //error adding the new item
+                            $scope.errorMsg = "oops, could not save it";
+                        }
+
+                    } );
             } else {
-                return view.toLowerCase() == partial.toLowerCase();
+                $scope.errorMsg = "enter something todo...";
             }
-        }
-        $scope.isShowNews = function(view){
-            return !view;
-        }
+        };
+
+        $scope.editTodo = function(todoItem){
+            log("edit todoItem", todoItem);
+            if (todoItem.data){
+                groupDb.updateTodoItem(parseForDb(todoItem), $scope.group._id, function(result){
+                    if (result){
+                        todoItem.isEdit = false;
+                    } else {
+                        showTodoItemErrorMsg(todoItem, function(){
+                            loadGroup();
+                        });
+                    }
+                });
+            } else {
+                showTodoItemErrorMsg(todoItem);
+            }
+        };
+
+        $scope.markDone = function(todoItem){
+            log("marking as done", todoItem);
+
+            groupDb.updateTodoItem(parseForDb(todoItem), $scope.group._id, function(result){
+                if (!result){ //case error
+
+                    todoItem.isDone = !todoItem.isDone;
+                    showTodoItemErrorMsg(todoItem);
+                }
+            });
+        };
+
+        $scope.deleteTodo = function(todoItem){
+            log("deleting todoItem", todoItem);
+
+            groupDb.deleteTodoItem(todoItem._id, $scope.group._id, function(result){
+                if (result){
+                    loadGroup();
+                } else {
+                    showTodoItemErrorMsg(todoItem);
+                }
+            });
+        };
 
         $scope.account = account;
     }

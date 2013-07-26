@@ -39,7 +39,7 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
             templateUrl: '/partials/group',
             controller: 'GroupCtrl'
         }).
-        when('/group/:groupName/settings/:tab', {
+        when('/group/:groupName/settings', {
             templateUrl: '/partials/groupSettings',
             controller: 'GroupSettingsCtrl'
         }).
@@ -47,21 +47,13 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies"]).
             templateUrl: '/partials/groupAddMember',
             controller: 'GroupAddMemberCtrl'
         }).
-        when('/group/:groupName/settings/Meters/meter', {
+        when('/group/:groupName/settings/meter', {
             templateUrl: '/partials/groupAddMeter',
             controller: 'GroupAddMeterCtrl'
         }).
-        when('/group/:groupName/settings/Meters/meter/:meterId', {
+        when('/group/:groupName/settings/meter/:meterId', {
             templateUrl: '/partials/groupAddMeter',
             controller: 'GroupAddMeterCtrl'
-        }).
-        when('/group/:groupName/todos', {
-            templateUrl: '/partials/groupTodos',
-            controller: 'GroupToDosCtrl'
-        }).
-        when('/group/:groupName/:view', {
-            templateUrl: '/partials/group',
-            controller: 'GroupCtrl'
         }).
         when('/group/:groupName/meters/:meter', {
             templateUrl: '/partials/meter',
