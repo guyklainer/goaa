@@ -7,29 +7,34 @@ var Mongoose    = require( 'mongoose' ),
 
 module.exports.connect = function( io, ioClient ) {
     io.sockets.on( 'connection', function( client ){
+        console.log(client);
 
         client.on( 'connect', function( params ){
 
             var meterSocket = ioClient.connect( params.url );
-            console.log(meterSocket);
 
             meterSocket.emit( 'connect', { username: params.username, password: params.password } );
 
             meterSocket.on( 'invalid', function( data ){
-                client.emit( 'invalid', data );
-                meterSocket.emit( 'disconnect' );
+                client.emit( params.name + '-invalid', data );
+                meterSocket.emit( 'close' );
             });
 
             meterSocket.on( 'data', function( data ){
-                client.emit( 'data', data );
+                client.emit( params.name + '-data', data );
             });
 
-            client.on( 'status', function( data ){
+            client.on( params.name + '-status', function( data ){
                 meterSocket.emit( 'status', data );
             });
 
-            client.on( 'disconnect', function(){
-                meterSocket.emit( 'disconnect' );
+            client.on( params.name + '-update', function( data ){
+                meterSocket.emit( 'update' );
+            });
+
+            client.on( params.name + '-close', function(){
+                meterSocket.emit( 'close' );
+                client.disconnect();
             });
         });
     });

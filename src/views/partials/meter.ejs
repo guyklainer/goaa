@@ -6,11 +6,11 @@
 
     <div class="container-fluid">
 
-        <h4 class="page-title text-centered">{{groupName}}'s {{meterName}}</h4>
+        <h4 class="page-title text-centered">{{groupName}}'s {{meter.name}}</h4>
 
         <center><p ng-show="authError">Wrong {{authError}}</p></center>
 
-        <center class="boiler" ng-hide="authError">
+        <center class="boiler" ng-hide="authError" ng-show="meter.name == 'boiler'">
             <div class="temp-wrapper">
                 <div class="temp-helper"></div>
                 <div class="temp">
@@ -22,6 +22,10 @@
                 <button type="button" ng-class="isOn()" ng-change="updateServer()" class="btn" ng-model="meter.status" btn-radio="'on'">On</button>
                 <button type="button" ng-change="updateServer()" class="btn" ng-model="meter.status" btn-radio="'off'">Off</button>
             </div>
+        </center>
+
+        <center class="boiler" ng-hide="authError" ng-show="meter.name == 'water'">
+            <p class="number">{{ water.data }}</p>
         </center>
 
     </div>
