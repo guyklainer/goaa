@@ -27,6 +27,7 @@ html {
 
 body {
     background-color: transparent;
+    padding-top: 60px;
 }
 
 .main {
@@ -160,6 +161,10 @@ a:hover, a:focus {
     width: 100%;
 }
 
+.thumbnail {
+    padding: 10px 4px
+}
+
 /******************************
 // Colors
 //******************************/
@@ -181,12 +186,12 @@ a:hover, a:focus {
 //******************************/
 
 .navbar a {
-    padding-top: 10px;
+    padding-top: 5px;
     color: rgba(0, 0, 0, 0.64);
 }
 
-.navbar-static-top {
-    margin-bottom: 20px;
+.navbar-fixed-top .navbar-inner {
+    min-height: 25px;
 }
 
 .navbar h4 {
@@ -196,10 +201,6 @@ a:hover, a:focus {
 .navbar .logo {
     padding: 0;
     white-space: nowrap;
-}
-
-.navbar .back {
-    padding-top: 9px;
 }
 
 .navbar .back i {
@@ -432,6 +433,8 @@ button.compose {
 
 .post-image-small {
     width: 100px;
+    margin: 0 2%;
+    box-shadow: 0 0 5px 1px gray;
 }
 
 .post-image {

@@ -2,6 +2,11 @@
     <!-- Header -->
     <%- include ../shared/header.ejs %>
 
+    <div class="row-fluid cover-image-wrapper">
+        <img src="{{group.image}}" alt="Group Image"/>
+        <h4>{{group.name}}</h4>
+    </div>
+
     <center class="top-buttons">
         <div class="btn-group">
             <button ng-class="{'btn-warning': view == 'news'}" ng-click="switchView(partialEnum.news)" class="btn btn-small"><i class="icon-home icon-white"></i> News</button>
@@ -11,7 +16,7 @@
         </div>
     </center>
 
-    <h4 class="page-title" class="muted">{{groupName}}</h4>
+    <h4>&nbsp;</h4>
     <button class="btn btn-info btn-small compose" ng-click="gotoComposePost()"><i class="icon-pencil icon-white"></i> Compose</button>
 
 
@@ -64,7 +69,7 @@
 
 
                 <div class="row-fluid">
-                    <ul class="list">
+                    <ul class="list" ng-show="todos.length > 0">
                         <li class="list-item" ng-class="{'todo-done': item.isDone}" ng-repeat="item in group.todos">
                             <span class="pull-right">
                                 <small>{{ item.username }}</small>
