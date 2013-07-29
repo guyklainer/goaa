@@ -55,7 +55,7 @@
                 <center>
                     <!-- Add Todos -->
                     <div class="row-fluid">
-                        <form ng-submit="addTodo()" class="no-margin">
+                        <form ng-submit="addTodo()" class="no-margin todos">
                             <div class="input-append">
                                 <input type="text" ng-model="newTodo.data" size="30" placeholder="What needs to be done?">
                                 <button class="btn" type="submit"><i class="icon-plus"></i> Add</button>
@@ -69,7 +69,7 @@
 
 
                 <div class="row-fluid">
-                    <ul class="list" ng-show="todos.length > 0">
+                    <ul class="list" ng-show="group.todos.length > 0">
                         <li class="list-item" ng-class="{'todo-done': item.isDone}" ng-repeat="item in group.todos">
                             <span class="pull-right">
                                 <small>{{ item.username }}</small>

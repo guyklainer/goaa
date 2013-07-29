@@ -460,10 +460,6 @@ button.compose {
     float: left;
 }
 
-.upload-area button {
-    margin-top: 35px;
-}
-
 .upload-area .image-loader {
     background: rgba(0, 0, 0, 0.51);
     position: absolute;
@@ -484,8 +480,8 @@ button.compose {
 // Boiler meter
 //******************************/
 .temp {
-    height: 70px;
-    bottom: 167px;
+    height: 47px;
+    bottom: 139px;
     position: absolute;
     width: 9px;
     margin: 0 52px;
@@ -505,16 +501,16 @@ button.compose {
     position: absolute;
     width: 9px;
     margin: 0 52px;
-    height: 122px;
+    height: 91px;
 }
 
 .temp-wrapper {
-    height: 403px;
+    height: 304px;
     width: 114px;
     border-radius: 10px;
     box-shadow: 0px 0px 4px 1px gray;
     position: relative;
-    background: url(../img/temp.jpg ) no-repeat center top;
+    background: url(../img/temp-small.jpg ) no-repeat center top;
     margin: 20px 0;
 }
 
@@ -548,6 +544,18 @@ input.ng-invalid.ng-dirty{
 
 .todo-large-input{
     width: 260px;
+}
+
+.todos .input-append {
+    width: 100%;
+}
+
+.todos .input-append input {
+    width: 67%;
+}
+
+.todos .input-append button {
+    width: 27%;
 }
 
 /*input.ng-valid.ng-dirty{*/

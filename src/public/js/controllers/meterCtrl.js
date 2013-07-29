@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('App').controller('MeterCtrl', ['$scope', 'blockui', '$http', '$location', 'account', 'groupDb', '$routeParams', 'socket', '$timeout',
+angular.module('App').controller('MeterCtrl', ['$scope', 'blockui', '$http', '$location', 'account', 'groupDb', '$routeParams', 'socket',
     function( $scope, blockui, $http, $location, account, groupDb, $routeParams, socket ){
 
         log($routeParams.groupName);
@@ -37,7 +37,8 @@ angular.module('App').controller('MeterCtrl', ['$scope', 'blockui', '$http', '$l
             });
 
             socket.on( meter.name + '-data', function( data ){
-                $scope.meter = data;
+                $scope.meter.data   = data.data;
+                $scope.meter.status = data.status;
             });
 
             $scope.updateServer = function(){

@@ -2,8 +2,8 @@
 
 angular.module('App').factory('socket', ['$rootScope', function( $rootScope ){
 
-    $rootScope.socket = io.connect();
-    var sockets = [];
+    var socket  = io.connect(),
+        sockets = [];
 
     var connect = function( data ) {
         if( sockets.indexOf( data.name ) == -1 ){
@@ -17,28 +17,28 @@ angular.module('App').factory('socket', ['$rootScope', function( $rootScope ){
     };
 
     var disconnect = function(){
-        if( $rootScope.socket ){
-            $rootScope.socket.emit( 'close' );
+        if( socket ){
+            socket.emit( 'close' );
         }
     };
 
     var on = function ( eventName, callback ) {
-        $rootScope.socket.on( eventName, function(){
+        socket.on( eventName, function(){
             var args = arguments;
 
             $rootScope.$apply(function(){
-                callback.apply( $rootScope.socket, args );
+                callback.apply( socket, args );
             });
         });
     };
 
     var emit = function ( eventName, data, callback ){
-        $rootScope.socket.emit( eventName, data, function(){
+        socket.emit( eventName, data, function(){
             var args = arguments;
 
             $rootScope.$apply( function (){
                 if ( callback ){
-                    callback.apply( $rootScope.socket, args );
+                    callback.apply( socket, args );
                 }
             });
         });
