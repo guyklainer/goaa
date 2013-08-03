@@ -1,5 +1,4 @@
-<div class="container-fluid">
-    <!-- Header -->
+  <!-- Header -->
     <%- include ../shared/header.ejs %>
 
     <div class="row-fluid cover-image-wrapper">
@@ -7,17 +6,15 @@
         <h4>{{group.name}}</h4>
     </div>
 
-    <center class="top-buttons">
-        <div class="btn-group">
-            <button ng-class="{'btn-warning': view == 'news'}" ng-click="switchView(partialEnum.news)" class="btn btn-small"><i class="icon-home icon-white"></i> News</button>
-            <button ng-class="{'btn-warning': view == 'gallery'}" ng-click="switchView(partialEnum.gallery)" class="btn btn-small"><i class="icon-th icon-white"></i> Gallery</button>
-            <button ng-class="{'btn-warning': view == 'meters'}" ng-click="switchView(partialEnum.meters)" class="btn btn-small"><i class="icon-signal icon-white"></i> Meters</button>
-            <button ng-class="{'btn-warning': view == 'todos'}" ng-click="switchView(partialEnum.todos)" class="btn btn-small"><i class="icon-check icon-white"></i> Todos</button>
-        </div>
-    </center>
+    <!--<center class="top-buttons">-->
+        <!--<div class="btn-group">-->
+            <!--<button ng-class="{'btn-warning': view == 'news'}" ng-click="switchView(partialEnum.news)" class="btn btn-small"><i class="icon-home icon-white"></i> News</button>-->
+            <!--<button ng-class="{'btn-warning': view == 'gallery'}" ng-click="switchView(partialEnum.gallery)" class="btn btn-small"><i class="icon-th icon-white"></i> Gallery</button>-->
+            <!--<button ng-class="{'btn-warning': view == 'meters'}" ng-click="switchView(partialEnum.meters)" class="btn btn-small"><i class="icon-signal icon-white"></i> Meters</button>-->
+            <!--<button ng-class="{'btn-warning': view == 'todos'}" ng-click="switchView(partialEnum.todos)" class="btn btn-small"><i class="icon-check icon-white"></i> Todos</button>-->
+        <!--</div>-->
+    <!--</center>-->
 
-    <h4>&nbsp;</h4>
-    <button class="btn btn-info btn-small compose" ng-click="gotoComposePost()"><i class="icon-pencil icon-white"></i> Compose</button>
 
 
     <div ng-switch on="view" ng-animate="'wave'">
@@ -113,4 +110,3 @@
 
     <!-- Footer -->
     <%- include ../shared/footer.ejs %>
-</div>

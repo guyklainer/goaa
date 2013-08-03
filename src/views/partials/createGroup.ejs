@@ -1,36 +1,34 @@
+
+<!-- Header -->
+<%- include ../shared/header.ejs %>
+
+
 <div class="container-fluid">
+    <h4 class="page-title">New Group</h4>
+    <form class="form-create-group" ng-submit="groupcreator()" enctype="multipart/form-data">
+        <input type="text" required class="input-block-level" placeholder="Group name" ng-model="Group.name"  ng-change="change()">
+        <p ng-show="isShowError" class="text-centered red">
 
-    <!-- Header -->
-    <%- include ../shared/header.ejs %>
+        <div class="alert alert-error" ng-show="isShowError">
+            <strong>Error</strong> {{errorMsg}}
+        </div>
+        <p>Address:</p>
+        <input type="text" required class="input-block-level" placeholder="street" ng-model="Group.address.street">
+        <input type="number" required class="half-left" placeholder="House" ng-model="Group.address.house">
+        <input type="number" required class="half-right" placeholder="Apartment" ng-model="Group.address.apartment">
+        <input type="text"  required class="half-left" placeholder="city" ng-model="Group.address.city">
+        <input type="text" required class="half-right" placeholder="country" ng-model="Group.address.country">
 
+        <div image-uploader image="Group.image" image-upload-settings="imageUploadSettings"></div>
 
-    <div class="container-fluid">
-        <h4 class="page-title">New Group</h4>
-        <form class="form-create-group" ng-submit="groupcreator()" enctype="multipart/form-data">
-            <input type="text" required class="input-block-level" placeholder="Group name" ng-model="Group.name"  ng-change="change()">
-            <p ng-show="isShowError" class="text-centered red">
+        <p ng-show="errorInDataBaseSaving" class="text-centered red"><strong>Temporary problem please try create group leter</strong></p>
 
-            <div class="alert alert-error" ng-show="isShowError">
-                <strong>Error</strong> {{errorMsg}}
-            </div>
-            <p>Address:</p>
-            <input type="text" required class="input-block-level" placeholder="street" ng-model="Group.address.street">
-            <input type="number" required class="half-left" placeholder="House" ng-model="Group.address.house">
-            <input type="number" required class="half-right" placeholder="Apartment" ng-model="Group.address.apartment">
-            <input type="text"  required class="half-left" placeholder="city" ng-model="Group.address.city">
-            <input type="text" required class="half-right" placeholder="country" ng-model="Group.address.country">
+        <div class="row-fluid">
+            <button class="btn btn-large btn-info btn-block" type="submit">Create</button>
+        </div>
+    </form>
 
-            <div image-uploader image="Group.image" image-upload-settings="imageUploadSettings"></div>
-
-            <p ng-show="errorInDataBaseSaving" class="text-centered red"><strong>Temporary problem please try create group leter</strong></p>
-
-            <div class="row-fluid">
-                <button class="btn btn-large btn-info btn-block" type="submit">Create</button>
-            </div>
-        </form>
-
-    </div>
-
-    <!-- Footer -->
-    <%- include ../shared/footer.ejs %>
 </div>
+
+<!-- Footer -->
+<%- include ../shared/footer.ejs %>

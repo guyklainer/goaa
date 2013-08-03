@@ -1,36 +1,33 @@
+<!-- Header -->
+<%- include ../shared/header.ejs %>
+
+
 <div class="container-fluid">
 
-    <!-- Header -->
-    <%- include ../shared/header.ejs %>
+    <h4 class="page-title text-centered">{{groupName}}'s {{meter.name}}</h4>
 
+    <center><p ng-show="authError">Wrong {{authError}}</p></center>
 
-    <div class="container-fluid">
-
-        <h4 class="page-title text-centered">{{groupName}}'s {{meter.name}}</h4>
-
-        <center><p ng-show="authError">Wrong {{authError}}</p></center>
-
-        <center class="boiler" ng-hide="authError" >
-            <div class="temp-wrapper">
-                <div class="temp-helper"></div>
-                <div class="temp">
-                    <div style="height: {{ (meter.data - 20) * 100 / 40 }}% "></div>
-                </div>
+    <center class="boiler" ng-hide="authError" >
+        <div class="temp-wrapper">
+            <div class="temp-helper"></div>
+            <div class="temp">
+                <div style="height: {{ (meter.data - 20) * 100 / 40 }}% "></div>
             </div>
-            <p  class="number">{{ meter.data | celTemp}}</p>
-            <div class="btn-group">
-                <button type="button" ng-class="isOn()" ng-change="updateServer()" class="btn" ng-model="meter.status" btn-radio="'on'">On</button>
-                <button type="button" ng-change="updateServer()" class="btn" ng-model="meter.status" btn-radio="'off'">Off</button>
-            </div>
-        </center>
+        </div>
+        <p  class="number">{{ meter.data | celTemp}}</p>
+        <div class="btn-group">
+            <button type="button" ng-class="isOn()" ng-change="updateServer()" class="btn" ng-model="meter.status" btn-radio="'on'">On</button>
+            <button type="button" ng-change="updateServer()" class="btn" ng-model="meter.status" btn-radio="'off'">Off</button>
+        </div>
+    </center>
 
-        <center class="boiler" ng-hide="authError" ng-show="meter.name == 'water'">
-            <p class="number">{{ water.data }}</p>
-        </center>
+    <center class="boiler" ng-hide="authError" ng-show="meter.name == 'water'">
+        <p class="number">{{ water.data }}</p>
+    </center>
 
-    </div>
-
-
-    <!-- Footer -->
-    <%- include ../shared/footer.ejs %>
 </div>
+
+
+<!-- Footer -->
+<%- include ../shared/footer.ejs %>

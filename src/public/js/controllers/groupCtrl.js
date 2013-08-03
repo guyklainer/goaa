@@ -4,6 +4,7 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
     function($scope, blockui, $location, account, $routeParams, $timeout, groupDb){
 
         $scope.showSettings     = true;
+        $scope.groupPage        = true;
         $scope.isLoading        = true;
         $scope.isNoMeters       = false;
         $scope.groupName        = $routeParams.groupName;

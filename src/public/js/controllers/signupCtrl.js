@@ -3,7 +3,7 @@
 angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 'blockui','account',
     function($scope, $http, $location, blockui, account){
 
-    $scope.hideBottomMenu = true;
+    $scope.hideMenu = true;
 
     // checking if logged in allready redirecting to Home
     if (account.isLoggedIn()){
@@ -12,19 +12,20 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 
 
     // varibles
     var form = {
-        firstName: "",
-        lastName: "",
-        username: "",
-        email: "",
-        password: "",
-        confirm_password: "" ,
-        birthDay:""
+        firstName        : "",
+        lastName         : "",
+        username         : "",
+        email            : "",
+        password         : "",
+        confirm_password : "",
+        birthDay         : ""
     };
-    var birthDayParts={
-           Day:"" ,
-           Month:"",
-           Year:""
-        } ;
+
+    var birthDayParts = {
+           Day      : "" ,
+           Month    : "",
+           Year     : ""
+    };
 
 
     // public vars

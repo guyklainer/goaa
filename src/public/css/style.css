@@ -22,12 +22,11 @@
 //******************************/
 
 html {
-    background: url('../img/bg.png' ) rgba(245, 242, 220, 0.47);
+
 }
 
 body {
     background-color: transparent;
-    padding-top: 60px;
 }
 
 .main {
@@ -104,6 +103,12 @@ a:hover, a:focus {
 }
 
 .view-enter, .view-leave {
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+
     -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 300ms;
     -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 300ms;
     -o-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 300ms;
@@ -133,6 +138,12 @@ a:hover, a:focus {
 }
 
 .wave-enter, .wave-leave {
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+
     -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
     -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
     -o-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
@@ -163,6 +174,59 @@ a:hover, a:focus {
 
 .thumbnail {
     padding: 10px 4px
+}
+
+.snap-content {
+    padding: 60px 20px 0;
+    background: url('../img/bg.png' ) rgba(240, 240, 237, 1);
+    box-shadow: 3px 0 46px 11px black;
+}
+
+.snap-drawer {
+    background: url('../img/bg.png' ) rgba(68, 68, 67, 1);
+}
+
+.snap-toggle {
+    padding: 5px 10px;
+    opacity: 0.6;
+}
+
+.snap-drawer li {
+    font-weight: 200;
+    padding: 5% 5%;
+    border-top: 1px solid rgba(255, 255, 255, 0.46);
+    box-shadow: 0 0px 0px 1px black;
+    line-height: 14px;
+}
+
+.snap-drawer li a {
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.snap-drawer li a.active {
+    color: orange;
+}
+
+.snap-drawer li a.compose {
+    color: rgb(70, 159, 163);
+}
+
+.snap-drawer li a:hover {
+    background-color: transparent;
+}
+
+.snap-drawer .separator {
+    background: #EBF9C1;
+    padding: 5%;
+    border: 0;
+    font-weight: normal;
+    margin-top: 15%;
+    font-size: 16px;
+}
+
+.snap-drawer .logo {
+    width: 50px;
+    margin: 10px 0px;
 }
 
 /******************************
@@ -244,6 +308,15 @@ a:hover, a:focus {
     width: 100%;
 }
 
+.navbar-fixed-bottom .nav li a {
+    text-align: center;
+    padding: 10px 12px;
+}
+
+.navbar-fixed-bottom .nav li a p {
+    margin: 0;
+    font-size: 12px;
+}
 /******************************
 // Login
 //******************************/
