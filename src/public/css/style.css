@@ -70,6 +70,10 @@ a:hover, a:focus {
     margin-top: 20px;
 }
 
+.right-space {
+    margin-right: 20px;
+}
+
 .underline {
     text-decoration: underline;
 }
@@ -334,10 +338,6 @@ img.logo {
 // Groups
 //******************************/
 
-.top-buttons {
-    margin: 0 0 20px 0;
-}
-
 .list {
     width: 100%;
     margin: 0;
@@ -419,7 +419,7 @@ input[type="search"].search-group {
 
 .cover-image-wrapper {
     width: 114%;
-    margin: -20px 0 20px -20px;
+    margin: -20px 0 0px -20px;
     position: relative;
     max-height: 160px;
     overflow: hidden;
@@ -489,6 +489,27 @@ button.compose {
     text-align: right;
 }
 
+ul.top-buttons {
+    margin-left: -20px;
+    list-style: none;
+    width: 112%;
+    float: left;
+    text-align: center;
+    background: rgba(184, 209, 192, 0.75);
+}
+
+ul.top-buttons li {
+    margin: 1% 3%;
+    float: left;
+    color: white;
+    font-size: 23px;
+    
+}
+
+ul.top-buttons li.active {
+    color: orange;
+
+}
 
 /******************************
 // Posts

@@ -1,19 +1,20 @@
-  <!-- Header -->
+<!-- Header -->
     <%- include ../shared/header.ejs %>
 
     <div class="row-fluid cover-image-wrapper">
         <img src="{{group.image}}" alt="Group Image"/>
-        <h4>{{group.name}}</h4>
+        <h4>
+            {{group.name}}
+            <button class="btn pull-right btn-small btn-info right-space"><i class="icon-edit icon-large"></i></button>
+        </h4>
     </div>
 
-    <!--<center class="top-buttons">-->
-        <!--<div class="btn-group">-->
-            <!--<button ng-class="{'btn-warning': view == 'news'}" ng-click="switchView(partialEnum.news)" class="btn btn-small"><i class="icon-home icon-white"></i> News</button>-->
-            <!--<button ng-class="{'btn-warning': view == 'gallery'}" ng-click="switchView(partialEnum.gallery)" class="btn btn-small"><i class="icon-th icon-white"></i> Gallery</button>-->
-            <!--<button ng-class="{'btn-warning': view == 'meters'}" ng-click="switchView(partialEnum.meters)" class="btn btn-small"><i class="icon-signal icon-white"></i> Meters</button>-->
-            <!--<button ng-class="{'btn-warning': view == 'todos'}" ng-click="switchView(partialEnum.todos)" class="btn btn-small"><i class="icon-check icon-white"></i> Todos</button>-->
-        <!--</div>-->
-    <!--</center>-->
+    <ul class="top-buttons bottom-space">
+        <li ng-class="{'active': view == 'news'}" ng-click="switchView(partialEnum.news)"><i class="icon-home icon-white"></i></li>
+        <li ng-class="{'active': view == 'gallery'}" ng-click="switchView(partialEnum.gallery)"><i class="icon-th icon-white"></i></li>
+        <li ng-class="{'active': view == 'meters'}" ng-click="switchView(partialEnum.meters)"><i class="icon-signal icon-white"></i></li>
+        <li ng-class="{'active': view == 'todos'}" ng-click="switchView(partialEnum.todos)"><i class="icon-check icon-white"></i></li>
+    </ul>
 
 
 
