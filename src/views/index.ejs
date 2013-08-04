@@ -1,5 +1,8 @@
 <%- include head.ejs %>
 
+   <%- include /shared/menu.ejs %>
+    <div class="container-fluid" snap-content snap-options="snapOpts">
        <div ng-view ng-animate=" 'view' "></div>
+    </div>
 
 <%- include bottom.ejs %>

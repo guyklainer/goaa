@@ -7,9 +7,6 @@ angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$lo
     $scope.isNoGroups       = false;
     $scope.groups           = [];
     $scope.homePage         = true;
-    $scope.snapOpts = {
-        disable: 'right'
-    };
 
     groupDb.getGroups(account.user()._id, function(groupsResult){
         if (groupsResult != null){
