@@ -4,9 +4,6 @@ angular.module('App').controller('SnapCtrl', ['$scope', '$location', '$route', '
     function($scope, $location, $route, $timeout){
 
     // public var
-    $scope.snapOpts = {
-        disable: 'right'
-    };
     $scope.menu = "home";
 
 
