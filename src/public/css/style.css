@@ -418,7 +418,7 @@ input[type="search"].search-group {
 }
 
 .cover-image-wrapper {
-    width: 114%;
+    width: 115%;
     margin: -20px 0 0px -20px;
     position: relative;
     max-height: 160px;
@@ -436,7 +436,7 @@ input[type="search"].search-group {
     color: white;
     font-weight: normal;
     width: 100%;
-    background: rgba(128, 128, 128, 0.38);
+    background: rgba(128, 128, 128, 0.69);
     padding: 2%;
     margin: 0;
 }
@@ -492,22 +492,23 @@ button.compose {
 ul.top-buttons {
     margin-left: -20px;
     list-style: none;
-    width: 112%;
+    width: 115%;
     float: left;
     text-align: center;
-    background: rgba(184, 209, 192, 0.75);
+    background: rgba(29, 44, 122, 0.6);
 }
 
 ul.top-buttons li {
-    margin: 1% 3%;
+    margin: 2% 8% 0;
     float: left;
     color: white;
     font-size: 23px;
+    width: 9%;
     
 }
 
 ul.top-buttons li.active {
-    color: orange;
+    border-bottom: 3px solid orange;
 
 }
 
