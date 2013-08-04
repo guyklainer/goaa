@@ -167,6 +167,7 @@ a:hover, a:focus {
 }
 
 .wave-leave {
+    margin-top: 30px;
     position:absolute;
     left:10px;
     width: 87%;
