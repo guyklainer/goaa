@@ -9,10 +9,6 @@
     background-color: lightgray;
 }
 
-
-
-
-
 /******************************
 // Guy Klainer
 //******************************/
@@ -332,7 +328,7 @@ img.logo {
     margin-bottom: 20px;
 }
 
-.form-signin input[type="text"], .form-signin input[type="password"] {
+.form-signin input[type="text"], .form-signin input[type="password"], .form-signin input[type="url"] {
     height: 40px;
 }
 
@@ -480,7 +476,7 @@ button.compose {
 }
 
 .meters-list .meter-name {
-    width: 60%;
+    width: 85%;
     padding-left: 5px;
     float: left;
 }
@@ -506,12 +502,26 @@ ul.top-buttons li {
     color: white;
     font-size: 23px;
     width: 9%;
+    position: relative;
     
+}
+
+ul.top-buttons.in-settings li {
+    margin: 2% 12% 0;
 }
 
 ul.top-buttons li.active {
     border-bottom: 3px solid orange;
 
+}
+
+.badge.posts-number {
+    position: absolute;
+    top: -15px;
+    background: #EE1C18;
+    border: 1px solid white;
+    padding: 2px 5px;
+    border-radius: 15px;
 }
 
 /******************************
@@ -640,7 +650,7 @@ input.ng-invalid.ng-dirty{
 }
 
 .todo-large-input{
-    width: 260px;
+    width: 50%;
 }
 
 .todos .input-append {

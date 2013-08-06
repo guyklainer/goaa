@@ -7,6 +7,13 @@ angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$lo
     $scope.isNoGroups       = false;
     $scope.groups           = [];
     $scope.homePage         = true;
+    $scope.newPosts         = [];
+    $scope.newTodos         = [];
+
+    _.each( $scope.groups, function( group ){
+        $scope.newPosts[ group._id ] = 0;
+        $scope.newTodos[ group._id ] = 0;
+    });
 
     groupDb.getGroups(account.user()._id, function(groupsResult){
         if (groupsResult != null){
@@ -34,5 +41,13 @@ angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$lo
         log("group",group);
         $location.path("/group/" + group.name);
     };
+
+    $scope.groupCount = function( group ){
+        if( $scope.newPosts[group._id] && $scope.newTodos[group._id] )
+            return $scope.newPosts[group._id] + $scope.newTodos[group._id];
+
+        else return 0;
+    };
+
     $scope.account = account;
 }]);

@@ -44,11 +44,12 @@ angular.module('App').factory('socket', ['$rootScope', function( $rootScope ){
         });
     };
 
+
     // Public API
     return {
-        connect : connect,
-        on      : on,
-        emit    : emit,
-        clear   : disconnect
+        connect     : connect,
+        on          : on,
+        emit        : emit,
+        clear       : disconnect
     };
 }]);

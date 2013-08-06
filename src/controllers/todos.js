@@ -4,6 +4,7 @@ var mongoose    = require( 'mongoose' ),
     Group       = mongoose.model( 'Group' ),
     GroupUser   = mongoose.model( 'GroupUser' ),
     Utils       = require( '../utils/utils' ),
+    sockets     = require( '../utils/sockets' ),
     _           = require( 'underscore' );
 
 module.exports.addTodo = function( req, res ) {
@@ -36,6 +37,7 @@ module.exports.addTodo = function( req, res ) {
                     res.json( Utils.createResult( false, err, "dbError" ) );
 
                 } else {
+                    sockets.getInstance().sockets.in( params.groupID ).emit( 'new-todo', todo );
                     res.json( Utils.createResult( true, todo, "todoAdded" ) );
                 }
             });

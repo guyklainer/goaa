@@ -47,7 +47,7 @@ app.controller('GroupAddMeterCtrl', ['$scope', 'blockui', '$location', 'account'
         }
 
         $scope.checkIsMeterNameExist = function(meter, groupId){
-            groupDb.isMeterNameExist(meter.name, groupId, function(result){
+            groupDb.isMeterNameExist(meter.name, meter._id, groupId, function(result){
                 log("is meter name exist result: ", result);
                 $scope.isMeterNameExist = result;
             });

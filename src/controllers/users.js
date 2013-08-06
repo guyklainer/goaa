@@ -3,14 +3,20 @@ var mongoose    = require( 'mongoose' ),
     Utils       = require( '../utils/utils' ),
     Mailer      = require( '../utils/mailer' ),
     _           = require( 'underscore'),
-    crypto      = require( 'crypto' )
+    crypto      = require( 'crypto'),
     User        = mongoose.model( 'User' );
 
 module.exports.login = function( req, res ) {
     if( req.isAuthenticated() ) {
-        res.json( { result: true, user: req.user } );
+        User.update( { _id: req.user._id }, { $set: { lastVisited: new Date() }  }, function( err ){
+            if( err )
+                res.json( Utils.createResult( false, err, "dbError" ) );
+
+            else
+                res.json( { result: true, user: req.user } );
+        });
     }
-}
+};
 
 module.exports.signup = function( req, res ) {
     res.render( 'signup', {

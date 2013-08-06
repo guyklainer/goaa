@@ -4,6 +4,7 @@ var mongoose        = require( 'mongoose' ),
     _               = require( 'underscore' ),
     config          = require( '../settings/config' ),
     GroupUsers      = require( './groups-users' ),
+    sockets         = require( '../utils/sockets' ),
     GroupUsersModel = mongoose.model( 'GroupUser' ),
     Group           = mongoose.model( 'Group' ),
     User            = mongoose.model( 'User' ),
@@ -29,6 +30,8 @@ module.exports.getGroupsByUser = function( req, res ){
         else {
             _.each( groupIDs, function( groupObj ){
                 groupIDsArray.push( groupObj.group );
+                sockets.getSocket( req.connection.remoteAddress ).join( groupObj.group );
+                console.log( sockets.getInstance().sockets.manager.rooms );
             });
 
             Group.find( { _id: { $in: groupIDsArray } }, { name: 1, _id: 1, image: 1 },  function( err, groups ) {

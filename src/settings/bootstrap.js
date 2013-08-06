@@ -2,7 +2,6 @@
 // -- Module dependencies
 var express         = require( 'express' ),
     LocalStrategy   = require( 'passport-local' ).Strategy,
-    metersSimulator = require( '../utils/metersSimulator' )
     mongoose        = require( 'mongoose' ),
     User            = mongoose.model('User' ),
     conf            = require( './config' ),
@@ -18,9 +17,6 @@ var views = __dirname + '/../views',
  * Bootstrap
  */
 module.exports.boot = function( app, passport ) {
-
-    // start meters simulator
-    metersSimulator.startSimulator();
 
     // Setting for passport
     passport.serializeUser( function( user, done ) {

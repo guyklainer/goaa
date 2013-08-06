@@ -1,8 +1,24 @@
 "use strict";
 
-angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location', 'account', '$routeParams','$timeout', 'groupDb',
-    function($scope, blockui, $location, account, $routeParams, $timeout, groupDb){
+angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location', 'account', '$routeParams','$timeout', 'groupDb', 'socket',
+    function($scope, blockui, $location, account, $routeParams, $timeout, groupDb, socket){
 
+        socket.on( "new-post", function(data){
+            if( account.user()._id != data.userID && $scope.view != $scope.partialEnum.news ){
+                $scope.newPosts++;
+            }
+            $scope.group.posts.unshift( data );
+        });
+
+        socket.on( "new-todo", function(data){
+            if( account.user()._id != data.userID && $scope.view != $scope.partialEnum.todos ){
+                $scope.newTodos++;
+            }
+            $scope.group.todos.push( data );
+        });
+
+        $scope.newPosts         = 0;
+        $scope.newTodos         = 0;
         $scope.showSettings     = true;
         $scope.groupPage        = true;
         $scope.isLoading        = true;
@@ -12,13 +28,15 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
         $scope.newTodo          = {
             data: ""
         };
+
         $scope.partialEnum      = {
             gallery : 'gallery',
             meters  : 'meters',
             todos   : 'todos',
-            news   : 'news'
+            news    : 'news'
         };
-        $scope.view             = $scope.partialEnum.news;
+
+        $scope.view = $scope.partialEnum.news;
 
         function loadGroup() {
             groupDb.getGroup($routeParams.groupName, function(g){
@@ -113,6 +131,12 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
             $location.path("compose/" + $scope.groupName);
         }
         $scope.switchView = function(view){
+            if( view == $scope.partialEnum.news )
+                $scope.newPosts = 0;
+
+            if( view == $scope.partialEnum.todos )
+                $scope.newTodos = 0;
+
             $scope.view = view;
         }
 

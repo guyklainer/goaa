@@ -4,8 +4,10 @@ var mongoose    = require( 'mongoose' ),
     Post        = mongoose.model( 'Post' ),
     Group       = mongoose.model( 'Group' ),
     GroupUser   = mongoose.model( 'GroupUser' ),
+    User        = mongoose.model( 'User' ),
     GroupUsers  = require( './groups-users' ),
     Utils       = require( '../utils/utils' ),
+    sockets     = require( '../utils/sockets' ),
     _           = require( 'underscore' );
 
 module.exports.addPost = function( req, res ) {
@@ -43,6 +45,9 @@ module.exports.addPost = function( req, res ) {
                             res.json( Utils.createResult( false, err, "dbError" ) );
 
                         } else {
+                            console.log( sockets.getInstance().sockets.manager.rooms );
+                            console.log( params.groupID );
+                            sockets.getInstance().sockets.in( params.groupID ).emit( 'new-post', post );
                             res.json( Utils.createResult( true, null, "postAdded" ) );
                         }
                     });

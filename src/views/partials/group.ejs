@@ -10,10 +10,10 @@
     </div>
 
     <ul class="top-buttons bottom-space">
-        <li ng-class="{'active': view == 'news'}" ng-click="switchView(partialEnum.news)"><i class="icon-bullhorn icon-white"></i></li>
+        <li ng-class="{'active': view == 'news'}" ng-click="switchView(partialEnum.news)"><i class="icon-bullhorn icon-white"></i><span ng-show="newPosts != 0" class="badge posts-number">{{ newPosts }}</span></li>
         <li ng-class="{'active': view == 'gallery'}" ng-click="switchView(partialEnum.gallery)"><i class="icon-th icon-white"></i></li>
         <li ng-class="{'active': view == 'meters'}" ng-click="switchView(partialEnum.meters)"><i class="icon-signal icon-white"></i></li>
-        <li ng-class="{'active': view == 'todos'}" ng-click="switchView(partialEnum.todos)"><i class="icon-check icon-white"></i></li>
+        <li ng-class="{'active': view == 'todos'}" ng-click="switchView(partialEnum.todos)"><i class="icon-check icon-white"></i><span ng-show="newTodos != 0" class="badge posts-number">{{ newTodos }}</span></li>
     </ul>
 
 
@@ -81,9 +81,7 @@
                                 <span ng-hide="item.isEdit" class="todo-text">{{item.data}}</span>
 
                             </label>
-                            <label class="pull-left">
-                                <input ng-show="item.isEdit" type="text" class="input-large todo-large-input" ng-model="item.data">
-                            </label>
+                            <input ng-show="item.isEdit" type="text" ng-modal="item.data" class="input-large todo-large-input" ng-model="item.data">
 
                             <div class="alert alert-error" ng-show="item.ErrorMsg">
                                 <strong>Error</strong> {{item.ErrorMsg}}

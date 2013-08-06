@@ -145,8 +145,8 @@ app.factory('groupDb', ['$http', function($http){
                     }
                 });
         },
-        isMeterNameExist: function(meterName, groupId, callback){
-            $http.post('/checkmetername',{ name: meterName, groupID: groupId})
+        isMeterNameExist: function(meterName, meterId, groupId, callback){
+            $http.post('/checkmetername',{ name: meterName, groupID: groupId, meterID: meterId})
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
                     callback(true);

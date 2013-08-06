@@ -13,7 +13,8 @@ var User = new Schema({
     birthDay: 		String,
     passwordHash: 	String,
     salt: 			String,
-    createdOn: 		Date
+    createdOn: 		Date,
+    lastVisited: 	Date
 });
 
 User.virtual( 'password' ).set(function( password ) {

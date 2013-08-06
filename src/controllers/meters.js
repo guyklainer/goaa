@@ -5,41 +5,6 @@ var Mongoose    = require( 'mongoose' ),
     Crypto      = require( 'crypto' ),
     Group       = Mongoose.model( 'Group' );
 
-module.exports.connect = function( io, ioClient ) {
-    io.sockets.on( 'connection', function( client ){
-        console.log(client);
-
-        client.on( 'connect', function( params ){
-
-            var meterSocket = ioClient.connect( params.url );
-
-            meterSocket.emit( 'connect', { username: params.username, password: params.password } );
-
-            meterSocket.on( 'invalid', function( data ){
-                client.emit( params.name + '-invalid', data );
-                meterSocket.emit( 'close' );
-            });
-
-            meterSocket.on( 'data', function( data ){
-                client.emit( params.name + '-data', data );
-            });
-
-            client.on( params.name + '-status', function( data ){
-                meterSocket.emit( 'status', data );
-            });
-
-            client.on( params.name + '-update', function( data ){
-                meterSocket.emit( 'update' );
-            });
-
-            client.on( params.name + '-close', function(){
-                meterSocket.emit( 'close' );
-                client.disconnect();
-            });
-        });
-    });
-};
-
 module.exports.addMeter = function( req, res ){
     var params = req.body;
 
@@ -55,23 +20,31 @@ module.exports.addMeter = function( req, res ){
             res.json( Utils.createResult( false, null, "noGroupFound" ) );
 
         else {
-            if( isMeterNameExist( params.meter.name, group.meters ) )
+            var idOfExist = isMeterNameExist( params.meter, group.meters );
+
+            if( idOfExist && params.meter._id != idOfExist )
                 res.json( Utils.createResult( false, null, "meterNameExist" ) );
 
             else {
-                var timestamp = new Date().getTime();
-                params.meter._id = Crypto.randomBytes( 48 ).toString('hex') + timestamp;
+                if( !params.meter._id ){
+                    var timestamp = new Date().getTime();
+                    params.meter._id = Crypto.randomBytes( 48 ).toString('hex') + timestamp;
 
-                group.meters.push( params.meter );
-                group.save( function( err ){
+                    group.meters.push( params.meter );
+                    group.save( function( err ){
 
-                    if( err ){
-                        res.json( Utils.createResult( false, err, "dbError" ) );
+                        if( err ){
+                            res.json( Utils.createResult( false, err, "dbError" ) );
 
-                    } else {
-                        res.json( Utils.createResult( true, null, "meterAdded" ) );
-                    }
-                });
+                        } else {
+                            res.json( Utils.createResult( true, null, "meterAdded" ) );
+                        }
+                    });
+
+                } else {
+                    updateMeter( params.meter, group, res );
+
+                }
             }
         }
     });
@@ -118,7 +91,7 @@ module.exports.isMeterNameExist = function( req, res ){
             res.json( Utils.createResult( false, null, "noGroupFound" ) );
 
         else {
-            if( isMeterNameExist( params.name, group.meters ) )
+            if( isMeterNameExist( params, group.meters ) )
                 res.json( Utils.createResult( true, null, "meterNameExist" ) );
 
             else
@@ -127,16 +100,16 @@ module.exports.isMeterNameExist = function( req, res ){
     });
 };
 
-function isMeterNameExist( name, meters ){
+function isMeterNameExist( meterToCheck, meters ){
     var exist = false;
 
     _.each( meters, function( meter ){
-        if( meter.name == name )
-            exist = true;
+        if( meter.name == meterToCheck.name )
+            exist = meter._id;
     });
 
     return exist;
-};
+}
 
 function updateMeters( groupID, meters, res ) {
     Group.update( { _id: groupID }, { $set: { meters: meters } }, function( err ){
@@ -146,4 +119,20 @@ function updateMeters( groupID, meters, res ) {
             res.json( Utils.createResult( true, null, "metersUpdated" ) );
         }
     });
-};
+}
+
+function updateMeter( newMeter, group, res ){
+    var meterToDelete = -1;
+
+    _.each( group.meters, function( meter, index ){
+
+        if( meter._id == newMeter._id )
+            meterToDelete = index;
+
+    });
+
+    group.meters.splice( meterToDelete, 1 );
+    group.meters.push( newMeter );
+
+    updateMeters( group._id, group.meters, res );
+}

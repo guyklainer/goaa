@@ -53,5 +53,5 @@ server.listen( settings.port, function(){
     console.log('Using Express %s...', express.version.red.bold);
 });
 
-// -- socket.io meters
-require( './controllers/meters' ).connect( io, ioClient );
+// -- socket.io
+require( './utils/sockets' ).connect( io, ioClient );

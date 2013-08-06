@@ -2,17 +2,22 @@
 <!-- Header -->
 <%- include ../shared/header.ejs %>
 
+<div class="row-fluid cover-image-wrapper">
+    <img src="{{group.image}}" alt="Group Image"/>
+    <h4>
+        {{group.name}}
+    </h4>
+</div>
 
 <!-- Content -->
-<div class="container-fluid main">
-    <h3>Add meter to {{groupName}}</h3>
+<div class="container-fluid main top-space">
 
     <form name="signupForm" class="form-signin" ng-submit="addMeter(meter, group._id)">
         <p ng-show="formInvalid" class="red">Some fields are incorrect.</p>
 
         <input type="text" required ng-model="meter.name" ng-change="checkIsMeterNameExist(meter, group._id)" class="input-block-level" placeholder="Name">
         <p class="red" ng-show="isMeterNameExist">This name is taken</p>
-        <input type="url" required ng-model="meter.url" class="input-block-level" placeholder="Management Url">
+        <input type="url" required ng-model="meter.url" class="input-block-level" placeholder="URL">
         <input type="text" required ng-model="meter.username" class="input-block-level" placeholder="Username">
         <input type="text" required ng-model="meter.password" class="input-block-level" placeholder="Password">
 
