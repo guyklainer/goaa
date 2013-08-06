@@ -3,11 +3,12 @@
         <button type="button" class="btn bottom-space pull-left" ng-click="addPhoto()"><i class="icon-camera-retro icon-2x"></i></button>
         </div>
 
-            <div class="offset4"><img ng-src="{{uploadedImageUrl}}" src="" class="group-image" alt="Group Image" />
+            <center class="group-image-wrapper">
+                <img ng-src="{{uploadedImageUrl}}" src="" class="group-image" alt="Group Image" />
                 <div  ng-show="showProgressBar" class="image-loader">
                     <img src="/img/loader.gif">
                 </div>
-            </div>
+            </center>
 
     <div class="row-fluid" ng-show="showProgressBar">
         <progress value="progressValue" class="progress-warning progress-striped active"></progress>
