@@ -1,7 +1,7 @@
 "use strict";
 
-angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$location', 'account', 'groupDb',
-    function($scope, blockui, $http, $location, account, groupDb){
+angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$location', 'account', 'groupDb', 'contextService',
+    function($scope, blockui, $http, $location, account, groupDb, contextService){
 
     // public var
     $scope.isNoGroups       = false;
@@ -18,6 +18,7 @@ angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$lo
     groupDb.getGroups(account.user()._id, function(groupsResult){
         if (groupsResult != null){
             $scope.groups = groupsResult;
+            contextService.groups.val = groupsResult;
             $scope.isNoGroups = $scope.groups.length == 0;
         } else {
             $scope.isNoGroups = true;

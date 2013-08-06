@@ -10,6 +10,7 @@
             <div ng-switch on="menu">
                 <div ng-switch-default="">
                     <li class="separator">My Groups</li>
+                    <li snap-close ng-repeat="group in groups"><a ng-href="/group/{{ group.name }}">{{ group.name }}</a></li>
 
                     <!--Home-->
                     <li snap-close ng-click="gotoCreateGroup()"><a title="New Group" href="#"><i class="icon-plus icon-large pull-left"></i>New Group</a></li>
@@ -17,8 +18,8 @@
                 </div>
 
                 <div ng-switch-when="group">
-                    <li class="separator">Temp group name..</li>
-                    <li ng-click="gotoGroupSettings()"><a title="Settings" href="#"><i class="icon-cog icon-large pull-left"></i>Group Settings</a></li>
+                    <li class="separator">{{ group.name }}</li>
+                    <li snap-close ng-click="gotoGroupSettings()"><a title="Settings" href="#"><i class="icon-cog icon-large pull-left"></i>Group Settings</a></li>
                 </div>
 
             </div>

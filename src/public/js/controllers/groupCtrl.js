@@ -1,7 +1,7 @@
 "use strict";
 
-angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location', 'account', '$routeParams','$timeout', 'groupDb', 'socket',
-    function($scope, blockui, $location, account, $routeParams, $timeout, groupDb, socket){
+angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location', 'account', '$routeParams','$timeout', 'groupDb', 'socket', 'contextService',
+    function($scope, blockui, $location, account, $routeParams, $timeout, groupDb, socket, contextService){
 
         socket.on( "new-post", function(data){
             if( account.user()._id != data.userID && $scope.view != $scope.partialEnum.news ){
@@ -43,8 +43,10 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
                 log("getGroup result: ", g);
                 $scope.isLoading = false;
                 $scope.group = g;
+                contextService.group.val = g;
             });
         }
+
         function showTodoItemErrorMsg(todoItem, doneCallback) {
             todoItem.ErrorMsg = "oops we have a problem..";
 

@@ -22,7 +22,7 @@
     <div ng-switch on="tab" ng-animate="'wave'">
         <!-- Members -->
         <span ng-switch-when="Members">
-            <div ng-show="isGroupAdmin">
+            <div ng-show="isGroupAdmin" class="container-fluid top-space">
                 <ul class="members-list list">
                     <li ng-repeat="member in group.members" class="list-item">
                         <div class="member-type">
@@ -43,7 +43,7 @@
 
         <!-- Meters -->
         <span ng-switch-when="Meters">
-            <div ng-show="isGroupAdmin">
+            <div ng-show="isGroupAdmin" class="container-fluid top-space">
                 <ul class="meters-list list">
                     <li class="list-item" ng-repeat="meter in group.meters">
                         <div ng-click="gotoMeter(meter._id)" class="meter-name">{{meter.name}}</div>
@@ -58,7 +58,7 @@
 
         <!-- General -->
         <span ng-switch-default>
-            <div>
+            <div class="container-fluid top-space">
                 <div ng-hide="isGroupAdmin">
                     <div group-address="group.address"></div>
                 </div>
