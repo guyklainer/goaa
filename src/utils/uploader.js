@@ -3,8 +3,7 @@ var fs      = require( 'fs' ),
     utils   = require( './utils'),
     knox    = require( 'knox' ),
     path    = require( 'path' ),
-    os      = require( 'os' ),
-    tempDir = path.normalize( os.tmpDir() + path.sep );
+    os      = require( 'os' );
 
 var S3Credentials = {
     key     : config.settings.S3Key,
@@ -42,7 +41,7 @@ module.exports.upload = function( req, res ){
         });
 
     });
-}
+};
 
 function pushToS3( fileName, extension, fileLength, filePath, type, folder, callback ) {
     var client  = knox.createClient( S3Credentials),

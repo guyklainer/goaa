@@ -30,7 +30,7 @@ module.exports.addPost = function( req, res ) {
                  else {
                     var timestamp = new Date().getTime(),
                         post = {
-                            _id         : Crypto.randomBytes( 48 ).toString('hex') + timestamp,
+                            _id         : Crypto.randomBytes( 20 ).toString('hex') + timestamp,
                             userID      : params.userID,
                             username    : user.firstName + " " + user.lastName,
                             data        : params.data,

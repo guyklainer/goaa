@@ -14,7 +14,7 @@
 
     <center><p ng-show="authError">Wrong {{authError}}</p></center>
 
-    <center class="boiler bottom-space" ng-hide="authError" >
+    <center class="boiler bottom-space" ng-hide="authError" ng-show="meter.name == 'Boiler'">
         <div class="temp-wrapper">
             <div class="temp-helper"></div>
             <div class="temp">
@@ -28,9 +28,29 @@
         </div>
     </center>
 
-    <center class="boiler" ng-hide="authError" ng-show="meter.name == 'water'">
-        <p class="number">{{ water.data }}</p>
+    <center class="boiler bottom-space" ng-hide="authError" ng-show="meter.name == 'AC'">
+        <div class="btn-group">
+            <button type="button" ng-class="isOn()" ng-change="updateServer()" class="btn" ng-model="meter.status" btn-radio="'on'">On</button>
+            <button type="button" ng-change="updateServer()" class="btn" ng-model="meter.status" btn-radio="'off'">Off</button>
+        </div>
+
+        <input class="temp-input" type="number" min="16" max="40" step="1" ng-model="meter.temp" ng-change="updateServer()">
+
+
+        <h3 style="margin-top: 100px;">Room Temprature:</h3>
+        <div class="temp-wrapper">
+            <div class="temp-helper"></div>
+            <div class="temp">
+                <div style="height: {{ (meter.data - 20) * 100 / 40 }}% "></div>
+            </div>
+        </div>
+        <p class="number">{{ meter.data }}&deg;C</p>
     </center>
+
+
+    <div class="number-image" ng-hide="authError" ng-show="meter.name == 'Water'">
+        <p class="water-number number">{{ meter.data }}</p>
+    </div>
 
 </div>
 

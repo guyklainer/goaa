@@ -30,7 +30,8 @@ module.exports.getGroupsByUser = function( req, res ){
         else {
             _.each( groupIDs, function( groupObj ){
                 groupIDsArray.push( groupObj.group );
-                sockets.getSocket( req.connection.remoteAddress ).join( groupObj.group );
+                if( sockets.getSocket( req.connection.remoteAddress ) )
+                    sockets.getSocket( req.connection.remoteAddress ).join( groupObj.group );
                 console.log( sockets.getInstance().sockets.manager.rooms );
             });
 

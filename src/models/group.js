@@ -1,8 +1,6 @@
 
 var mongoose 	= require( 'mongoose' ),
-    postModel   = require ( './post' ),
-    Schema 		= mongoose.Schema,
-    Post 	    = mongoose.model( 'Post' );
+    Schema 		= mongoose.Schema;
 
 var Group = new Schema({
     name     : 		String,

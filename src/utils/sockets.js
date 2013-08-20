@@ -6,31 +6,37 @@ var socketsMap  = {},
 
 var connectMeters = function( client, ioClient ){
 
+    var meterSockets = [];
+    
     client.on( 'connect', function( params ){
+        
+        meterSockets[ params._id ] = ioClient.connect( params.url );
 
-        var meterSocket = ioClient.connect( params.url );
+        meterSockets[ params._id ].emit( 'connect', params );
 
-        meterSocket.emit( 'connect', { username: params.username, password: params.password } );
-
-        meterSocket.on( 'invalid', function( data ){
-            client.emit( params.name + '-invalid', data );
-            meterSocket.emit( 'close' );
+        meterSockets[ params._id ].on( 'invalid', function( data ){
+            client.emit( 'invalid', data );
+            meterSockets[params._id].emit( 'close' );
         });
 
-        meterSocket.on( 'data', function( data ){
-            client.emit( params.name + '-data', data );
+        meterSockets[params._id].on( 'data', function( data ){
+            client.emit( 'data', data );
         });
 
-        client.on( params.name + '-status', function( data ){
-            meterSocket.emit( 'status', data );
+        client.on( 'status', function( data ){
+            meterSockets[data._id].emit( 'status', data.status );
         });
 
-        client.on( params.name + '-update', function( data ){
-            meterSocket.emit( 'update' );
+        client.on( 'temp', function( data ){
+            meterSockets[data._id].emit( 'temp', data.temp );
         });
 
-        client.on( params.name + '-close', function(){
-            meterSocket.emit( 'close' );
+        client.on( 'update', function( data ){
+            meterSockets[data._id].emit( 'update' );
+        });
+
+        client.on( 'close', function( data ){
+            meterSockets[data._id].emit( 'close' );
             client.disconnect();
         });
     });
@@ -40,29 +46,29 @@ var connectNotifications = function( client ){
 
 //    client.on( 'connect', function( params ){
 //
-//        var meterSocket = ioClient.connect( params.url );
+//        var meterSockets = ioClient.connect( params.url );
 //
-//        meterSocket.emit( 'connect', { username: params.username, password: params.password } );
+//        meterSockets.emit( 'connect', { username: params.username, password: params.password } );
 //
-//        meterSocket.on( 'invalid', function( data ){
+//        meterSockets.on( 'invalid', function( data ){
 //            client.emit( params.name + '-invalid', data );
-//            meterSocket.emit( 'close' );
+//            meterSockets.emit( 'close' );
 //        });
 //
-//        meterSocket.on( 'data', function( data ){
+//        meterSockets.on( 'data', function( data ){
 //            client.emit( params.name + '-data', data );
 //        });
 //
 //        client.on( params.name + '-status', function( data ){
-//            meterSocket.emit( 'status', data );
+//            meterSockets.emit( 'status', data );
 //        });
 //
 //        client.on( params.name + '-update', function( data ){
-//            meterSocket.emit( 'update' );
+//            meterSockets.emit( 'update' );
 //        });
 //
 //        client.on( params.name + '-close', function(){
-//            meterSocket.emit( 'close' );
+//            meterSockets.emit( 'close' );
 //            client.disconnect();
 //        });
 //    });

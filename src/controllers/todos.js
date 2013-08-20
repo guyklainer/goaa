@@ -1,6 +1,5 @@
 var mongoose    = require( 'mongoose' ),
     Crypto      = require( 'crypto' ),
-    Todo        = mongoose.model( 'Todo' ),
     Group       = mongoose.model( 'Group' ),
     GroupUser   = mongoose.model( 'GroupUser' ),
     Utils       = require( '../utils/utils' ),
@@ -22,7 +21,7 @@ module.exports.addTodo = function( req, res ) {
 
             var timestamp = new Date().getTime(),
                 todo = {
-                    _id         : Crypto.randomBytes( 48 ).toString('hex') + timestamp,
+                    _id         : Crypto.randomBytes( 20 ).toString('hex') + timestamp,
                     userID      : params.userID,
                     username    : params.name,
                     data        : params.data,

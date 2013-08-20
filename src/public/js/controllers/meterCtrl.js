@@ -20,6 +20,7 @@ angular.module('App').controller('MeterCtrl', ['$scope', 'blockui', '$http', '$l
             _.each( group.meters, function( meter ){
 
                 if( meter.name == $routeParams.meter ){
+                    $scope.meter._id = meter._id;
                     $scope.startConnection( meter );
                 }
             });
@@ -30,19 +31,24 @@ angular.module('App').controller('MeterCtrl', ['$scope', 'blockui', '$http', '$l
             var exist = socket.connect( meter );
 
             if( exist )
-                socket.emit( meter.name + "-update" );
+                socket.emit( "update", meter );
 
-            socket.on( meter.name + '-invalid', function( data ){
-                $scope.authError = data.field;
+            socket.on( 'invalid', function( data ){
+                if( data._id == meter._id )
+                    $scope.authError = data.field;
             });
 
-            socket.on( meter.name + '-data', function( data ){
-                $scope.meter.data   = data.data;
-                $scope.meter.status = data.status;
+            socket.on( 'data', function( data ){
+                if( data._id == meter._id ) {
+                    $scope.meter.data   = data.data;
+                    $scope.meter.temp   = data.temp;
+                    $scope.meter.status = data.status;
+                }
             });
 
             $scope.updateServer = function(){
-                socket.emit( meter.name + '-status', $scope.meter.status );
+                socket.emit( 'status', $scope.meter );
+                socket.emit( 'temp', $scope.meter );
             }
         };
 

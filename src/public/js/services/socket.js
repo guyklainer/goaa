@@ -6,9 +6,9 @@ angular.module('App').factory('socket', ['$rootScope', function( $rootScope ){
         sockets = [];
 
     var connect = function( data ) {
-        if( sockets.indexOf( data.name ) == -1 ){
+        if( sockets.indexOf( data._id ) == -1 ){
             emit( "connect", data );
-            sockets.push( data.name );
+            sockets.push( data._id );
             return false;
 
         } else {

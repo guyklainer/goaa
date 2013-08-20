@@ -28,7 +28,7 @@ module.exports.addMeter = function( req, res ){
             else {
                 if( !params.meter._id ){
                     var timestamp = new Date().getTime();
-                    params.meter._id = Crypto.randomBytes( 48 ).toString('hex') + timestamp;
+                    params.meter._id = Crypto.randomBytes( 20 ).toString('hex') + timestamp;
 
                     group.meters.push( params.meter );
                     group.save( function( err ){

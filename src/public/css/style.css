@@ -630,6 +630,42 @@ ul.top-buttons li.active {
     font-size: 22px;
 }
 
+.water-number {
+    background-color: white;
+    float: left;
+}
+
+.number-image {
+    background: url(../img/water.jpg);
+    height: 140px;
+    background-size: 200px;
+    width: 140px;
+    margin: 0 auto;
+    padding-top: 60px;
+    padding-left: 60px;
+}
+
+.ac {
+    background: url(../img/ac.jpg ) no-repeat center top;
+    width: 500px;
+    height: 190px;
+    background-size: 500px;
+    position: relative;
+}
+
+.ac-temp {
+    position: absolute;
+    top: 65px;
+    left: 243px;
+    background: white;
+    color: red;
+}
+
+.temp-input {
+    width: 50px;
+    margin-top: 5px;
+}
+
 /******************************
 // Boiler meter
 //******************************/
