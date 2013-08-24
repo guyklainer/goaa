@@ -18,11 +18,12 @@
 //******************************/
 
 html {
-
+    background: url('../img/bg.png' ) rgba(245, 242, 220, 0.47);
 }
 
 body {
     background-color: transparent;
+    padding-top: 60px;
 }
 
 .main {
