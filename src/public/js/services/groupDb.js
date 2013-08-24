@@ -202,7 +202,7 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         addTodoItem: function(todoItem, groupId, userId, name, callback){
-            $http.post('/addtodo', { data: todoItem, groupID: groupId, userID:userId, name: name })
+            $http.post('/addtodo', { data: todoItem, groupID: groupId, userID:userId, username: name })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
                     callback(false);

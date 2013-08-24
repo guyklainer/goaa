@@ -4,8 +4,22 @@ app.controller('GroupAddMeterCtrl', ['$scope', 'blockui', '$location', 'account'
     function($scope, blockui, $location, account, $routeParams, $timeout, groupDb){
 
         $scope.isGroupAdmin = false;
-        $scope.groupName = $routeParams.groupName;
-        $scope.meterId = $routeParams.meterId;
+        $scope.groupName    = $routeParams.groupName;
+        $scope.meterId      = $routeParams.meterId;
+
+        $scope.meter = {
+            name    : "",
+            url     : "",
+            username: "",
+            password: "",
+            type    : 1
+        };
+
+        $scope.types = [
+            { key : 1, value : "Boiler" },
+            { key : 2, value : "Water" },
+            { key : 3, value : "AC" }
+        ];
 
         groupDb.getGroup($routeParams.groupName, function(g){
             if (g != null){
@@ -27,13 +41,7 @@ app.controller('GroupAddMeterCtrl', ['$scope', 'blockui', '$location', 'account'
             }
         });
 
-        $scope.meter = {
-            _id: "",
-            name: "",
-            url: "",
-            username: "",
-            password: ""
-        };
+
 
         $scope.addMeter = function(meter, groupId){
             groupDb.addMeter(meter, groupId, function(result){

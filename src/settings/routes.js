@@ -1,98 +1,96 @@
 
-var mongoose    = require('mongoose'),
-    index       = require('../controllers/index'),
-    utils       = require('../utils/utils'),
-    uploader    = require('../utils/uploader');
+var index           = require('../controllers/index'),
+    utils           = require('../utils/utils'),
+    uploader        = require('../utils/uploader'),
+    users           = require( '../controllers/users' ),
+    groups          = require( '../controllers/groups' ),
+    groupsUsers     = require( '../controllers/groups-users' ),
+    todos           = require( '../controllers/todos' ),
+    meters          = require( '../controllers/meters' ),
+    posts           = require( '../controllers/posts' );
 
 module.exports = function( app, passport ) {
-
-    var users           = require( '../controllers/users'),
-        groups          = require( '../controllers/groups'),
-        groupsUsers     = require( '../controllers/groups-users'),
-        todos           = require( '../controllers/todos' ),
-        meters          = require( '../controllers/meters' ),
-        posts           = require( '../controllers/posts');
 
     //*****************************
     // Home
     //*****************************
-    app.get('/', index.home );
-    app.get('/partials/:name', index.partials );
+    app.get('/',                        index.home );
+    app.get('/partials/:name',          index.partials );
 
 
     //*****************************
     // Login & Signup
     //*****************************
     //app.get( '/login', users.login );
-    app.post( '/logout', users.logout );
-        
-    app.post( '/login', passport.authenticate( 'local' ), users.login );
-    app.post( '/signup', users.makeSignup );
-    app.post( '/forgotpassword', users.forgotPassword );
-    app.post( '/resetpassword', users.resetPassword );
+    app.post( '/logout',                users.logout );
+    app.post( '/login',                 passport.authenticate( 'local' ), users.login );
+    app.post( '/signup',                users.makeSignup );
+    app.post( '/forgotpassword',        users.forgotPassword );
+    app.post( '/resetpassword',         users.resetPassword );
 
     //*****************************
     // Users
     //*****************************
-    app.post( '/searchusers', users.searchUser );
+    app.post( '/searchusers',           utils.ensureAuthenticated, users.searchUser );
 
     //*****************************
     // Groups
     //*****************************
-    app.post( '/creategroup', groups.makeGroup );
-    app.post( '/editgroup', groups.editGroup );
-    app.post( '/getgroups', groups.getGroupsByUser );
-    app.post( '/getgroupbyname', groups.getGroupByName );
-    app.post( '/getgrouppreview', groups.getGroupPreviewByName );
-    app.post( '/searchgroups', groups.searchGroup );
-    app.post( '/joingroup', groups.joinGroup );
-    app.post( '/isgroupexist', groups.isGroupExist );
-    app.post( '/isgroupadmin', groups.isGroupAdmin );
+    app.post( '/creategroup',           utils.ensureAuthenticated, groups.makeGroup );
+    app.post( '/editgroup',             utils.ensureAuthenticated, groups.editGroup );
+    app.post( '/getgroups',             utils.ensureAuthenticated, groups.getGroupsByUser );
+    app.post( '/getgroupbyname',        utils.ensureAuthenticated, groups.getGroupByName );
+    app.post( '/getgrouppreview',       utils.ensureAuthenticated, groups.getGroupPreviewByName );
+    app.post( '/searchgroups',          utils.ensureAuthenticated, groups.searchGroup );
+    app.post( '/joingroup',             utils.ensureAuthenticated, groups.joinGroup );
+    app.post( '/isgroupexist',          utils.ensureAuthenticated, groups.isGroupExist );
+    app.post( '/isgroupadmin',          utils.ensureAuthenticated, groups.isGroupAdmin );
 
     //*****************************
     // Users Groups connections
     //*****************************
-    app.post( '/isuseringroup', groupsUsers.isUserInGroup );
-    app.post( '/approveuser', groupsUsers.approveUser );
-    app.post( '/leavegroup', groupsUsers.removeUserFromGroup );
-    app.post( '/addmember', groupsUsers.addUserByName );
+    app.post( '/isuseringroup',         utils.ensureAuthenticated, groupsUsers.isUserInGroup );
+    app.post( '/approveuser',           utils.ensureAuthenticated, groupsUsers.approveUser );
+    app.post( '/leavegroup',            utils.ensureAuthenticated, groupsUsers.removeUserFromGroup );
+    app.post( '/addmember',             utils.ensureAuthenticated, groupsUsers.addUserByName );
 
     //*****************************
     // Posts
     //*****************************
-    app.post( '/addpost', posts.addPost );
-    app.post( '/removepost', posts.removePost );
+    app.post( '/addpost',               utils.ensureAuthenticated, posts.addPost );
+    app.post( '/removepost',            utils.ensureAuthenticated, posts.removePost );
 
     //*****************************
     // Todos
     //*****************************
-    app.post( '/addtodo', todos.addTodo );
-    app.post( '/removetodo', todos.removeTodo );
-    app.post( '/updatetodo', todos.updateTodo );
+    app.post( '/addtodo',               utils.ensureAuthenticated, todos.addTodo );
+    app.post( '/removetodo',            utils.ensureAuthenticated, todos.removeTodo );
+    app.post( '/updatetodo',            utils.ensureAuthenticated, todos.updateTodo );
 
     //*****************************
     // Meters
     //*****************************
-    app.post( '/addmeter', meters.addMeter );
-    app.post( '/checkmetername', meters.isMeterNameExist );
-    app.post( '/removemeter', meters.removeMeter );
+    app.post( '/addmeter',              utils.ensureAuthenticated, meters.addMeter );
+    app.post( '/checkmetername',        utils.ensureAuthenticated, meters.isMeterNameExist );
+    app.post( '/removemeter',           utils.ensureAuthenticated, meters.removeMeter );
 
     //*****************************
     // API
     //*****************************
-    app.post( '/api/validateUsername', users.userExist );
-    app.post( '/api/upload', uploader.upload );
+    app.post( '/api/validateUsername',  utils.ensureAuthenticated, users.userExist );
+    app.post( '/api/upload',            utils.ensureAuthenticated, uploader.upload );
 
     //*****************************
     // Errors
     //*****************************
-    app.get( '/404', index.e404 );
-    app.get( '/403', index.e403 );
-    app.get( '/500', index.e500 );
+    app.get( '/401',                    index.e401 );
+    app.get( '/404',                    index.e404 );
+    app.get( '/403',                    index.e403 );
+    app.get( '/500',                    index.e500 );
 
     //*****************************
     // Default route
     //*****************************
-    app.get( '*', index.home );
+    app.get( '*',                       index.home );
 
 }

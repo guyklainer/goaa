@@ -2,11 +2,17 @@
 var _ = require( 'underscore' );
 
 module.exports.ensureAuthenticated = function( req, res, next )  {
-    if( req.isAuthenticated() )
+    if( req.isAuthenticated() ){
+        res.cookie('user', req.user );
         return next();
-    else
-        res.redirect( '/login?auth=0' );
-}
+    }
+
+    else {
+        res.cookie( 'user', null );
+        res.redirect( '/401' );
+    }
+
+};
 
 module.exports.isAllFieldsAreNotNullOrEmpty = function( obj ) {
     var returnKeys  = {};
@@ -34,7 +40,7 @@ module.exports.isAllFieldsAreNotNullOrEmpty = function( obj ) {
     }
 
 	return { result: success, data: returnKeys, msg: success ? "fullFields" : "emptyFields" };
-}
+};
 
 module.exports.isImage = function( filename ) {
     var ext = getExtension( filename );
@@ -47,18 +53,16 @@ module.exports.isImage = function( filename ) {
             return true;
     }
     return false;
-}
+};
 
 module.exports.createResult = function( result, data, msg ) {
     return { result: result, data: data, msg: msg };
-}
+};
 
-module.exports.getExtension = getExtension;
-
-function getExtension( filename ) {
+var getExtension = module.exports.getExtension = function( filename ) {
     var parts = filename.split( '.' );
     return parts[parts.length - 1];
-}
+};
 
 
 

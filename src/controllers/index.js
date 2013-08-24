@@ -6,7 +6,7 @@ module.exports.home = function( req, res ) {
         title   : 'Goaa',
         user    : req.isAuthenticated() ? req.user : null
     });
-}
+};
 
 module.exports.partials = function( req, res ) {
     var name = req.params.name;
@@ -15,19 +15,26 @@ module.exports.partials = function( req, res ) {
     res.render( 'partials/' + name, {
         user: req.isAuthenticated() ? req.user : null
     });
-}
+};
+
+module.exports.e401 = function( req, res, next ) {
+    var err     = new Error( 'Not Authorized!' );
+    err.status  = 401;
+
+    next( err );
+};
 
 module.exports.e404 = function( req, res, next ) {
     next();
-}
+};
 
 module.exports.e403 = function( req, res, next ) {
     var err         = new Error( 'Not allowed!' );
         err.status  = 403;
 
     next( err );
-}
+};
 
 module.exports.e500 = function( req, res, next ) {
     next( new Error() );
-}
+};

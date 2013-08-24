@@ -2,78 +2,43 @@
 var Mongoose    = require( 'mongoose' ),
     _           = require( 'underscore' ),
     Utils       = require( '../utils/utils' ),
-    Crypto      = require( 'crypto' ),
-    Group       = Mongoose.model( 'Group' );
+    Group       = Mongoose.model( 'Group'),
+    Meter       = Mongoose.model( 'Meter' );
 
-module.exports.addMeter = function( req, res ){
-    var params = req.body;
+module.exports.addMeter = function( req, res ) {
+    var params      = req.body,
+        meter       = {},
+        insertQuery = {},
+        selectQuery = { _id : params.groupID };
 
-    if( !params.meter || !params.groupID )
-        res.json( Utils.createResult( false, null, "missing params" ) );
+    if( params.meter._id && params.meter._id != "" ) {
 
-    Group.findOne( { _id: params.groupID }, function( err, group ){
+        selectQuery[ "meters._id" ] = params.meter._id;
+        insertQuery = { $set : { "meters.$" : params.meter } };
 
+    } else {
+        meter = new Meter( params.meter );
+        insertQuery = { $push: { "meters": meter } };
+    }
+
+    Group.update( selectQuery, insertQuery, function( err, numAffected, rawResponse ){
         if ( err )
             res.json( Utils.createResult( false, err, "dbError" ) );
 
-        if( !group )
-            res.json( Utils.createResult( false, null, "noGroupFound" ) );
-
-        else {
-            var idOfExist = isMeterNameExist( params.meter, group.meters );
-
-            if( idOfExist && params.meter._id != idOfExist )
-                res.json( Utils.createResult( false, null, "meterNameExist" ) );
-
-            else {
-                if( !params.meter._id ){
-                    var timestamp = new Date().getTime();
-                    params.meter._id = Crypto.randomBytes( 20 ).toString('hex') + timestamp;
-
-                    group.meters.push( params.meter );
-                    group.save( function( err ){
-
-                        if( err ){
-                            res.json( Utils.createResult( false, err, "dbError" ) );
-
-                        } else {
-                            res.json( Utils.createResult( true, null, "meterAdded" ) );
-                        }
-                    });
-
-                } else {
-                    updateMeter( params.meter, group, res );
-
-                }
-            }
-        }
+        else
+            res.json( Utils.createResult( true, rawResponse, "meterAdded" ) );
     });
 };
 
 module.exports.removeMeter = function( req, res ) {
     var params  = req.body;
 
-    Group.findOne( { _id: params.groupID }, function( err, group ){
+    Group.update( { _id: params.groupID }, { $pull : { "meters" :  { _id : params.meterID } } }, function( err, numAffected, rawResponse ) {
+        if ( err )
+            res.json( Utils.createResult( false, err, "dbError" ) );
 
-        if ( err ) {
-            res.json(Utils.createResult( false, err, "dbError" ));
-        }
-
-        if( !group ){
-            res.json(Utils.createResult( false, null, "noGroupFound" ));
-
-        } else {
-            var meters = group.meters;
-
-            for( var i = 0; i < meters.length; i++ ){
-
-                if ( meters[i]._id == params.meterID ){
-                    meters.splice( i, 1 );
-                    updateMeters( group._id, meters, res );
-                    break;
-                }
-            }
-        }
+        else
+            res.json( Utils.createResult( true, rawResponse, "meterRemoved" ) );
     });
 };
 
@@ -109,30 +74,4 @@ function isMeterNameExist( meterToCheck, meters ){
     });
 
     return exist;
-}
-
-function updateMeters( groupID, meters, res ) {
-    Group.update( { _id: groupID }, { $set: { meters: meters } }, function( err ){
-        if( err ){
-            res.json( Utils.createResult( false, err, "dbError" ) );
-        } else {
-            res.json( Utils.createResult( true, null, "metersUpdated" ) );
-        }
-    });
-}
-
-function updateMeter( newMeter, group, res ){
-    var meterToDelete = -1;
-
-    _.each( group.meters, function( meter, index ){
-
-        if( meter._id == newMeter._id )
-            meterToDelete = index;
-
-    });
-
-    group.meters.splice( meterToDelete, 1 );
-    group.meters.push( newMeter );
-
-    updateMeters( group._id, group.meters, res );
 }

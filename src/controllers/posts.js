@@ -1,119 +1,59 @@
 
 var mongoose    = require( 'mongoose' ),
-    Crypto      = require( 'crypto' ),
-    Post        = mongoose.model( 'Post' ),
-    Group       = mongoose.model( 'Group' ),
-    GroupUser   = mongoose.model( 'GroupUser' ),
-    User        = mongoose.model( 'User' ),
     GroupUsers  = require( './groups-users' ),
     Utils       = require( '../utils/utils' ),
     sockets     = require( '../utils/sockets' ),
-    _           = require( 'underscore' );
+    _           = require( 'underscore'),
+    Group       = mongoose.model( 'Group' ),
+    Post        = mongoose.model( 'Post' ),
+    GroupUser   = mongoose.model( 'GroupUser' ),
+    User        = mongoose.model( 'User' );
 
 module.exports.addPost = function( req, res ) {
     var params  = req.body;
 
-    Group.findOne( { _id: params.groupID }, function( err, group ){
 
-        if ( err ) {
+    User.findOne({ _id : req.user._id }, function( err, user ){
+        if( err )
             res.json( Utils.createResult( false, err, "dbError" ) );
-        }
+        else
+            params.username = user.firstName + " " + user.lastName;
+    });
 
-        if( !group ){
-            res.json( Utils.createResult( false, null, "noGroupFound" ) );
-        } else {
+    var post = new Post( params );
 
-            User.findOne({ _id : params.userID }, function( err, user ){
-                if( err )
-                    res.json( Utils.createResult( false, err, "dbError" ) );
+    Group.update( { _id: params.groupID }, { $push: { "posts": post } }, function( err, numAffected, rawResponse ){
+        if ( err )
+            res.json( Utils.createResult( false, err, "dbError" ) );
 
-                 else {
-                    var timestamp = new Date().getTime(),
-                        post = {
-                            _id         : Crypto.randomBytes( 20 ).toString('hex') + timestamp,
-                            userID      : params.userID,
-                            username    : user.firstName + " " + user.lastName,
-                            data        : params.data,
-                            image       : params.image,
-                            createdOn   : new Date()
-                        };
-
-                    group.posts.push( post );
-                    group.save( function( err ){
-
-                        if( err ){
-                            res.json( Utils.createResult( false, err, "dbError" ) );
-
-                        } else {
-                            console.log( sockets.getInstance().sockets.manager.rooms );
-                            console.log( params.groupID );
-                            sockets.getInstance().sockets.in( params.groupID ).emit( 'new-post', post );
-                            res.json( Utils.createResult( true, null, "postAdded" ) );
-                        }
-                    });
-                }
-            });
-
+        else {
+            sockets.getInstance().sockets.in( params.groupID ).emit( 'new-post', post );
+            res.json( Utils.createResult( true, rawResponse, "postAdded" ) );
         }
     });
-}
+};
 
 module.exports.removePost = function( req, res ) {
-    var params  = req.body;
+    var params          = req.body,
+        removeCondition = { _id : params.postID };
 
-    Group.findOne( { _id: params.groupID }, function( err, group ){
+    isUserAdmin( req, function( isAdmin ){
 
-        if ( err ) {
-            res.json(Utils.createResult( false, err, "dbError" ));
-        }
+        if( !isAdmin )
+            removeCondition.userID = req.user._id;
 
-        if( !group ){
-            res.json(Utils.createResult( false, null, "noGroupFound" ));
-        
-        } else {
-            var posts = group.posts;
+        Group.update( { _id: params.groupID }, { $pull : { "posts" : removeCondition } }, function( err, numAffected, rawResponse ) {
+            if ( err )
+                res.json( Utils.createResult( false, err, "dbError" ) );
 
-            for( var i = 0; i < posts.length; i++ ){
-
-                if ( posts[i]._id == params.postID ){
-
-                    validateIfUserCanRemovePost( params.userID, group._id, posts[i], function( result ){
-                        if( result ){
-                            posts.splice( i, 1 );
-                            updatePosts( group._id, posts, res );
-
-                        } else {
-                            res.json( Utils.createResult( false, null, "userCantDeletePost" ) );
-                        }
-                    });
-
-                    break;
-                }
-            }
-        }
+            else
+                res.json( Utils.createResult( true, rawResponse, numAffected + "postsRemoved" ) );
+        });
     });
-}
+};
 
-function updatePosts( groupID, posts, res ) {
-    Group.update( { _id: groupID }, { $set: { posts: posts } }, function( err ){
-        if( err ){
-            res.json( Utils.createResult( false, err, "dbError" ) );
-        } else {
-            res.json( Utils.createResult( true, null, "postUpdated" ) );
-        }
-    });
-}
-
-function validateIfUserCanRemovePost( userID, groupID, post, callback ){
-
-    var isUsersPost = post.userID == userID;
-
-    GroupUsers.isAdmin( userID, groupID, function( result ){
-        if( result.result || isUsersPost ){
-            callback( true );
-
-        } else {
-            callback( false );
-        }
+function isUserAdmin( req, callback ){
+    GroupUsers.isAdmin( req.user._id, req,body.groupID, function( result ){
+        callback( result.result );
     });
 }
