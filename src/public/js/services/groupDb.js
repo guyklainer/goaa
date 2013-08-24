@@ -4,22 +4,28 @@ app.factory('groupDb', ['$http', function($http){
     // Public API here
     return {
         getGroup: function(groupName, callback){
+            NProgress.start();
             $http.post('/getgroupbyname', { name: groupName })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
+                    NProgress.done();
                     callback(null);
                 })
                 .success(function(data, status, headers, config) {
+                    NProgress.done();
                     callback(data.data);
                 });
         },
         getGroupPreview: function(groupName, callback){
+            NProgress.start();
             $http.post('/getgrouppreview', { name: groupName })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
+                    NProgress.done();
                     callback(null);
                 })
                 .success(function(data, status, headers, config) {
+                    NProgress.done();
                     callback(data.data);
                 });
         },

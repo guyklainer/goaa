@@ -82,4 +82,5 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies", "snap"
             log("user not loggedin, redirecting to login");
             $location.path('/');
         }
+
     });
