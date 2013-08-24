@@ -21,15 +21,6 @@ angular.module('App').controller('SnapCtrl', ['$scope', '$location', '$route', '
 
 
     // public functions
-    $scope.gotoCreateGroup = function(){
-        $location.path("/createGroup");
-    };
-    $scope.gotoJoinGroup = function(){
-        $location.path("/joinGroup");
-    };
-    $scope.gotoComposePost = function(){
-        $location.path("/compose");
-    };
     $scope.gotoGroupSettings = function(){
         $location.path('group/' + $scope.group.name + '/settings');
     };
