@@ -12,27 +12,23 @@ angular.module('App').controller('JoinGroupCtrl', ['$scope', 'blockui', '$http',
 
     //public functions
     $scope.search = function(query){
-        $scope.showLoader = true;
-
-        if( $scope.timer != null ) {
-            clearTimeout( $scope.timer );
-            $scope.timer = null;
-        }
-
-        $scope.timer = setTimeout( function(){
-            makeSearch(query);
-        }, 1000 );
+        makeSearch(query);
     }
 
     var makeSearch = function(query){
         log("search for: " + query);
 
+        NProgress.start();
         $http.post('/searchgroups', { groupName: query })
             .error(function(data, status, headers, config){
+                log('error');
+                NProgress.done();
                 httpErrorCallback(data, status, headers, config);
                 $scope.showLoader = false;
             })
             .success(function(data, status, headers, config) {
+                log('success');
+                NProgress.done();
                 log(data);
 
                 if (data.result && angular.isArray(data.data)){
