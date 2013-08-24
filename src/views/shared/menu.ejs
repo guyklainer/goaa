@@ -3,18 +3,15 @@
         <center><img class="logo" src="/img/logo.png"></center>
         <ul class="nav">
 
-            <li snap-close ><a title="Home" href="/home"><i class="icon-home icon-large pull-left"></i>Home</a></li>
-            <li snap-close ng-click="gotoComposePost()"><a title="Write Something..." href="#" class="compose"><i class="icon-edit icon-large pull-left"></i>Write Something...</a></li>
-
+            <li snap-close><a title="Home" href="/home"><i class="icon-home icon-large pull-left"></i>Home</a></li>
+            <li snap-close><a title="Write Something..." href="/compose" class="compose"><i class="icon-edit icon-large pull-left"></i>Write Something...</a></li>
+            <li snap-close><a title="New Group" href="/createGroup"><i class="icon-plus icon-large pull-left"></i>New Group</a></li>
+            <li snap-close><a title="Join Group" href="/joinGroup"><i class="icon-list-alt icon-large pull-left"></i>Join Group</a></li>
 
             <div ng-switch on="menu">
                 <div ng-switch-default="">
                     <li class="separator">My Groups</li>
                     <li snap-close ng-repeat="group in groups"><a ng-href="/group/{{ group.name }}">{{ group.name }}</a></li>
-
-                    <!--Home-->
-                    <li snap-close ng-click="gotoCreateGroup()"><a title="New Group" href="#"><i class="icon-plus icon-large pull-left"></i>New Group</a></li>
-                    <li snap-close ng-click="gotoJoinGroup()"><a title="Join Group" href="#"><i class="icon-list-alt icon-large pull-left"></i>Join Group</a></li>
                 </div>
 
                 <div ng-switch-when="group">
