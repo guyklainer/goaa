@@ -30,6 +30,7 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         getGroups: function(userId, callback){
+            NProgress.start();
             $http.post('/getgroups', { userID: userId })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
@@ -47,6 +48,7 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         isGroupAdmin: function(userId, groupId, callback){
+            NProgress.start();
             $http.post('/isgroupadmin', { user: userId, group: groupId })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
@@ -63,6 +65,7 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         isUserInGroup: function(userId, groupId, callback){
+            NProgress.start();
             $http.post('/isuseringroup', { user: userId, group: groupId })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
@@ -79,6 +82,7 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         joinGroup: function(userId, groupId, callback){
+            NProgress.start();
             $http.post('/joingroup', { user: userId, group: groupId })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
@@ -95,6 +99,7 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         confirmMember: function(userId, groupId, callback){
+            NProgress.start();
             $http.post('/approveuser', { user: userId, group: groupId })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
@@ -111,6 +116,7 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         leaveGroup: function(userId, groupId, callback){
+            NProgress.start();
             $http.post('/leavegroup', { user: userId, group: groupId })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
@@ -126,6 +132,7 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         editGroup: function(address, image, groupId, callback){
+            NProgress.start();
             $http.post('/editgroup',{ address: address, image: image, groupID: groupId })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
@@ -147,6 +154,7 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         addMember: function(memberName, groupId, callback){
+            NProgress.start();
             $http.post('/addmember',{ member: memberName, groupID: groupId})
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
@@ -167,6 +175,7 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         isMeterNameExist: function(meterName, meterId, groupId, callback){
+            NProgress.start();
             $http.post('/checkmetername',{ name: meterName, groupID: groupId, meterID: meterId})
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
@@ -188,6 +197,7 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         addMeter: function(meter, groupId, callback){
+            NProgress.start();
             $http.post('/addmeter',{ meter: meter, groupID: groupId})
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
@@ -209,6 +219,7 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         deleteMeter: function(meterId, groupId, callback){
+            NProgress.start();
             $http.post('/removemeter',{ meterID: meterId, groupID: groupId})
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
@@ -229,6 +240,7 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         addTodoItem: function(todoItem, groupId, userId, name, callback){
+            NProgress.start();
             $http.post('/addtodo', { data: todoItem, groupID: groupId, userID:userId, name: name })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
@@ -245,6 +257,7 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         updateTodoItem: function(todoItem, groupId, callback){
+            NProgress.start();
             $http.post('/updatetodo', { data: todoItem, groupID: groupId })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
@@ -261,6 +274,7 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         deleteTodoItem: function(todoId, groupId, callback){
+            NProgress.start();
             callback(true);
             $http.post('/removetodo', { todoID: todoId, groupID: groupId })
                 .error(function(data, status, headers, config){
