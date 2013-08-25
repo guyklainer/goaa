@@ -9,7 +9,7 @@ module.exports.ensureAuthenticated = function( req, res, next )  {
 
     else {
         res.cookie( 'user', null );
-        res.redirect( '/401' );
+        res.send( '401', "Unauthorized" );
     }
 
 };

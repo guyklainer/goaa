@@ -1,13 +1,13 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies", "snap"]).
+var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies", "http-auth-interceptor"]).
   config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 
-    $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(false).hashPrefix('!');
 
     $routeProvider.
-        when('/', {
+        when('/login', {
             templateUrl: '/partials/login',
             controller: 'LoginCtrl'
         }).
@@ -68,7 +68,7 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies", "snap"
             controller: 'ComposeCtrl'
         }).
         otherwise({
-            redirectTo: '/'
+            redirectTo: '/login'
         });
   }])
     .run(function($rootScope, account, $location) {
