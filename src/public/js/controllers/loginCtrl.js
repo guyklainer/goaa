@@ -1,6 +1,6 @@
 
-angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', '$location', 'account', '$cookies', 'socket',
-    function($scope, blockui, $http, $location, account, $cookies, socket){
+angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', '$location', 'account', '$cookies', 'authService',
+    function($scope, blockui, $http, $location, account, $cookies, authService){
 
     // checking if logged in allready redirecting to Home
     if (account.isLoggedIn()){
@@ -45,6 +45,8 @@ angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', '$l
                     $scope.loginFailed = false;
                     $cookies.user = '12' + angular.toJson(data.user);
                     account.update();
+                    log('authService.loginConfirmed', authService);
+                    authService.loginConfirmed();
                     $location.path('/home').replace(); //redirect wont create new page in the history
                 }
             });

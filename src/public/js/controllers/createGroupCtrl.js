@@ -37,18 +37,18 @@ app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','ac
             log("group create is: ");
             log($scope.Group);
 
-            blockui.block();
 
 
 
-
+            NProgress.start();
             $http.post('/creategroup',$scope.Group)
                 .error(function(data, status, headers, config){
+                    NProgress.done();
                     httpErrorCallback(data, status, headers, config);
-                    blockui.unblock();
                     //todo show general error
                 })
                 .success(function(data, status, headers, config) {
+                    NProgress.done();
                     log(data);
                     if (data != null && !data.result) //case failed
                     {
@@ -63,15 +63,13 @@ app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','ac
                             $scope.errorMsg="We have a problem try again leter";
                         }
 
-                        blockui.unblock();
+
 
                     } else  if (data != null && data.result){ //case success
-                        blockui.unblock();
                         $scope.isShowError = false;
 
                         $location.path('/home');
                     } else { //case invalid
-                        blockui.unblock();
 
                         //check for error
                     }
@@ -95,21 +93,14 @@ app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','ac
                 .success(function(data, status, headers, config) {
                     log(data);
 
-                   if (data != null && !data.result) //case failed
-                   {
-                        if(data.result == false)
-                        {
+                   if (data != null && !data.result){ //case failed
+                        if(data.result == false) {
                             $scope.isShowError = true;
                             $scope.errorMsg="Group already exist";
                        }
-                   }
-
-                   else  if (data != null && data.result){ //case success
+                   } else  if (data != null && data.result){ //case success
                          $scope.isShowError = false;
-
-                   }
-                   else { //case invalid
-                        blockui.unblock();
+                   } else { //case invalid
                         //check for error
                    }
                 });

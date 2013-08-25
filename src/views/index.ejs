@@ -1,5 +1,14 @@
-<%- include head.ejs %>
 
-    <div ng-view ng-animate=" 'view' "></div>
+<%- include head.ejs %>
+    <div re-auth="">
+        <div id="login-holder" ng-controller="LoginCtrl" style="display: none;">
+            <h3>Please login to continue:</h3>
+            <div ng-include="'/partials/login'"></div>
+        </div>
+
+        <div id="content">
+            <div ng-view ng-animate=" 'view' "></div>
+        </div>
+    </div>
 
 <%- include bottom.ejs %>
