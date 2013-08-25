@@ -28,6 +28,7 @@ angular.module('App').factory('account', ['$cookies', '$http', '$location', func
         },
         logout= function(){
             log("logout");
+            NProgress.start();
             $http.post('/logout', {})
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
