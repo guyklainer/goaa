@@ -6,7 +6,6 @@ var mongoose    = require( 'mongoose' ),
     _           = require( 'underscore'),
     Group       = mongoose.model( 'Group' ),
     Post        = mongoose.model( 'Post' ),
-    GroupUser   = mongoose.model( 'GroupUser' ),
     User        = mongoose.model( 'User' );
 
 module.exports.addPost = function( req, res ) {

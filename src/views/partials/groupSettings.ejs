@@ -44,7 +44,8 @@
         <!-- Meters -->
         <span ng-switch-when="Meters">
             <div ng-show="isGroupAdmin" class="container-fluid top-space">
-                <ul class="meters-list list">
+                <p ng-hide="group.meters.length">No Meters</p>
+                <ul class="meters-list list" ng-show="group.meters.length">
                     <li class="list-item" ng-repeat="meter in group.meters">
                         <div ng-click="gotoMeter(meter._id)" class="meter-name">{{meter.name}}</div>
                         <p class="red pull-right" ng-show="meter.isDeleteError">Oops we have a problem..</p>

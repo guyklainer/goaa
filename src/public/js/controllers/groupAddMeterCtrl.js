@@ -15,12 +15,6 @@ app.controller('GroupAddMeterCtrl', ['$scope', 'blockui', '$location', 'account'
             type    : 1
         };
 
-        $scope.types = [
-            { key : 1, value : "Boiler" },
-            { key : 2, value : "Water" },
-            { key : 3, value : "AC" }
-        ];
-
         groupDb.getGroup($routeParams.groupName, function(g){
             if (g != null){
 

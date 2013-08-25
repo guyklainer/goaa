@@ -10,16 +10,40 @@
 </div>
 
 <!-- Content -->
+<center class="top-buttons top-space">
+    <span class="loader-helper">
+        <input autofocus="autofocus" ng-change="getUsers(query)" type="search" ng-model="query" class="search-group" placeholder="Insert Username..." />
+        <div class="loader" ng-show="showLoader"></div>
+        <i class="icon-search" ng-hide="showLoader"></i>
+    </span>
+</center>
+
+
+<!-- Content -->
 <div class="container-fluid main">
-    <input class="span12 input-large" placeholder="Insert Username..." type="text" ng-model="newMember.name" typeahead="name for name in getUserNames($viewValue) | filter:$viewValue">
-
-    <div class="row-fluid">&nbsp;</div>
-    <div class="alert alert-error span12" ng-show="isShowError">
-        <strong>Oops we have a problem..</strong>
-    </div>
-
-    <button ng-click="addMember(newMember, group._id)" class="btn btn-info btn-block btn-large">Add Member</button>
+    <ul class="list" ng-show="members.length">
+        <li ng-click="addMember(member, group._id)" class="list-item" ng-repeat="member in members | filter:query">
+            <a href="#" class="title">
+                <i class="icon-chevron-right"></i>
+                {{member.firstName + " " + member.lastName}}
+            </a>
+        </li>
+    </ul>
+    <center><h4 ng-hide="members.length">No results</h4></center>
 </div>
+
+
+
+<!--<div class="container-fluid main">-->
+    <!--<input class="span12 input-large" placeholder="Insert Username..." type="text" ng-model="newMember.name" typeahead="name for name in getUserNames($viewValue) | filter:$viewValue">-->
+
+    <!--<div class="row-fluid">&nbsp;</div>-->
+    <!--<div class="alert alert-error span12" ng-show="isShowError">-->
+        <!--<strong>Oops we have a problem..</strong>-->
+    <!--</div>-->
+
+    <!--<button ng-click="addMember(newMember, group._id)" class="btn btn-info btn-block btn-large">Add Member</button>-->
+<!--</div>-->
 
 
 <!-- Footer -->

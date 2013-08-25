@@ -9,70 +9,6 @@ var mongoose        = require( 'mongoose' ),
     User            = mongoose.model( 'User' ),
     settings        = config.settings;
 
-module.exports.joinGroup = function( req, res ){
-    var params      = req.body;
-
-    addUser( params, "userJoined", res );
-};
-
-module.exports.addUserByName = function( req, res ){
-    var params      = req.body,
-        user        = { user : params.member, isAdmin : true, approved : true };
-
-    addUser( user, "userAdded", res );
-};
-
-module.exports.approveUser = function( req, res ){
-    var params      = req.body;
-
-    Group.find( { _id: params.group, "members.user" : params.user }, function( err, group ){console.log(group);});
-
-    Group.update( { _id: params.group, "members.user" : params.user }, { $set: { "members.$.approved" : true } }, function( err, numAffected, rawResponse ){
-        if ( err )
-            res.json( utils.createResult( false, err, "dbError" ) );
-
-        else
-            res.json( utils.createResult( true, rawResponse, "userApproved" ) );
-    });
-};
-
-module.exports.removeUserFromGroup = function( req, res ){
-    var params = req.body;
-
-    Group.update( { _id: params.group }, { $pull: { "members" : { user : params.user } } }, function( err, numAffected, rawResponse ){
-        if ( err )
-            res.json( utils.createResult( false, err, "dbError" ) );
-
-        else
-            res.json( utils.createResult( true, rawResponse, "userRemoved" ) );
-    });
-};
-
-module.exports.isUserInGroup = function( req, res ){
-    var params          = req.body,
-        currentMember   = {};
-
-    Group.findOne( { _id : params.group, "members.user" : req.user._id }, function( err, group ){
-
-        if ( err )
-            res.json( Utils.createResult( false, err, "dbError" ) );
-
-        else if ( group ){
-            _.each( group.members, function( member ){
-                if( member.user == req.user._id ){
-                    currentMember = member;
-                }
-            });
-
-            if( currentMember.approved )
-                res.json( utils.createResult( true, null, "allreadyInGroup" ) );
-            else
-                res.json( utils.createResult( false, null, "notApprovedYet" ) );
-
-        } else
-            res.json( utils.createResult( false, null, "notInGroup" ) );
-    });
-};
 
 module.exports.getGroupsByUser = function( req, res ){
     var socket = sockets.getSocket( req.connection.remoteAddress );
@@ -233,27 +169,12 @@ module.exports.makeGroup = function( req, res ) {
                     res.json( utils.createResult( false, err, "dbError" ) );
 
                 else
-                    res.json( group );
+                    res.json( utils.createResult( true, group, "groupCreated" ) );
             });
 
         } else
             res.json( result );
 
-    });
-};
-
-module.exports.isGroupAdmin = function( req, res ) {
-    var params = req.body;
-
-    Group.findOne( { _id : params.group, members : { $elemMatch : { user : req.user._id, isAdmin : true } } }, function( err, group ){
-        if ( err )
-            res.json( Utils.createResult( false, err, "dbError" ) );
-
-        else if ( group )
-            res.json( utils.createResult( true, null, "isAdmin" ) );
-
-        else
-            res.json( utils.createResult( false, null, "notAdmin" ) );
     });
 };
 
@@ -268,17 +189,17 @@ module.exports.isGroupExist = function( req, res ){
     });
 };
 
-var addUser = function( user, successMsg, res ) {
-    var userInGroup = new UserInGroup( user );
+var removeGroup = function( group, callback ) {
 
-    Group.update( { _id: user.groupID }, { $addToSet: { "members" : userInGroup } }, function( err, numAffected, rawResponse ){
-        if ( err )
-            res.json( utils.createResult( false, err, "dbError" ) );
+    Group.remove( { _id: group }, function( err ){
+        if( err )
+            callback( utils.createResult( false, err, "dbError" ) );
 
         else
-            res.json( utils.createResult( true, rawResponse, successMsg ) );
+            callback( utils.createResult( true, {}, "groupRemoved" ) );
     });
 };
+
 
 var validateGroupRequest = function( params, callback ){
 

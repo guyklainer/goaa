@@ -42,17 +42,18 @@ module.exports = function( app, passport ) {
     app.post( '/getgroupbyname',        utils.ensureAuthenticated, groups.getGroupByName );
     app.post( '/getgrouppreview',       utils.ensureAuthenticated, groups.getGroupPreviewByName );
     app.post( '/searchgroups',          utils.ensureAuthenticated, groups.searchGroup );
-    app.post( '/joingroup',             utils.ensureAuthenticated, groups.joinGroup );
     app.post( '/isgroupexist',          utils.ensureAuthenticated, groups.isGroupExist );
-    app.post( '/isgroupadmin',          utils.ensureAuthenticated, groups.isGroupAdmin );
+
 
     //*****************************
     // Users Groups connections
     //*****************************
-    app.post( '/isuseringroup',         utils.ensureAuthenticated, groups.isUserInGroup );
-    app.post( '/approveuser',           utils.ensureAuthenticated, groups.approveUser );
-    app.post( '/leavegroup',            utils.ensureAuthenticated, groups.removeUserFromGroup );
-    app.post( '/addmember',             utils.ensureAuthenticated, groups.addUserByName );
+    app.post( '/joingroup',             utils.ensureAuthenticated, groupsUsers.joinGroup );
+    app.post( '/isgroupadmin',          utils.ensureAuthenticated, groupsUsers.isGroupAdmin );
+    app.post( '/isuseringroup',         utils.ensureAuthenticated, groupsUsers.isUserInGroup );
+    app.post( '/approveuser',           utils.ensureAuthenticated, groupsUsers.approveUser );
+    app.post( '/leavegroup',            utils.ensureAuthenticated, groupsUsers.removeUserFromGroup );
+    app.post( '/addmember',             utils.ensureAuthenticated, groupsUsers.addUserByID );
 
     //*****************************
     // Posts

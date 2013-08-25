@@ -1,217 +1,153 @@
 
-var mongoose    = require( 'mongoose' ),
-    utils       = require( '../utils/utils'),
-    GroupUser   = mongoose.model( 'GroupUser' ),
-    User        = mongoose.model( 'User' ),
-    Group       = mongoose.model( 'Group');
+var mongoose        = require( 'mongoose' ),
+    utils           = require( '../utils/utils' ),
+    _               = require( 'underscore' ),
+    config          = require( '../settings/config' ),
+    sockets         = require( '../utils/sockets' ),
+    UserInGroup     = mongoose.model( 'UserInGroup' ),
+    Group           = mongoose.model( 'Group' ),
+    User            = mongoose.model( 'User' ),
+    settings        = config.settings;
 
-module.exports.createUserGroupConnection = function( user, group, isAdmin, callback, isApproved ){
-    var params = {},
-        result = null;
+module.exports.joinGroup = function( req, res ){
+    var params      = req.body;
 
-    params.createdOn    = new Date();
-    params.user         = user;
-    params.group        = group;
-    params.isAdmin      = isAdmin;
-    params.approved     = isAdmin || isApproved ? true : false;
-
-    isUserInGroup( user, group, function( result ){
-        if( result.result ){
-            callback( result );
-            return false;
-        }
-    });
-
-    var groupUser = new GroupUser( params );
-
-    groupUser.save( function( err, group, count ){
-        if( err ){
-            result = utils.createResult( false, err, "dbError" );
-
-        } else {
-            result = utils.createResult( true, { groupID: group }, "connectionSuccess" );
-        }
-
-        callback( result );
-    });
+    addUser( params, "userJoined", res );
 };
 
-module.exports.isUserInGroup = function( req, res ){
-    var params          = {};
-        params.user     = req.body.user;
-        params.group    = req.body.group;
+module.exports.addUserByID = function( req, res ){
+    var params      = req.body,
+        user        = { user : params.member, approved : true, groupID : params.groupID };
 
-    isUserInGroup( params.user, params.group, function( result ){
-        res.json( result );
-    });
+    addUser( user, "userAdded", res );
 };
 
 module.exports.approveUser = function( req, res ){
-    var params = req.body;
+    var params      = req.body;
 
-    GroupUser.findOne( { user: req.user._id, group: params.group }, function( err, groupUser ){
-        if( err ){
+    Group.update( { _id: params.group, "members.user" : params.user }, { $set: { "members.$.approved" : true } }, function( err, numAffected, rawResponse ){
+        if ( err )
             res.json( utils.createResult( false, err, "dbError" ) );
-            return false;
 
-        } else if( !groupUser.isAdmin ) {
-            res.json( utils.createResult( false, null, "youAreNotAdmin" ) );
-            return false;
-
-        } else {
-            GroupUser.findOne( { user: params.admin, group: params.group }, function( err, userGroup ){
-                if( err )
-                    res.json( utils.createResult( false, err, "dbError" ) );
-
-                else {
-                    GroupUser.update( { user: params.user, group: params.group }, { $set: { approved: true } }, function( err ){
-                        if( err )
-                            res.json( utils.createResult( false, err, "dbError" ) );
-
-                        else
-                            res.json( utils.createResult( true, null, "userApproved" ) );
-                    });
-                }
-
-            });
-        }
-
-    });
-};
-
-module.exports.addUserByName = function( req, res ) {
-    var params = req.body;
-
-    User.findOne( { username: params.member }, function( err, user ){
-        if( err ){
-            res.json( utils.createResult( false, err, "dbError" ) );
-            return false;
-
-        } else if( !user ) {
-            res.json( utils.createResult( false, null, "noSuchUser" ) );
-            return false;
-
-        } else {
-            module.exports.createUserGroupConnection( user._id, params.groupID, false, function(){
-                res.json( utils.createResult( true, null, "success") );
-            }, true );
-        }
-
+        else
+            res.json( utils.createResult( true, rawResponse, "userApproved" ) );
     });
 };
 
 module.exports.removeUserFromGroup = function( req, res ){
-    var params = req.body,
-        result = {};
+    var params          = req.body,
+        needNewAdmin    = false;
 
-    isAdmin( params.user, params.group, function( result ){
-        if( result.result )
-            changeAdmin( params.group, function( result ){
-                if( !result.result && result.msg == "dbError" )
-                    res.json( result );
-            });
+    isGroupAdmin( req, res, function( group ){
+        if( group )
+            needNewAdmin = true;
 
-        else if( result.msg == "dbError" )
-            res.json( result );
-    });
+        Group.update( { _id: params.group }, { $pull: { "members" : { user : params.user } } }, function( err, numAffected, rawResponse ){
+            if ( err )
+                res.json( utils.createResult( false, err, "dbError" ) );
 
-    GroupUser.remove( { group: params.group, user: params.user }, function( err ){
-        if( err ){
-            res.json( utils.createResult( false, err, "dbError" ) );
-        }
+            else {
+                if( needNewAdmin )
+                    changeAdmin( req, res, function( result ){
+                        if( result.result )
+                            res.json( utils.createResult( true, result.data, "adminChanged" ) );
+                        else
+                            removeGroup( params.group, function( result ){
+                                res.json( result );
+                            });
+                    });
 
-        removeGroupIfIsEmpty( params.group, function( result ){
-            if( !result.result && result.msg == "dbError" )
-                res.json( utils.createResult( true, result, "userRemovedDbErrorCheckGroupEmpty" ) );
-
-            else if( !result.result )
-                res.json( utils.createResult( true, result, "userRemoved") );
-
-            else
-                res.json( utils.createResult( true, result, "userAndGroupRemoved" ) );
+                else
+                    res.json( utils.createResult( true, {}, "userRemoved" ) );
+            }
         });
     });
 };
 
-var isAdmin = module.exports.isAdmin = function( user, group, callback ){
-    var result = {};
+module.exports.isUserInGroup = function( req, res ){
+    var params          = req.body,
+        currentMember   = {};
 
-    GroupUser.findOne( { user: user, group: group }, function( err, groupUser ){
-        if( err ){
-            return utils.createResult( false, err, "dbError" );
+    Group.findOne( { _id : params.group, "members.user" : req.user._id }, function( err, group ){
 
-        } else if( groupUser && groupUser.isAdmin ){
-            result = utils.createResult( true, null, "isAdmin" );
-
-        } else {
-            result = utils.createResult( false, null, "notAdmin" );
-        }
-
-        callback( result );
-    });
-
-};
-
-function changeAdmin( group, callback ){
-    GroupUser.findOne( { isAdmin: false, group: group } ).sort( { createdOn: 1 } ).exec( function( err, groupUser ){
         if ( err )
-            callback( utils.createResult( false, err, "dbError" ) );
+            res.json( Utils.createResult( false, err, "dbError" ) );
 
-        else if( !groupUser )
-            callback( utils.createResult( false, err, "noMoreUsers" ) );
-
-        else {
-            GroupUser.update( { _id: groupUser._id }, { $set: { isAdmin: true } }, function( err ){
-                if ( err ) {
-                    callback( utils.createResult( false, err, "dbError" ) );
-
-                } else {
-                    callback( utils.createResult( true, { admin: groupUser }, "adminChanged" ) );
+        else if ( group ){
+            _.each( group.members, function( member ){
+                if( member.user == req.user._id ){
+                    currentMember = member;
                 }
             });
-        }
+
+            if( currentMember.approved )
+                res.json( utils.createResult( true, null, "allreadyInGroup" ) );
+            else
+                res.json( utils.createResult( false, null, "notApprovedYet" ) );
+
+        } else
+            res.json( utils.createResult( false, null, "notInGroup" ) );
     });
-}
+};
 
-function removeGroupIfIsEmpty( group, callback ){
-    var result = {};
+module.exports.isGroupAdmin = function( req, res ) {
 
-    GroupUser.count({ group: group }, function ( err, count ) {
-
-        if( err )
-            callback( utils.createResult( false, err, "dbError" ) );
-
-        else if( count == 0 ) {
-            Group.remove( { _id: group }, function( err ){
-                if( err )
-                    callback( utils.createResult( false, err, "dbError" ) );
-
-                else
-                    callback( utils.createResult( true, count, "groupRemoved" ) );
-            });
-
-        } else {
-            callback( utils.createResult( false, count, "groupNotEmpty" ) );
-        }
-    });
-}
-
-function isUserInGroup( user, group, callback ) {
-    var result = {};
-
-    GroupUser.findOne( { user: user, group: group }, function( err, groupUser ){
-        if( err )
-            result = utils.createResult( false, err, "dbError" );
-
-        else if( groupUser && groupUser.approved )
-            result = utils.createResult( true, null, "allreadyInGroup" );
-
-        else if( groupUser && !groupUser.approved )
-            result = utils.createResult( true, null, "notApprovedYet" );
+    isGroupAdmin( req, res, function( group ){
+        if ( group )
+            res.json( utils.createResult( true, null, "isAdmin" ) );
 
         else
-            result = utils.createResult( false, null, "notInGroup" );
-
-        callback( result );
+            res.json( utils.createResult( false, null, "notAdmin" ) );
     });
-}
+};
+
+var addUser = function( user, successMsg, res ) {
+    var userInGroup = new UserInGroup( user );
+
+    Group.update( { _id: user.groupID }, { $addToSet: { "members" : userInGroup } }, function( err, numAffected, rawResponse ){
+        if ( err )
+            res.json( utils.createResult( false, err, "dbError" ) );
+
+        else
+            res.json( utils.createResult( true, rawResponse, successMsg ) );
+    });
+};
+
+var isGroupAdmin = function( req, res, callback ) {
+    var params = req.body;
+
+    Group.findOne( { _id : params.group, members : { $elemMatch : { user : params.user, isAdmin : true } } }, function( err, group ){
+        if ( err )
+            res.json( Utils.createResult( false, err, "dbError" ) );
+
+        callback( group );
+    });
+};
+
+var changeAdmin = function( req, res, callback ){
+    var params = req.body;
+
+    Group.findOne( { _id: params.group } ).exec( function( err, group ){
+        if ( err )
+            res.json( utils.createResult( false, err, "dbError" ) );
+
+        else if( group.members.length == 0 ){
+            callback( utils.createResult( false, err, "noMoreUsers" ) );
+            return false;
+        }
+
+        group.members = _.sortBy( group.members, function( member ){
+            return  member.createdOn;
+        });
+
+        var newAdmin = group.members[0].user;
+
+        Group.update( { _id: params.group, "members.user" : newAdmin }, { $set: { "members.$.isAdmin" : true } }, function( err, numAffected, rawResponse ){
+            if ( err )
+                res.json( utils.createResult( false, err, "dbError" ) );
+
+            else
+                callback( utils.createResult( true, { admin: newAdmin }, "adminChanged" ) );
+        });
+    });
+};

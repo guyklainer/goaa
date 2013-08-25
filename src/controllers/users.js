@@ -149,7 +149,7 @@ module.exports.searchUser = function ( req, res ){
         res.json( utils.createResult( false, [], "emptyQuery" ) );
 
     } else {
-        User.find( { username: exp }, { username: 1, _id: 0 }, function( err, docs ) {
+        User.find( { username: exp }, { username: 1, lastName: 1, firstName: 1 }, function( err, docs ) {
             if ( err ){
                 result = Utils.createResult( false, err, "dbError" );
 
@@ -159,7 +159,7 @@ module.exports.searchUser = function ( req, res ){
             } else {
                 var usersArray = [];
                 _.each( docs, function( doc ){
-                    usersArray.push( doc.username );
+                    usersArray.push( doc );
                 });
 
                 result = Utils.createResult( true, usersArray, "foundUsers" );

@@ -21,11 +21,11 @@ app.controller('GroupAddMemberCtrl', ['$scope', 'blockui', '$location', 'account
             name: ""
         };
 
-        $scope.getUserNames = function(value){
-            log("getUserNames for val:", value);
+        $scope.getUsers = function(value){
+            log("getUsers for val:", value);
 
             return $http.post("/searchusers", { filter: value }).then(function(response){
-                    return response.data.data;
+                    $scope.members = response.data.data;
                 },
                 function(error){
                     log("error", error);
@@ -36,7 +36,7 @@ app.controller('GroupAddMemberCtrl', ['$scope', 'blockui', '$location', 'account
         };
 
         $scope.addMember = function(member, groupId){
-            groupDb.addMember(member.name, groupId, function(result){
+            groupDb.addMember(member._id, groupId, function(result){
                 log("add member result: ", result);
                 if (result){
                     history.back();

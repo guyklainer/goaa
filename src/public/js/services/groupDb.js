@@ -146,8 +146,8 @@ app.factory('groupDb', ['$http', function($http){
                     }
                 });
         },
-        addMember: function(memberName, groupId, callback){
-            $http.post('/addmember',{ member: memberName, groupID: groupId})
+        addMember: function(memberId, groupId, callback){
+            $http.post('/addmember',{ member: memberId, groupID: groupId})
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
                     NProgress.done();

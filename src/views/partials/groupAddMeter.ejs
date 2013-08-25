@@ -20,8 +20,11 @@
         <input type="url" required ng-model="meter.url" class="input-block-level" placeholder="URL">
         <input type="text" required ng-model="meter.username" class="input-block-level" placeholder="Username">
         <input type="text" required ng-model="meter.password" class="input-block-level" placeholder="Password">
+
         <select ng-model="meter.type" required class="input-block-level" data-placeholder="Type">
-            <option ng-repeat="type in types" value="{{ type.key }}">{{ type.value }}</option>
+            <option value="1">Boiler</option>
+            <option value="2">Water</option>
+            <option value="3">AC</option>
         </select>
 
 

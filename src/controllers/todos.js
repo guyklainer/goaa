@@ -3,8 +3,7 @@ var mongoose    = require( 'mongoose' ),
     sockets     = require( '../utils/sockets' ),
     _           = require( 'underscore'),
     Group       = mongoose.model( 'Group' ),
-    Todo        = mongoose.model( 'Todo' ),
-    GroupUser   = mongoose.model( 'GroupUser' );
+    Todo        = mongoose.model( 'Todo' );
 
 module.exports.addTodo = function( req, res ) {
     var params  = req.body,

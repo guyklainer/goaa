@@ -57,7 +57,7 @@ app.controller('CreateGroupCtrl', ['$scope', 'blockui', '$http', '$location','ac
                             $scope.isShowError = true;
                             $scope.errorMsg="Group already exist";
                         }
-                        if(data.msg == "groupNotSavedToDB")
+                        if(data.msg == "dbError")
                         {
                             $scope.isShowError = true;
                             $scope.errorMsg="We have a problem try again leter";
