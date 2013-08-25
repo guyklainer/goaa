@@ -46,7 +46,7 @@ angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$htt
             groupDb.isUserInGroup(userId, groupId, function(result){
                 log("is user in group: ", result);
                 if (result != null){
-                    $scope.joinDisabledEnabledClass = result.result ? 'disabled' : '';
+                    $scope.joinDisabledEnabledClass = result.msg != "notInGroup" ? 'disabled' : '';
                     if (result.msg){
                         if (result.msg.toLocaleLowerCase() == "notapprovedyet"){
                             $scope.joinBtnName = "Waiting For Approval";

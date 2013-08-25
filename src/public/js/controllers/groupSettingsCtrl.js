@@ -33,18 +33,18 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
         getGroup();
 
         $scope.isAdmin = function(member){
-            return $scope.group.adminID == member._id;
+            return $scope.group.adminID == member.user._id;
         };
 
         $scope.confirmMember = function(member, groupId){
             log("confirm member", member);
             blockui.block();
-            groupDb.confirmMember(member._id, groupId,
+            groupDb.confirmMember(member.user._id, groupId,
                 function(result){
                     blockui.unblock();
                     log("confirm result:", result);
                     if (result){
-                        member.isApproved = result;
+                        member.approved = result;
                     }
             });
         };

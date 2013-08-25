@@ -20,7 +20,9 @@ angular.module('App').controller('MeterCtrl', ['$scope', 'blockui', '$http', '$l
             _.each( group.meters, function( meter ){
 
                 if( meter.name == $routeParams.meter ){
-                    $scope.meter._id = meter._id;
+                    $scope.meter._id    = meter._id;
+                    $scope.meter.type   = meter.type;
+
                     $scope.startConnection( meter );
                 }
             });
@@ -39,7 +41,7 @@ angular.module('App').controller('MeterCtrl', ['$scope', 'blockui', '$http', '$l
             });
 
             socket.on( 'data', function( data ){
-                if( data._id == meter._id ) {
+                if( data._id.indexOf( meter._id ) != -1 ) {
                     $scope.meter.data   = data.data;
                     $scope.meter.temp   = data.temp;
                     $scope.meter.status = data.status;

@@ -5,16 +5,22 @@ var mongoose 	= require( 'mongoose' ),
     _ 			= require( 'underscore' ),
     settings    = require( '../settings/config' ).settings;
 
+var GroupInUser = new Schema({
+    groupID     : { type : Schema.ObjectId, ref : 'Group' },
+    createdOn   : { type : Date, default : Date.now }
+});
+
 var User = new Schema({
-    firstName: 		String,
-    lastName: 		String,
-    username: 		String,
-    email: 			String,
-    birthDay: 		String,
+    firstName   : 	String,
+    lastName    : 	String,
+    username    : 	String,
+    email       : 	String,
+    birthDay    : 	String,
     passwordHash: 	String,
-    salt: 			String,
-    createdOn: 		Date,
-    lastVisited: 	Date
+    salt        : 	String,
+    createdOn   : 	{ type : Date, default : Date.now },
+    lastVisited : 	{ type : Date, default : Date.now },
+    groups      :   [ GroupInUser ]
 });
 
 User.virtual( 'password' ).set(function( password ) {

@@ -79,7 +79,7 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         joinGroup: function(userId, groupId, callback){
-            $http.post('/joingroup', { user: userId, group: groupId })
+            $http.post('/joingroup', { user: userId, groupID: groupId })
                 .error(function(data, status, headers, config){
                     httpErrorCallback(data, status, headers, config);
                     NProgress.done();

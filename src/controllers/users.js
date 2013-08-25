@@ -39,57 +39,43 @@ module.exports.makeSignup = function( req, res ) {
     if( params.password == params.confirm_password
         && Utils.isAllFieldsAreNotNullOrEmpty( params.password ).result ) {
 
-        params.createdOn = new Date();
-        var user = new User( params );
-        user.password = params.password;
+        var user        = new User( params );
+        user.password   = params.password;
 
         validateSignupRequest( params, function( result ){
             if( result.result ){
                 user.save( function( err, user, count ){
-                    if( err ){
-                        result.result   = false;
-                        result.data     = err;
-                        result.msg      = "userNotSavedToDB";
+                    if( err )
+                        result = Utils.createResult( false, err, "dbError" );
 
-                    } else {
-                        result.data     = user;
-                        result.msg      = "userSavedToDB";
+                    else {
+                        result = Utils.createResult( true, user, "userSavedToDB" );
                         Mailer.send( user.email, "Welcome to Goaa", Mailer.buildWelcomeMessage( user ) );
                     }
 
                     res.json( result );
                 });
 
-            } else {
+            } else
                 res.json( result );
-
-            }
         });
 
-
-    } else {
-        result.result   = false;
-        result.msg      = "passwordsNotEqual";
-
-        res.json( result );
-    }
-}
+    } else
+        res.json( Utils.createResult( false, {}, "passwordsNotEqual" ) );
+};
 
 module.exports.userExist = function( req, res ) {
 
     var username    = req.body.username;
-    var result      = { result: false, msg: "userNotExist" };
 
     isUserExist( username, function( exist, user ){
-        if( exist ){
-            result.result   = true;
-            result.data     = user;
-            result.msg      = "userExist";
-        }
+        if( exist )
+            res.json( Utils.createResult( true, user, "userExist" ) );
 
-        res.json( result );
+        else
+            res.json( Utils.createResult( false, {}, "userNotExist" ) );
     });
-}
+};
 
 module.exports.forgotPassword = function( req, res ) {
     var username    = req.body.username,
@@ -129,35 +115,29 @@ module.exports.resetPassword = function( req, res ) {
             if( err )
                 res.json( Utils.createResult( false, err, "dbError" ) );
 
+            else if( !user )
+                res.json( Utils.createResult( false, {}, "wrongUsername" ) );
+
             else {
-                if( user ){
-                    if( user.tempToken.expiredIn > now ) {
-                        var passHash    = crypto.createHmac( 'sha1', user.salt ).update( password ).digest( 'hex' );
+                if( user.tempToken.expiredIn > now ) {
+                    var passHash    = crypto.createHmac( 'sha1', user.salt ).update( password ).digest( 'hex' );
 
-                        User.update( { _id: user._id }, { $set: { passwordHash: passHash, tempToken: {} }  }, function( err ){
-                            if( err )
-                                res.json( Utils.createResult( false, err, "dbError" ) );
+                    User.update( { _id: user._id }, { $set: { passwordHash: passHash, tempToken: {} }  }, function( err ){
+                        if( err )
+                            res.json( Utils.createResult( false, err, "dbError" ) );
 
-                            else
-                                res.json( Utils.createResult( true, {}, "passwordChanged" ) );
-                        });
+                        else
+                            res.json( Utils.createResult( true, {}, "passwordChanged" ) );
+                    });
 
-                    } else {
-                        res.json( Utils.createResult( false, {}, "tokenExpired" ) );
-                    }
-
-                } else {
-                    res.json( Utils.createResult( false, {}, "wrongUsername" ) );
-                }
-
+                } else
+                    res.json( Utils.createResult( false, {}, "tokenExpired" ) );
             }
         });
 
-    } else {
-
+    } else
         res.json( Utils.createResult( false, {}, "passwordNotEqual" ) );
-    }
-}
+};
 
 module.exports.searchUser = function ( req, res ){
     var filter      = req.body.filter,
@@ -214,18 +194,14 @@ function validateSignupRequest( params, callback ) {
 
     if( result.result ) {
         isUserExist( params.username, function( exist, user ){
-            if( exist ){
-                result.result   = false;
-                result.data     = user;
-                result.msg      = "userExist";
-            }
+            if( exist )
+                Utils.createResult( false, user, "userExist" )
 
             callback( result );
         });
 
-    } else {
+    } else
         callback( result );
-    }
 }
 
 function isUserExist( username, callback ) {

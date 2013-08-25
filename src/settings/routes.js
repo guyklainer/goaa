@@ -49,10 +49,10 @@ module.exports = function( app, passport ) {
     //*****************************
     // Users Groups connections
     //*****************************
-    app.post( '/isuseringroup',         utils.ensureAuthenticated, groupsUsers.isUserInGroup );
-    app.post( '/approveuser',           utils.ensureAuthenticated, groupsUsers.approveUser );
-    app.post( '/leavegroup',            utils.ensureAuthenticated, groupsUsers.removeUserFromGroup );
-    app.post( '/addmember',             utils.ensureAuthenticated, groupsUsers.addUserByName );
+    app.post( '/isuseringroup',         utils.ensureAuthenticated, groups.isUserInGroup );
+    app.post( '/approveuser',           utils.ensureAuthenticated, groups.approveUser );
+    app.post( '/leavegroup',            utils.ensureAuthenticated, groups.removeUserFromGroup );
+    app.post( '/addmember',             utils.ensureAuthenticated, groups.addUserByName );
 
     //*****************************
     // Posts

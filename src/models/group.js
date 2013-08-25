@@ -19,7 +19,7 @@ var Post = new Schema({
 });
 
 var Meter = new Schema({
-    name        : { type : String, index : { unique: true, dropDups: true } },
+    name        : String,
     username    : String,
     password    : String,
     url         : String,
@@ -27,17 +27,26 @@ var Meter = new Schema({
     createdOn   : { type : Date, default : Date.now }
 });
 
-var Group = new Schema({
-    name     : 		String,
-    createdOn: 		Date,
-    image    :      String,
-    address  : 		{ country: String, city: String, street: String, house: Number, apartment: Number },
-    posts    :      [ Post ],
-    todos    :      [ Todo ],
-    meters   :      [ Meter ]
+var UserInGroup = new Schema({
+    user        : { type : Schema.ObjectId, ref : 'User' },
+    isAdmin     : { type : Boolean  , default : false },
+    approved    : { type : Boolean  , default : false },
+    createdOn   : { type : Date     , default : Date.now }
 });
 
-mongoose.model( 'Todo', Todo );
-mongoose.model( 'Post', Post );
-mongoose.model( 'Meter', Meter );
-mongoose.model( 'Group', Group );
+var Group = new Schema({
+    name        : String,
+    createdOn   : { type : Date, default : Date.now },
+    image       : String,
+    address     : { country: String, city: String, street: String, house: Number, apartment: Number },
+    posts       : [ Post ],
+    todos       : [ Todo ],
+    meters      : [ Meter ],
+    members     : [ UserInGroup ]
+});
+
+mongoose.model( 'Todo'          , Todo );
+mongoose.model( 'Post'          , Post );
+mongoose.model( 'Meter'         , Meter );
+mongoose.model( 'UserInGroup'   , UserInGroup );
+mongoose.model( 'Group'         , Group );

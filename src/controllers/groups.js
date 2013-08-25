@@ -3,62 +3,102 @@ var mongoose        = require( 'mongoose' ),
     utils           = require( '../utils/utils' ),
     _               = require( 'underscore' ),
     config          = require( '../settings/config' ),
-    GroupUsers      = require( './groups-users' ),
     sockets         = require( '../utils/sockets' ),
-    GroupUsersModel = mongoose.model( 'GroupUser' ),
+    UserInGroup     = mongoose.model( 'UserInGroup' ),
     Group           = mongoose.model( 'Group' ),
     User            = mongoose.model( 'User' ),
     settings        = config.settings;
 
 module.exports.joinGroup = function( req, res ){
+    var params      = req.body;
+
+    addUser( params, "userJoined", res );
+};
+
+module.exports.addUserByName = function( req, res ){
+    var params      = req.body,
+        user        = { user : params.member, isAdmin : true, approved : true };
+
+    addUser( user, "userAdded", res );
+};
+
+module.exports.approveUser = function( req, res ){
+    var params      = req.body;
+
+    Group.find( { _id: params.group, "members.user" : params.user }, function( err, group ){console.log(group);});
+
+    Group.update( { _id: params.group, "members.user" : params.user }, { $set: { "members.$.approved" : true } }, function( err, numAffected, rawResponse ){
+        if ( err )
+            res.json( utils.createResult( false, err, "dbError" ) );
+
+        else
+            res.json( utils.createResult( true, rawResponse, "userApproved" ) );
+    });
+};
+
+module.exports.removeUserFromGroup = function( req, res ){
     var params = req.body;
 
-    GroupUsers.createUserGroupConnection( params.user, params.group, false, function( result ){
-        res.json( result );
+    Group.update( { _id: params.group }, { $pull: { "members" : { user : params.user } } }, function( err, numAffected, rawResponse ){
+        if ( err )
+            res.json( utils.createResult( false, err, "dbError" ) );
+
+        else
+            res.json( utils.createResult( true, rawResponse, "userRemoved" ) );
     });
-}
+};
+
+module.exports.isUserInGroup = function( req, res ){
+    var params          = req.body,
+        currentMember   = {};
+
+    Group.findOne( { _id : params.group, "members.user" : req.user._id }, function( err, group ){
+
+        if ( err )
+            res.json( Utils.createResult( false, err, "dbError" ) );
+
+        else if ( group ){
+            _.each( group.members, function( member ){
+                if( member.user == req.user._id ){
+                    currentMember = member;
+                }
+            });
+
+            if( currentMember.approved )
+                res.json( utils.createResult( true, null, "allreadyInGroup" ) );
+            else
+                res.json( utils.createResult( false, null, "notApprovedYet" ) );
+
+        } else
+            res.json( utils.createResult( false, null, "notInGroup" ) );
+    });
+};
 
 module.exports.getGroupsByUser = function( req, res ){
-    var userID          = req.body.userID,
-        groupIDsArray   = [],
-        result;
+    var socket = sockets.getSocket( req.connection.remoteAddress );
 
-    GroupUsersModel.find( { user: userID, approved: true }, { group: 1, _id: 0 }, function( err, groupIDs ){
+    Group.find( { members : { $elemMatch : { user : req.user._id, approved : true } } }, { name: 1, _id: 1, image: 1 }, function( err, groups ){
         if( err )
             res.json( utils.createResult( false, err, "dbError" ) );
 
         else {
-            _.each( groupIDs, function( groupObj ){
-                groupIDsArray.push( groupObj.group );
-                var socket = sockets.getSocket( req.connection.remoteAddress );
+            _.each( groups, function( group ){
                 if ( socket ){
-                    socket.join( groupObj.group );
+                    socket.join( group._id );
                     console.log( sockets.getInstance().sockets.manager.rooms );
                 }
             });
 
-            Group.find( { _id: { $in: groupIDsArray } }, { name: 1, _id: 1, image: 1 },  function( err, groups ) {
-                if( err ){
-                    result = utils.createResult( false, err, "dbError" );
-                    return false;
-
-                } else {
-                    result = utils.createResult( true, groups, "fetchGroupsByUser" );
-                }
-
-                res.json( result );
-            });
+            res.json( utils.createResult( true, groups, "fetchGroupsByUser" ) );
         }
     });
-}
+};
 
 module.exports.getGroupByName = function( req, res ){
 
-    var groupName   = req.body.name,
-        users       = [];
+    var groupName   = req.body.name;
 
-    Group.findOne( { name: groupName  }, function( err, group ) {
-        var returnedGroup = {};
+    Group.findOne( { name: groupName } ).populate( "members.user" ).exec( function( err, group ) {
 
         if( err ){
             res.json( utils.createResult( false, err, "dbError" ) );
@@ -73,59 +113,26 @@ module.exports.getGroupByName = function( req, res ){
                 return ( -1 ) * todo.createdOn;
             });
 
-            returnedGroup.meters    = group.meters      ? group.meters  : [];
-            returnedGroup.todos     = group.todos       ? group.todos   : [];
-            returnedGroup.posts     = group.posts       ? group.posts   : [];
-            returnedGroup._id       = group._id;
-            returnedGroup.address   = group.address;
-            returnedGroup.createdOn = group.createdOn;
-            returnedGroup.image     = group.image;
-            returnedGroup.name      = group.name;
+            group._doc.notApproved = [];
+            _.each( group.members, function( member ){
 
-            GroupUsersModel.find({ group: returnedGroup._id }, function( err, groupUsers ){
-                if( err )
-                    res.json( utils.createResult( true, err, "dbError" ) );
+                if( member.user._id == req.user._id && !member.approved ){
+                    res.json( utils.createResult( false, null, "userNotApproved" ) );
+                    return false;
 
-                else {
-                    returnedGroup.notApproved = [];
-                    _.each( groupUsers, function( groupUser ){
+                } else if( member.isAdmin ){
 
-                        if( groupUser.user == req.user._id && !groupUser.approved ){
-                            res.json( utils.createResult( false, null, "userNotApproved" ) );
-                            return false;
-
-                        } else if( groupUser.isAdmin )
-                            returnedGroup.adminID = groupUser.user;
-
-                        else if( !groupUser.approved )
-                            returnedGroup.notApproved.push( groupUser.user );
-
-                        users.push( groupUser.user );
-                    });
-
-                    User.find( { _id: { $in: users } }, function( err, users ){
-                        if( err )
-                            res.json( utils.createResult( false, err, "dbError" ) );
-
-                        else {
-                            returnedGroup.members = [];
-                            _.each( users, function( user ){
-                                returnedGroup.members.push( {
-                                    username    : user.username,
-                                    firstname   : user.firstName,
-                                    lastname    : user.lastName,
-                                    _id         : user._id
-                                } );
-                            });
-
-                            res.json( utils.createResult( true, returnedGroup, "fetchGroupByName" ) );
-                        }
-                    });
+                    group._doc.adminID = member.user._id;
                 }
+
+                else if( !member.approved )
+                    group._doc.notApproved.push( member.user._id );
             });
+
+            res.json( utils.createResult( true, group, "fetchGroupByName" ) );
         }
     });
-}
+};
 
 module.exports.getGroupPreviewByName = function( req, res ){
 
@@ -147,7 +154,7 @@ module.exports.getGroupPreviewByName = function( req, res ){
 
         res.json( result );
     });
-}
+};
 
 module.exports.searchGroup = function ( req, res ){
     var groupName   = req.body.groupName,
@@ -174,7 +181,7 @@ module.exports.searchGroup = function ( req, res ){
             res.json( result );
         });
     }
-}
+};
 
 module.exports.editGroup = function( req, res ) {
     var params      = req.body,
@@ -205,48 +212,75 @@ module.exports.editGroup = function( req, res ) {
             res.json( result );
         }
     );
-}
+};
 
 module.exports.makeGroup = function( req, res ) {
-    var params = req.body;
+    var params  = req.body,
+        user    = { user : req.user._id, isAdmin : true, approved : true };
 
-    params.createdOn = new Date();
     if( params.image == undefined || params.image == "" ){
         params.image = settings.defaultAvatar;
     }
+
+    params.members = [ new UserInGroup( user ) ];
 
     validateGroupRequest( params, function( result ){
         if( result.result ){
 
             var group = new Group( params );
             group.save( function( err, group, count ){
-                if( err ){
-                    res.json( utils.createResult( false, err, "groupNotSavedToDB" ) );
+                if( err )
+                    res.json( utils.createResult( false, err, "dbError" ) );
 
-                } else {
-                    GroupUsers.createUserGroupConnection( req.user._id, group._id, true, function( result ){
-                        res.json( result );
-                    });
-
-                }
+                else
+                    res.json( group );
             });
 
-        } else {
+        } else
             res.json( result );
-        }
+
     });
-}
+};
 
 module.exports.isGroupAdmin = function( req, res ) {
     var params = req.body;
 
-    GroupUsers.isAdmin( params.user, params.group, function( result ){
-        res.json( result );
+    Group.findOne( { _id : params.group, members : { $elemMatch : { user : req.user._id, isAdmin : true } } }, function( err, group ){
+        if ( err )
+            res.json( Utils.createResult( false, err, "dbError" ) );
+
+        else if ( group )
+            res.json( utils.createResult( true, null, "isAdmin" ) );
+
+        else
+            res.json( utils.createResult( false, null, "notAdmin" ) );
     });
+};
 
-}
+module.exports.isGroupExist = function( req, res ){
+    isGroupExist( req.body.name, function( exist, group ){
+        if( exist ){
+            res.json( utils.createResult( false, group, "groupExist" ) );
 
-function validateGroupRequest ( params, callback ){
+        } else {
+            res.json( utils.createResult( true, null, "groupNotExist" ) );
+        }
+    });
+};
+
+var addUser = function( user, successMsg, res ) {
+    var userInGroup = new UserInGroup( user );
+
+    Group.update( { _id: user.groupID }, { $addToSet: { "members" : userInGroup } }, function( err, numAffected, rawResponse ){
+        if ( err )
+            res.json( utils.createResult( false, err, "dbError" ) );
+
+        else
+            res.json( utils.createResult( true, rawResponse, successMsg ) );
+    });
+};
+
+var validateGroupRequest = function( params, callback ){
 
     var result = utils.isAllFieldsAreNotNullOrEmpty( params );
 
@@ -262,21 +296,10 @@ function validateGroupRequest ( params, callback ){
     } else {
         callback( result );
     }
-}
+};
 
-function isGroupExist( name, callback ) {
+var isGroupExist = function( name, callback ) {
     Group.findOne({ name: name }, function( err, group ){
         callback( group != null, group );
     });
-}
-
-module.exports.isGroupExist = function( req, res ){
-    isGroupExist( req.body.name, function( exist, group ){
-        if( exist ){
-            res.json( utils.createResult( false, group, "groupExist" ) );
-
-        } else {
-            res.json( utils.createResult( true, null, "groupNotExist" ) );
-        }
-    });
-}
+};

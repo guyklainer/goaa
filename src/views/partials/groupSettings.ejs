@@ -27,11 +27,11 @@
                     <li ng-repeat="member in group.members" class="list-item">
                         <div class="member-type">
                             <span ng-show="isAdmin(member)"><strong>Admin</strong></span>
-                            <span ng-class="{'semi-trasparent': !member.isApproved}" ng-hide="isAdmin(member)"><i class="icon-user"></i></span>
+                            <span ng-class="{'semi-trasparent': !member.approved}" ng-hide="isAdmin(member)"><i class="icon-user"></i></span>
                         </div>
-                        <div ng-class="{'semi-trasparent': !member.isApproved}" class="member-name">{{member.firstname}} {{member.lastname}}</div>
+                        <div ng-class="{'semi-trasparent': !member.approved}" class="member-name">{{member.user.firstName}} {{member.user.lastName}}</div>
                         <div class="member-buttons">
-                            <button ng-show="!member.isApproved" ng-click="confirmMember(member, group._id)" class="btn-small btn btn-info"><i  class="icon-ok"></i></button>
+                            <button ng-show="!member.approved" ng-click="confirmMember(member, group._id)" class="btn-small btn btn-info"><i  class="icon-ok"></i></button>
                             <button ng-hide="isAdmin(member)" ng-click="deleteMember(member, group._id)" class="btn btn-danger btn-small"><i  class="icon-remove"></i></button>
                         </div>
                     </li>

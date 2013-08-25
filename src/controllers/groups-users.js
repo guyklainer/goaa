@@ -104,7 +104,7 @@ module.exports.removeUserFromGroup = function( req, res ){
     var params = req.body,
         result = {};
 
-    module.exports.isAdmin( params.user, params.group, function( result ){
+    isAdmin( params.user, params.group, function( result ){
         if( result.result )
             changeAdmin( params.group, function( result ){
                 if( !result.result && result.msg == "dbError" )
@@ -133,7 +133,7 @@ module.exports.removeUserFromGroup = function( req, res ){
     });
 };
 
-module.exports.isAdmin = function( user, group, callback ){
+var isAdmin = module.exports.isAdmin = function( user, group, callback ){
     var result = {};
 
     GroupUser.findOne( { user: user, group: group }, function( err, groupUser ){
