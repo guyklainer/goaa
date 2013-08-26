@@ -5,7 +5,9 @@ app.directive('newsThumb', function($timeout) {
         templateUrl: "/template/directives/newsThumb.html",
         replace: true,
         scope: {
-            post: "="
+            post: "=",
+            group: "=",
+            user: "="
         },
         link: function(scope, element, attrs, controller){
         }

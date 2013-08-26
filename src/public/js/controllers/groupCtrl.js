@@ -25,6 +25,7 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
         $scope.isNoMeters       = false;
         $scope.groupName        = $routeParams.groupName;
         $scope.errorMsg         = "";
+        $scope.user             = account.user();
         $scope.newTodo          = {
             data: ""
         };
@@ -201,6 +202,18 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
             log("deleting todoItem", todoItem);
 
             groupDb.deleteTodoItem(todoItem._id, $scope.group._id, function(result){
+                if (result){
+                    loadGroup();
+                } else {
+                    showTodoItemErrorMsg(todoItem);
+                }
+            });
+        };
+
+        $scope.removePost = function(post){
+            log("deleting post", todoItem);
+
+            groupDb.deletePost(post, $scope.group._id, function(result){
                 if (result){
                     loadGroup();
                 } else {

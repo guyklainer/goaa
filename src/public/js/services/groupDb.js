@@ -290,6 +290,24 @@ app.factory('groupDb', ['$http', function($http){
                         callback(false);
                     }
                 });
+        },
+        removePost: function(post, groupId, callback){
+            NProgress.start();
+            callback(true);
+            $http.post('/removepost', { postID: post, groupID: groupId })
+                .error(function(data, status, headers, config){
+                    httpErrorCallback(data, status, headers, config);
+                    NProgress.done();
+                    callback(false);
+                })
+                .success(function(data, status, headers, config) {
+                    NProgress.done();
+                    if (data != null){
+                        callback(data.result);
+                    } else {
+                        callback(false);
+                    }
+                });
         }
     };
 }]);

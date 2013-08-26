@@ -1,6 +1,7 @@
 <div class="thumbnail well">
+    <!--<i class="icon-remove pull-right semi-trasparent clickable" ng-click="removePost(post._id)" ng-show="user._id == group.adminID || user._id == post.userID"></i>-->
     <div class="row-fluid">
-        <h6 class="post-details">{{post.username}} <span class="pull-right">{{post.createdOn | fromNow}}</span></h6>
+        <h6 class="post-details">{{post.username}} <span class="pull-right post-time">{{post.createdOn | fromNow}}</span></h6>
 
         <span ng-show="isTooBigMessage(post.data)">
             <h5 ng-show="!post.isShowFull" ng-bind="toShortStr(post)"></h5>
