@@ -12,6 +12,7 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
                     getIsGroupAdmin(account.user()._id, $scope.group._id);
                     updateMemberIsApprovedField($scope.group);
                     addAddressString($scope.group); //for use in google map
+                    updateNumberOfUsersWaiting($scope.group);
                 } else {
                     $location.path("/home");
                 }
@@ -45,6 +46,7 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
                     log("confirm result:", result);
                     if (result){
                         member.approved = result;
+                        updateNumberOfUsersWaiting($scope.group);
                     }
             });
         };
@@ -115,6 +117,15 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
                     $location.path(newUrl);
                 } else {
                     $scope.isSaveError = true;
+                }
+            });
+        }
+
+        function updateNumberOfUsersWaiting(group) {
+            $scope.numberOfUsersWaiting = 0;
+            _.each(group.members, function(member){
+                if (!member.approved){
+                    $scope.numberOfUsersWaiting += 1;
                 }
             });
         }

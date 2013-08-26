@@ -14,8 +14,10 @@
     </div>
 
     <ul class="top-buttons bottom-space in-settings" ng-show="isGroupAdmin">
-        <li ng-class="{'active': tab == 'General'}" ng-click="gotoTab('General')"><i class="icon-road icon-white"></i><span ng-show="newPosts != 0" class="badge posts-number">{{ newPosts }}</span></li>
-        <li ng-class="{'active': tab == 'Members'}" ng-click="gotoTab('Members')"><i class="icon-group icon-white"></i></li>
+        <li ng-class="{'active': tab == 'General'}" ng-click="gotoTab('General')"><i class="icon-road icon-white"></i></li>
+
+        <li ng-class="{'active': tab == 'Members'}" ng-click="gotoTab('Members')"><i class="icon-group icon-white"></i><span ng-show="numberOfUsersWaiting > 0" class="badge posts-number">{{ numberOfUsersWaiting }}</span></li>
+
         <li ng-class="{'active': tab == 'Meters'}" ng-click="gotoTab('Meters')"><i class="icon-signal icon-white"></i></li>
     </ul>
 
