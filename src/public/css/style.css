@@ -240,6 +240,10 @@ a:hover, a:focus {
     margin: 10px 0px;
 }
 
+.thumbnails {
+    padding-bottom: 55px;
+}
+
 /******************************
 // Colors
 //******************************/

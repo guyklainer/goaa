@@ -55,13 +55,13 @@ module.exports.makeSignup = function( req, res ) {
                         Mailer.send( user.email, "Welcome to Goaa", Mailer.buildWelcomeMessage( user ) );
 
                         req.login(user, function(err){
-                            if (err){
+                            if ( err ){
                                 result = Utils.createResult( false, err, "dbError" );
                                 res.json( result );
                             }
 
                             var usr = req.isAuthenticated() ? req.user : null;
-                            res.cookie('user', usr);
+                            res.cookie( 'user', usr );
                             res.json( result );
                         });
 

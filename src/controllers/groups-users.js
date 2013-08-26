@@ -58,7 +58,7 @@ module.exports.removeUserFromGroup = function( req, res ){
                     });
 
                 else
-                    res.json( utils.createResult( true, {}, "userRemoved" ) );
+                    res.json( utils.createResult( true, rawResponse, "userRemoved" ) );
             }
         });
     });
