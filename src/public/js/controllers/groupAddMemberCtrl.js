@@ -22,12 +22,15 @@ app.controller('GroupAddMemberCtrl', ['$scope', 'blockui', '$location', 'account
         };
 
         $scope.getUsers = function(value){
-            log("getUsers for val:", value);
+//            log("getUsers for val:", value);
 
+            NProgress.start();
             return $http.post("/searchusers", { filter: value }).then(function(response){
+                    NProgress.done();
                     $scope.members = response.data.data;
                 },
                 function(error){
+                    NProgress.done();
                     log("error", error);
                     return [];
                 }

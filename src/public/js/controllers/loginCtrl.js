@@ -1,6 +1,6 @@
 
-angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', '$location', 'account', '$cookies', 'authService',
-    function($scope, blockui, $http, $location, account, $cookies, authService){
+angular.module('App').controller('LoginCtrl', ['$scope', '$http', '$location', 'account', '$cookies', 'authService',
+    function($scope, $http, $location, account, $cookies, authService){
 
     // checking if logged in allready redirecting to Home
     if (account.isLoggedIn()){
@@ -24,15 +24,15 @@ angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', '$l
 
         log("login for username: " + form.username);
 
-        blockui.block();
 
+        NProgress.start();
         $http.post('/login', form)
             .error(function(data, status, headers, config){
                 $scope.loginFailed = true;
                 setTimeout(function(){
                     if (status == 401){
                         log("user unauthorized");
-                        blockui.unblock();
+                        NProgress.done();
                     } else {
                         httpErrorCallback(data, status, headers, config);
                     }
@@ -41,7 +41,7 @@ angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', '$l
             .success(function(data, status, headers, config) {
                 log(data);
                 if (data != null && data.result){
-                    blockui.unblock();
+                    NProgress.done();
                     $scope.loginFailed = false;
                     $cookies.user = '12' + angular.toJson(data.user);
                     account.update();

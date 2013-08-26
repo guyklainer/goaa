@@ -103,11 +103,19 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
 
         $scope.saveChanges = function(group){
             log("group save", group);
-            blockui.block();
+            NProgress.start();
             groupDb.editGroup(group.address, group.image, group._id, function(result){
-                blockui.unblock();
+                NProgress.done();
                 log("edit group result:", result);
-                $scope.isSaveError = !result;
+                if (result){
+                    //case success -> go to the group screen
+                    var lengthUntilSettings = $location.path().indexOf('/settings');
+                    var newUrl = $location.path().substr(0, lengthUntilSettings);
+                    log(newUrl);
+                    $location.path(newUrl);
+                } else {
+                    $scope.isSaveError = true;
+                }
             });
         }
 
