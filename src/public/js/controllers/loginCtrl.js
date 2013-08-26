@@ -45,7 +45,6 @@ angular.module('App').controller('LoginCtrl', ['$scope', 'blockui', '$http', '$l
                     $scope.loginFailed = false;
                     $cookies.user = '12' + angular.toJson(data.user);
                     account.update();
-                    log('authService.loginConfirmed', authService);
                     authService.loginConfirmed();
                     $location.path('/home').replace(); //redirect wont create new page in the history
                 }

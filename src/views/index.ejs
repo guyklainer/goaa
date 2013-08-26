@@ -2,6 +2,7 @@
 <%- include head.ejs %>
     <div re-auth="">
         <div id="login-holder" ng-controller="LoginCtrl" style="display: none;">
+            <div style="display: none;">{{ isHideSignup = true }}</div>
             <h3>Please login to continue:</h3>
             <div ng-include="'/partials/login'"></div>
         </div>

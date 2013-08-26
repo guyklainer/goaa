@@ -25,14 +25,6 @@ angular.module('App').controller('HomeCtrl', ['$scope', 'blockui', '$http', '$lo
         }
     });
 
-    $scope.$on('event:auth-loginRequired', function() {
-        log("auth-loginRequired, redirecting to login");
-        $location.path('/login');
-    });
-    $scope.$on('event:auth-loginConfirmed', function() {
-        log('!! auth-loginConfirmed');
-    });
-
     // public functions
     $scope.gotoCreateGroup = function(){
         $location.path("/createGroup");

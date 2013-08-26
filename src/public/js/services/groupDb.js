@@ -30,16 +30,17 @@ app.factory('groupDb', ['$http', function($http){
                 });
         },
         getGroups: function(userId, callback){
+            log('get group function');
             NProgress.start();
             $http.post('/getgroups', { userID: userId })
                 .error(function(data, status, headers, config){
-                    httpErrorCallback(data, status, headers, config);
                     NProgress.done();
+                    httpErrorCallback(data, status, headers, config);
                     callback(null);
                 })
                 .success(function(data, status, headers, config) {
-                    log("get groups: ", data);
                     NProgress.done();
+                    log("get groups: ", data);
                     if (data.result && angular.isArray(data.data)){
                         callback(data.data);
                     } else {
