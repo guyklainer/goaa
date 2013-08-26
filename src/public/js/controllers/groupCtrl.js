@@ -1,7 +1,7 @@
 "use strict";
 
-angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location', 'account', '$routeParams','$timeout', 'groupDb', 'socket', 'contextService',
-    function($scope, blockui, $location, account, $routeParams, $timeout, groupDb, socket, contextService){
+angular.module('App').controller('GroupCtrl', ['$scope', '$location', 'account', '$routeParams','$timeout', 'groupDb', 'socket', 'contextService',
+    function($scope, $location, account, $routeParams, $timeout, groupDb, socket, contextService){
 
         socket.on( "new-post", function(data){
             if( account.user()._id != data.userID && $scope.view != $scope.partialEnum.news ){

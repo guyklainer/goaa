@@ -1,7 +1,7 @@
 "use strict";
 
-angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$location', 'account', '$routeParams','$timeout', 'groupDb',
-    function($scope, blockui, $location, account, $routeParams, $timeout, groupDb){
+angular.module('App').controller('GroupSettingsCtrl', ['$scope', '$location', 'account', '$routeParams','$timeout', 'groupDb',
+    function($scope, $location, account, $routeParams, $timeout, groupDb){
 
         function getGroup() {
             groupDb.getGroup($routeParams.groupName, function (g) {
@@ -38,10 +38,10 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
 
         $scope.confirmMember = function(member, groupId){
             log("confirm member", member);
-            blockui.block();
+            NProgress.start();
             groupDb.confirmMember(member.user._id, groupId,
                 function(result){
-                    blockui.unblock();
+                    NProgress.done();
                     log("confirm result:", result);
                     if (result){
                         member.approved = result;
@@ -51,10 +51,10 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
 
         $scope.deleteMember = function(member, groupId){
             log("delete member", member);
-            blockui.block();
+            NProgress.start();
             groupDb.leaveGroup(member.user._id, groupId,
                 function(result){
-                    blockui.unblock();
+                    NProgress.done();
                     log("delete result:", result, typeof result);
                     if (result){
                         //refresh the list
@@ -77,9 +77,9 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
         };
 
         $scope.deleteMeter = function(meter, groupId){
-            blockui.block();
+            NProgress.start();
             groupDb.deleteMeter(meter._id, groupId, function(result){
-                blockui.unblock();
+                NProgress.done();
                 log("delete meter result: ", result);
                 if (result){
                     $scope.group.meters = _.without($scope.group.meters, meter);
@@ -91,9 +91,9 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
 
         $scope.leaveGroup = function(group){
             log("leaveGroup: ", group);
-            blockui.block();
+            NProgress.start();
             groupDb.leaveGroup(account.user()._id, group._id, function(result){
-                blockui.unblock();
+                NProgress.done();
                 log("leave group result:", result);
                 if (result){
                     $location.path("/home");

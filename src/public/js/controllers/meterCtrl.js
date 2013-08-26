@@ -7,6 +7,7 @@ angular.module('App').controller('MeterCtrl', ['$scope', 'blockui', '$http', '$l
         log($routeParams.meter);
         $scope.groupName        = $routeParams.groupName;
         $scope.showBottomMenu   = true;
+        $scope.isDataReceived     = false;
         $scope.meter            = {
             status  :   'off',
             data    :   20,
@@ -42,6 +43,7 @@ angular.module('App').controller('MeterCtrl', ['$scope', 'blockui', '$http', '$l
 
             socket.on( 'data', function( data ){
                 if( data._id.indexOf( meter._id ) != -1 ) {
+                    $scope.isDataReceived = true;
                     $scope.meter.data   = data.data;
                     $scope.meter.temp   = data.temp;
                     $scope.meter.status = data.status;

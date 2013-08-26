@@ -28,6 +28,7 @@ module.exports.signup = function( req, res ) {
 module.exports.logout = function( req, res ) {
     console.log("logout");
     req.logout();
+    res.clearCookie('user', { path:'/' });
     res.json( { result: true } );
 //    res.redirect( '/login' );
 }
