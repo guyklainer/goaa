@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 'blockui', 'account', 'authService',
-    function($scope, $http, $location, blockui, account, authService){
+angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 'blockui','account', '$timeout',
+    function($scope, $http, $location, blockui, account, $timeout){
 
     $scope.hideMenu = true;
 
@@ -61,10 +61,18 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 
 
                         // redirecting the Login page
                         blockui.unblock();
-                        log("redirecting to login");
-                        account.update();
-                        authService.loginConfirmed();
-                        $location.path('/home');
+                        $timeout(function(){
+                            account.update();
+
+                            if (account.isLoggedIn()){
+                                log('user is Logged In -> redirecting to home');
+                                $location.path('/home').replace(); //redirect wont create new page in the history
+                            } else {
+                                log("user is not Logged In -> redirecting to login");
+                                $location.path('/');
+                            }
+
+                        },1000);
 
                     } else { // case failure
                         log("failure");

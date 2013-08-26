@@ -4,6 +4,7 @@ var mongoose    = require( 'mongoose' ),
     Mailer      = require( '../utils/mailer' ),
     _           = require( 'underscore'),
     crypto      = require( 'crypto'),
+    passport    = require('passport'),
     User        = mongoose.model( 'User' );
 
 module.exports.login = function( req, res ) {
@@ -45,15 +46,26 @@ module.exports.makeSignup = function( req, res ) {
         validateSignupRequest( params, function( result ){
             if( result.result ){
                 user.save( function( err, user, count ){
-                    if( err )
+                    if( err ){
                         result = Utils.createResult( false, err, "dbError" );
-
+                        res.json( result );
+                    }
                     else {
                         result = Utils.createResult( true, user, "userSavedToDB" );
                         Mailer.send( user.email, "Welcome to Goaa", Mailer.buildWelcomeMessage( user ) );
-                    }
 
-                    res.json( result );
+                        req.login(user, function(err){
+                            if (err){
+                                result = Utils.createResult( false, err, "dbError" );
+                                res.json( result );
+                            }
+
+                            var usr = req.isAuthenticated() ? req.user : null;
+                            res.cookie('user', usr);
+                            res.json( result );
+                        });
+
+                    }
                 });
 
             } else
