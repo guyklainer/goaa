@@ -533,6 +533,12 @@ ul.top-buttons li.active {
     border-radius: 15px;
 }
 
+.badge.posts-number.settings {
+    top: 0px;
+    right: 5px;
+}
+
+
 /******************************
 // Posts
 //******************************/

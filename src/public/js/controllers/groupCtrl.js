@@ -29,6 +29,7 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
         $scope.newTodo          = {
             data: ""
         };
+        $scope.numberOfUsersWaiting = 0;
 
         $scope.partialEnum      = {
             gallery : 'gallery',
@@ -39,12 +40,22 @@ angular.module('App').controller('GroupCtrl', ['$scope', 'blockui', '$location',
 
         $scope.view = $scope.partialEnum.news;
 
+        function updateNumberOfUsersWaiting(group) {
+            $scope.numberOfUsersWaiting = 0;
+            _.each(group.members, function(member){
+                if (!member.approved){
+                    $scope.numberOfUsersWaiting += 1;
+                }
+            });
+        }
+
         function loadGroup() {
             groupDb.getGroup($routeParams.groupName, function(g){
                 log("getGroup result: ", g);
                 $scope.isLoading = false;
                 $scope.group = g;
                 contextService.group.val = g;
+                updateNumberOfUsersWaiting($scope.group);
             });
         }
 

@@ -14,6 +14,7 @@ app.directive('reAuth', function() {
             login.hide();
 
             scope.$on('event:auth-loginRequired', function() {
+                NProgress.done();
                 login.slideDown('slow', function() {
                     main.hide();
                 });

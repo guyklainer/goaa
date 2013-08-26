@@ -55,7 +55,7 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
             groupDb.leaveGroup(member._id, groupId,
                 function(result){
                     blockui.unblock();
-                    log("delete result:", result);
+                    log("delete result:", result, typeof result);
                     if (result){
                         //refresh the list
                         getGroup();
