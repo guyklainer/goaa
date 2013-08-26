@@ -52,7 +52,7 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', 'blockui', '$lo
         $scope.deleteMember = function(member, groupId){
             log("delete member", member);
             blockui.block();
-            groupDb.leaveGroup(member._id, groupId,
+            groupDb.leaveGroup(member.user._id, groupId,
                 function(result){
                     blockui.unblock();
                     log("delete result:", result, typeof result);
