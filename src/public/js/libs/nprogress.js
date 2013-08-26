@@ -67,7 +67,7 @@
     $progress.queue(function(next) {
       // Set positionUsing if it hasn't already been set
       if (Settings.positionUsing === '') Settings.positionUsing = NProgress.getPositioningCSS();
-      
+
       // Add transition
       $bar.css(barPositionCSS(n, speed, ease));
 

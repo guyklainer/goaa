@@ -7,17 +7,20 @@ angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$htt
         $scope.joinDisabledEnabledClass = 'disabled';
         $scope.joinBtnName = "Join";
 
-        groupDb.getGroupPreview($routeParams.groupName,
-            function(g){
-                if (g != null){
-                    $scope.group = g;
-                    addAddressString($scope.group);
-                    getIsUserInGroup(account.user()._id, $scope.group._id);
-                } else {
-                    $location.path("/");
+        function updateGroupPreviewModel() {
+            groupDb.getGroupPreview($routeParams.groupName, function (g) {
+                    if (g != null) {
+                        $scope.group = g;
+                        addAddressString($scope.group);
+                        getIsUserInGroup(account.user()._id, $scope.group._id);
+                    } else {
+                        $location.path("/");
+                    }
                 }
-            }
-        );
+            );
+        }
+
+        updateGroupPreviewModel();
 
         $scope.joinGroup = function(group, userId){
 
@@ -25,7 +28,7 @@ angular.module('App').controller('GroupPreviewCtrl', ['$scope', 'blockui', '$htt
                 log("inside");
                 groupDb.joinGroup(userId, group._id, function(result){
                     if (result){
-                        $location.path('/home');
+                        updateGroupPreviewModel();
                     } else {
                         $scope.errorMsg = "could not join this group";
                     }

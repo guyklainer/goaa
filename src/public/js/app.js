@@ -4,10 +4,10 @@
 var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies", "http-auth-interceptor"]).
   config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 
-    $locationProvider.html5Mode(false).hashPrefix('!');
+    $locationProvider.html5Mode(true);
 
     $routeProvider.
-        when('/login', {
+        when('/', {
             templateUrl: '/partials/login',
             controller: 'LoginCtrl'
         }).
@@ -68,7 +68,7 @@ var app = angular.module('App', ["ui.bootstrap", "ui.utils", "ngCookies", "http-
             controller: 'ComposeCtrl'
         }).
         otherwise({
-            redirectTo: '/login'
+            redirectTo: '/'
         });
   }])
     .run(function($rootScope, account, $location) {
