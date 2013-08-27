@@ -90,7 +90,7 @@ angular.module('App').controller('SignupCtrl', ['$scope', '$http', '$location', 
     setFormToValid = function(){
         $scope.confirmPasswordInvalid = false;
         $scope.usernameInvalid = false;
-        $scope.formInvalid = true;
+        $scope.formInvalid = false;
     }
     ,
     isPasswordMatch = function(){
