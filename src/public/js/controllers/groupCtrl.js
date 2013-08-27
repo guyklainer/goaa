@@ -1,21 +1,21 @@
 "use strict";
 
-angular.module('App').controller('GroupCtrl', ['$scope', '$location', 'account', '$routeParams','$timeout', 'groupDb', 'socket', 'contextService',
-    function($scope, $location, account, $routeParams, $timeout, groupDb, socket, contextService){
+angular.module('App').controller('GroupCtrl', ['$scope', '$location', 'account', '$routeParams','$timeout', 'groupDb', 'contextService',
+    function($scope, $location, account, $routeParams, $timeout, groupDb, contextService) {
 
-        socket.on( "new-post", function(data){
-            if( account.user()._id != data.userID && $scope.view != $scope.partialEnum.news ){
-                $scope.newPosts++;
-            }
-            $scope.group.posts.unshift( data );
-        });
-
-        socket.on( "new-todo", function(data){
-            if( account.user()._id != data.userID && $scope.view != $scope.partialEnum.todos ){
-                $scope.newTodos++;
-            }
-            $scope.group.todos.push( data );
-        });
+//        socket.on( "new-post", function(data){
+//            if( account.user()._id != data.userID && $scope.view != $scope.partialEnum.news ){
+//                $scope.newPosts++;
+//            }
+//            $scope.group.posts.unshift( data );
+//        });
+//
+//        socket.on( "new-todo", function(data){
+//            if( account.user()._id != data.userID && $scope.view != $scope.partialEnum.todos ){
+//                $scope.newTodos++;
+//            }
+//            $scope.group.todos.push( data );
+//        });
 
         $scope.newPosts         = 0;
         $scope.newTodos         = 0;

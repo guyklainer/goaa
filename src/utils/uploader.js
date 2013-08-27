@@ -23,25 +23,47 @@ module.exports.upload = function( req, res ){
     else
         folder = req.user ? req.user.username : 'tmp';
 
-    fs.readFile( req.files.image.path, function( err, data ){
+    var filename = path.basename(req.files.image.path);
 
-        if( data.length > 3000000 )
-            res.json( { result: false, msg: "tooBig" } );
+    res.json( { result: true, data: { imgURL: '/uploads/' + folder + filename }, msg: "imageSaved" } );
 
-        else if( !utils.isImage( req.files.image.name ) )
-            res.json( { result: false, msg: "notImage" } );
-
-        else
-        pushToS3( req.files.image.name, utils.getExtension( req.files.image.name ), data.length, req.files.image.path, req.files.image.type, folder, function( err, imageURL ){
-            if ( err )
-                res.json( { result: false, data: err, msg: "S3Problem" } );
-
-            else
-                res.json( { result: true, data: { imgURL: config.settings.S3ImagePrefix + imageURL }, msg: "imageSaved" } );
-        });
-
-    });
+//    fs.readFile( req.files.image.path, { encoding : 'binary' }, function( err, data ){
+//
+//        if( data.length > 3000000 )
+//            res.json( { result: false, msg: "tooBig" } );
+//
+//        else if( !utils.isImage( req.files.image.name ) )
+//            res.json( { result: false, msg: "notImage" } );
+//
+//        else
+//            //saveImage( req, res );
+////        pushToS3( req.files.image.name, utils.getExtension( req.files.image.name ), data.length, req.files.image.path, req.files.image.type, folder, function( err, imageURL ){
+////            if ( err )
+////                res.json( { result: false, data: err, msg: "S3Problem" } );
+////
+////            else
+////                res.json( { result: true, data: { imgURL: config.settings.S3ImagePrefix + imageURL }, msg: "imageSaved" } );
+////        });
+//
+//    });
 };
+
+function saveImage( req, res ){
+
+    var tempPath    = req.files.image.path,
+        targetPath  = path.resolve('./uploads/image.png');
+    if (path.extname(req.files.image.name).toLowerCase() === '.png') {
+        fs.rename(tempPath, targetPath, function(err) {
+            if (err) throw err;
+            console.log("Upload completed!");
+        });
+    } else {
+        fs.unlink(tempPath, function () {
+            if (err) throw err;
+            console.error("Only .png files are allowed!");
+        });
+    }
+}
 
 function pushToS3( fileName, extension, fileLength, filePath, type, folder, callback ) {
     var client  = knox.createClient( S3Credentials),

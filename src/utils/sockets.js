@@ -9,36 +9,49 @@ var connectMeters = function( client, ioClient ){
     var meterSockets = [];
     
     client.on( 'connect', function( params ){
-        
-        meterSockets[ params._id ] = ioClient.connect( params.url );
+        if (params && params._id) {
+            meterSockets[ params._id ] = ioClient.connect( params.url );
 
-        meterSockets[ params._id ].emit( 'connect', params );
+            meterSockets[ params._id ].emit( 'connect', params );
 
-        meterSockets[ params._id ].on( 'invalid', function( data ){
-            client.emit( 'invalid', data );
-            meterSockets[params._id].emit( 'close' );
-        });
+            meterSockets[ params._id ].on( 'invalid', function( data ){
+                if (data) {
+                    client.emit( 'invalid', data );
+                    meterSockets[params._id].emit( 'close' );
+                }
+            });
 
-        meterSockets[params._id].on( 'data', function( data ){
-            client.emit( 'data', data );
-        });
+            meterSockets[params._id].on( 'data', function( data ){
+                if (data) {
+                    client.emit( 'data', data );
+                }
+            });
 
-        client.on( 'status', function( data ){
-            meterSockets[data._id].emit( 'status', data.status );
-        });
+            client.on( 'status', function( data ){
+                if (data && data._id) {
+                    meterSockets[data._id].emit( 'status', data.status );
+                }
+            });
 
-        client.on( 'temp', function( data ){
-            meterSockets[data._id].emit( 'temp', data.temp );
-        });
+            client.on( 'temp', function( data ){
+                if (data && data._id) {
+                    meterSockets[data._id].emit( 'temp', data.temp );
+                }
+            });
 
-        client.on( 'update', function( data ){
-            meterSockets[data._id].emit( 'update' );
-        });
+            client.on( 'update', function( data ){
+                if (data && data._id) {
+                    meterSockets[data._id].emit( 'update' );
+                }
+            });
 
-        client.on( 'close', function( data ){
-            meterSockets[data._id].emit( 'close' );
-            client.disconnect();
-        });
+            client.on( 'close', function( data ){
+                if (data && data._id) {
+                    meterSockets[data._id].emit( 'close' );
+                    client.disconnect();
+                }
+            });
+        }
     });
 };
 
