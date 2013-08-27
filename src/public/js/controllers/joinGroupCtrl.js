@@ -1,7 +1,7 @@
 "use strict";
 
-angular.module('App').controller('JoinGroupCtrl', ['$scope', 'blockui', '$http', '$location', 'account',
-    function($scope, blockui, $http, $location, account){
+angular.module('App').controller('JoinGroupCtrl', ['$scope', 'blockui', '$http', '$location', 'account', '$timeout',
+    function($scope, blockui, $http, $location, account, $timeout){
 
     // public var
     $scope.query            = "";
@@ -47,6 +47,11 @@ angular.module('App').controller('JoinGroupCtrl', ['$scope', 'blockui', '$http',
 
         $location.path("/groupPreview/" + group.name);
     }
+
+    //binding the hide bottom bar event
+    $timeout(function(){
+        $scope.$broadcast('event:hideBottom');
+    },1000);
 
     $scope.account = account;
 }]);

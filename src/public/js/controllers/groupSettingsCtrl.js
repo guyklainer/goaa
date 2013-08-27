@@ -26,6 +26,11 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', '$location', 'a
 
         $scope.gotoTab = function(tab){
             $scope.tab = tab;
+
+            //binding the hide bottom bar event
+            $timeout(function(){
+                $scope.$broadcast('event:hideBottom');
+            },1000);
         }
 
         $scope.imageUploadSettings = {
