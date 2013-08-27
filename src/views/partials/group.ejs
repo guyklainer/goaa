@@ -53,11 +53,12 @@
                 <center>
                     <!-- Add Todos -->
                     <div class="row-fluid">
-                        <form ng-submit="addTodo()" class="no-margin todos">
+                        <form name="todoForm" ng-submit="addTodo(todoForm.newTodoData.$valid)" class="no-margin todos">
                             <div class="input-append">
-                                <input type="text" ng-model="newTodo.data" size="30" placeholder="What needs to be done?">
+                                <input type="text" ng-model="newTodo.data" name="newTodoData" size="30" ng-maxlength="20" placeholder="What needs to be done?" />
                                 <button class="btn" type="submit"><i class="icon-plus"></i> Add</button>
                             </div>
+                            <span class="error red" ng-show="todoForm.newTodoData.$error.maxlength">Only 20 Characters allowed.</span>
                             <div class="alert alert-error" ng-show="errorMsg">
                                 <strong>Error</strong> {{errorMsg}}
                             </div>
