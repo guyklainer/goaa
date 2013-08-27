@@ -152,6 +152,11 @@ angular.module('App').controller('GroupCtrl', ['$scope', '$location', 'account',
                 $scope.newTodos = 0;
 
             $scope.view = view;
+
+            //binding the hide bottom bar event
+            $timeout(function(){
+                $scope.$broadcast('event:hideBottom');
+            },1000);
         }
 
         $scope.addTodo = function(isValid) {
