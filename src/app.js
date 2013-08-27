@@ -49,7 +49,7 @@ var server      = http.createServer( app ),
     ioClient    = require( './node_modules/socket.io/node_modules/socket.io-client' );
 
 
-var port = process.env.PORT || settings.port;
+var port = process.env.PORT; // || settings.port;
 server.listen( port, function(){
     console.log("Express server listening on "+" port %d ".bold.inverse.red+" in " + " %s mode ".bold.inverse.green + " //", settings.port, env);
     console.log('Using Express %s...', express.version.red.bold);
