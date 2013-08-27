@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('App').factory('account', ['$cookies', '$http', '$location', function($cookies, $http, $location){
+angular.module('App').factory('account', ['$cookies', '$http', '$location', '$cookieStore', function($cookies, $http, $location, $cookieStore){
 
     var loggedInUser = null
         ,
@@ -18,6 +18,7 @@ angular.module('App').factory('account', ['$cookies', '$http', '$location', func
             //parsing from string to js
             if (user != "null") {
                 loggedInUser = JSON.parse(user);
+                $cookieStore.remove('user');
             }
 
             log("user: ");

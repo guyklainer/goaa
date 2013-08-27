@@ -154,29 +154,31 @@ angular.module('App').controller('GroupCtrl', ['$scope', '$location', 'account',
             $scope.view = view;
         }
 
-        $scope.addTodo = function() {
-            //clearing the error msg
-            $scope.errorMsg = "";
-            if($scope.newTodo.data) {
+        $scope.addTodo = function(isValid) {
+            if (isValid){
+                //clearing the error msg
+                $scope.errorMsg = "";
+                if($scope.newTodo.data) {
 
-                groupDb.addTodoItem($scope.newTodo.data,
-                    $scope.group._id,
-                    account.user()._id,
-                    account.user().firstName + ' ' + account.user().lastName,
-                    function(result){
+                    groupDb.addTodoItem($scope.newTodo.data,
+                        $scope.group._id,
+                        account.user()._id,
+                        account.user().firstName + ' ' + account.user().lastName,
+                        function(result){
 
-                        if(result) {
-                            $scope.isLoading = true;
-                            $scope.newTodo.data = "";
-                            loadGroup();
-                        } else {
-                            //error adding the new item
-                            $scope.errorMsg = "oops, could not save it";
-                        }
+                            if(result) {
+                                $scope.isLoading = true;
+                                $scope.newTodo.data = "";
+                                loadGroup();
+                            } else {
+                                //error adding the new item
+                                $scope.errorMsg = "oops, could not save it";
+                            }
 
-                    } );
-            } else {
-                $scope.errorMsg = "enter something todo...";
+                        } );
+                } else {
+                    $scope.errorMsg = "enter something todo...";
+                }
             }
         };
 
