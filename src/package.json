@@ -6,7 +6,6 @@
     "express": "3.x",
     "less": "1.x",
     "connect-assets": "2.x",
-    "colors": "0.x",
     "ejs": "~0.8.3",
     "passport": "~0.1.16",
     "passport-local": "~0.1.6",
