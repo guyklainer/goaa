@@ -51,7 +51,7 @@ var server      = http.createServer( app ),
 var port = process.env.PORT || settings.port;
 server.listen( port, function(){
     console.log("Express server listening on "+" port %d ".bold.inverse.red+" in " + " %s mode ".bold.inverse.green + " //", settings.port, env);
-    console.log('Using Express %s...', express.version.red.bold);
+    //console.log('Using Express %s...', express.version.red.bold);
 });
 
 // -- socket.io
