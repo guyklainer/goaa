@@ -1,0 +1,112 @@
+<!-- Header -->
+    <%- include ../shared/header.ejs %>
+
+    <div class="row-fluid cover-image-wrapper">
+        <img src="{{group.image}}" alt="Group Image"/>
+        <h4>
+            {{group.name}}
+            <button ng-click="gotoComposePost()" class="btn pull-right btn-small btn-info right-space"><i class="icon-edit icon-large"></i></button>
+        </h4>
+    </div>
+
+    <ul class="top-buttons bottom-space">
+        <li ng-class="{'active': view == 'news'}" ng-click="switchView(partialEnum.news)"><i class="icon-bullhorn icon-white"></i><span ng-show="newPosts != 0" class="badge posts-number">{{ newPosts }}</span></li>
+        <li ng-class="{'active': view == 'gallery'}" ng-click="switchView(partialEnum.gallery)"><i class="icon-th icon-white"></i></li>
+        <li ng-class="{'active': view == 'meters'}" ng-click="switchView(partialEnum.meters)"><i class="icon-signal icon-white"></i></li>
+        <li ng-class="{'active': view == 'todos'}" ng-click="switchView(partialEnum.todos)"><i class="icon-check icon-white"></i><span ng-show="newTodos != 0" class="badge posts-number">{{ newTodos }}</span></li>
+    </ul>
+
+
+
+    <div ng-switch on="view" ng-animate="'wave'">
+        <span ng-switch-when="gallery">
+            <div class="container-fluid top-space">
+                <div class="row-fluid">
+                    <ul class="thumbnails">
+                        <li class="span4" ng-repeat="post in group.posts | images">
+                            <div gallery-thumb post="post"></div>
+                        </li>
+                    </ul>
+                </div>
+                <center><h4 class="page-title" ng-show="isLoading">Loading...</h4></center>
+                <center><h4 class="page-title" ng-show="isShowNoPhotos(group.posts, isLoading)">No Photos Yet</h4></center>
+            </div>
+        </span>
+
+        <span ng-switch-when="meters">
+            <div class="container-fluid top-space">
+                <ul class="list" ng-hide="isLoading || isShowNoMeters(group.meters, isLoading)">
+                    <li class="list-item" ng-click="gotoMeter(meter)" ng-repeat="meter in group.meters">
+                        <a href="#" class="title">
+                            <i class="icon-chevron-right"></i>
+                            {{meter.name}}
+                        </a>
+                    </li>
+                </ul>
+                <center><h4 class="page-title" ng-show="isLoading">Loading...</h4></center>
+                <center><h4 class="page-title" ng-show="isShowNoMeters(group.meters, isLoading)">No Meters</h4></center>
+            </div>
+        </span>
+
+        <span ng-switch-when="todos">
+            <div class="container-fluid top-space">
+                <center>
+                    <!-- Add Todos -->
+                    <div class="row-fluid">
+                        <form name="todoForm" ng-submit="addTodo(todoForm.newTodoData.$valid)" class="no-margin todos">
+                            <div class="input-append">
+                                <input type="text" ng-model="newTodo.data" name="newTodoData" size="30" ng-maxlength="20" placeholder="What needs to be done?" />
+                                <button class="btn" type="submit"><i class="icon-plus"></i> Add</button>
+                            </div>
+                            <span class="error red" ng-show="todoForm.newTodoData.$error.maxlength">Only 20 Characters allowed.</span>
+                            <div class="alert alert-error" ng-show="errorMsg">
+                                <strong>Error</strong> {{errorMsg}}
+                            </div>
+                        </form>
+                    </div>
+                </center>
+
+
+                <div class="row-fluid">
+                    <ul class="list" ng-show="group.todos.length > 0">
+                        <li class="list-item" ng-class="{'todo-done': item.isDone}" ng-repeat="item in group.todos">
+                            <span class="pull-right">
+                                <small>{{ item.username }}</small>
+                                <button ng-hide="item.isDone || item.isEdit" class="btn btn-small" type="button" ng-click="item.isEdit = true"><i class=" icon-pencil"></i></button>
+                                <button ng-show="item.isDone && !item.isEdit" class="btn btn-small btn-danger" type="button" ng-click="deleteTodo(item)"><i class="icon-trash"></i></button>
+                                <button ng-show="item.isEdit" class="btn  btn-small btn-success" type="button" ng-click="editTodo(item)"><i class="icon-save"></i></button>
+                            </span>
+
+                            <label class="pull-left todo-label">
+                                <input ng-hide="item.isEdit" type="checkbox" ng-model="item.isDone" ng-change="markDone(item)">
+                                <span ng-hide="item.isEdit" class="todo-text">{{item.data}}</span>
+
+                            </label>
+                            <input ng-show="item.isEdit" type="text" ng-modal="item.data" class="input-large todo-large-input" ng-model="item.data">
+
+                            <div class="alert alert-error" ng-show="item.ErrorMsg">
+                                <strong>Error</strong> {{item.ErrorMsg}}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </span>
+
+        <span ng-switch-default>
+            <div class="container-fluid top-space">
+                <div class="row-fluid">
+                    <ul class="thumbnails">
+                        <li class="span4" ng-repeat="post in group.posts">
+                            <div news-thumb post="post" group="group" user="user"></div>
+                        </li>
+                    </ul>
+                </div>
+                <center><h4 class="page-title" ng-show="isLoading">Loading...</h4></center>
+                <center><h4 class="page-title" ng-show="isShowNoNews(group.posts, isLoading)">No News Yet</h4></center>
+            </div>
+        </span>
+    </div>
+
+    <!-- Footer -->
+    <%- include ../shared/footer.ejs %>

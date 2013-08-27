@@ -1,0 +1,37 @@
+<div snap-drawer>
+    <div ng-controller="SnapCtrl">
+        <center><img class="logo" src="/img/logo.png"></center>
+        <ul class="nav">
+
+            <li snap-close><a title="Home" href="/home"><i class="icon-home icon-large pull-left"></i>Home</a></li>
+            <li snap-close><a title="Write Something..." href="/compose" class="compose"><i class="icon-edit icon-large pull-left"></i>Write Something...</a></li>
+            <li snap-close><a title="New Group" href="/createGroup"><i class="icon-plus icon-large pull-left"></i>New Group</a></li>
+            <li snap-close><a title="Join Group" href="/joinGroup"><i class="icon-list-alt icon-large pull-left"></i>Join Group</a></li>
+
+            <div ng-switch on="menu">
+                <div ng-switch-default="">
+                    <li class="separator">My Groups</li>
+                    <li snap-close ng-repeat="group in groups"><a ng-href="/group/{{ group.name }}">{{ group.name }}</a></li>
+                </div>
+
+                <div ng-switch-when="group">
+                    <li class="separator">{{ group.name }}</li>
+                    <li snap-close ng-click="gotoGroupSettings()"><a title="Settings" href="#"><i class="icon-cog icon-large pull-left"></i>Group Settings</a></li>
+                </div>
+
+            </div>
+
+
+
+
+
+            <!--<li class="separator" ng-show="isGroupAdmin">{{ group.name }}'s Settings</li>-->
+
+            <!--&lt;!&ndash;Settings&ndash;&gt;-->
+            <!--<li ng-click="gotoTab('General')" snap-close ng-show="isGroupAdmin"><a ng-class="{'active': tab == 'General'}" title="General" href="#"><i class="icon-tasks icon-large pull-left"></i>General</a></li>-->
+            <!--<li ng-click="gotoTab('Members')" snap-close ng-show="isGroupAdmin"><a ng-class="{'active': tab == 'Members'}" title="Members" href="#"><i class="icon-group icon-large pull-left"></i>Members</a></li>-->
+            <!--<li ng-click="gotoTab('Meters')" snap-close ng-show="isGroupAdmin"><a ng-class="{'active': tab == 'Meters'}" title="Meters" href="#"><i class="icon-signal icon-large pull-left"></i>Meters</a></li>-->
+
+        </ul>
+    </div>
+</div>

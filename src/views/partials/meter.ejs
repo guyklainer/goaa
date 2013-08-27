@@ -1,0 +1,66 @@
+<!-- Header -->
+<%- include ../shared/header.ejs %>
+
+
+<div class="container-fluid bottom-padding">
+    <div class="row-fluid cover-image-wrapper">
+        <img src="{{group.image}}" alt="Group Image"/>
+        <h4>
+            {{group.name}}
+        </h4>
+    </div>
+
+    <h4 class="page-title text-centered">{{groupName}}'s {{meter.name}}</h4>
+
+    <center><p ng-show="authError">Wrong {{authError}}</p></center>
+
+    <div ng-hide="isDataReceived" style="display: none;">
+        <h4 class="text-centered red">Meter not available</h4>
+    </div>
+    <div ng-show="isDataReceived">
+
+        <center class="boiler bottom-space" ng-hide="authError" ng-show="meter.type == 1">
+            <div class="temp-wrapper">
+                <div class="temp-helper"></div>
+                <div class="temp">
+                    <div style="height: {{ (meter.data - 20) * 100 / 40 }}% "></div>
+                </div>
+            </div>
+            <p  class="number">{{ meter.data | celTemp}}</p>
+            <div class="btn-group">
+                <button type="button" ng-class="isOn()" ng-change="updateServer()" class="btn" ng-model="meter.status" btn-radio="'on'">On</button>
+                <button type="button" ng-change="updateServer()" class="btn" ng-model="meter.status" btn-radio="'off'">Off</button>
+            </div>
+        </center>
+
+        <center class="boiler bottom-space" ng-hide="authError" ng-show="meter.type == 3">
+            <div class="btn-group">
+                <button type="button" ng-class="isOn()" ng-change="updateServer()" class="btn" ng-model="meter.status" btn-radio="'on'">On</button>
+                <button type="button" ng-change="updateServer()" class="btn" ng-model="meter.status" btn-radio="'off'">Off</button>
+            </div>
+
+            <input class="temp-input" type="number" min="16" max="40" step="1" ng-model="meter.temp" ng-change="updateServer()">
+
+
+            <h3 style="margin-top: 100px;">Room Temprature:</h3>
+            <div class="temp-wrapper">
+                <div class="temp-helper"></div>
+                <div class="temp">
+                    <div style="height: {{ (meter.data - 20) * 100 / 40 }}% "></div>
+                </div>
+            </div>
+            <p class="number">{{ meter.data }}&deg;C</p>
+        </center>
+
+
+        <div class="number-image" ng-hide="authError" ng-show="meter.type == 2">
+            <p class="water-number number">{{ meter.data }}</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Footer -->
+<%- include ../shared/footer.ejs %>

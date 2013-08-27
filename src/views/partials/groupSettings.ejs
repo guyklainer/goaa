@@ -1,0 +1,98 @@
+<!-- Header -->
+<%- include ../shared/header.ejs %>
+
+
+<!-- Content -->
+<div class="container-fluid main">
+
+
+    <div class="row-fluid cover-image-wrapper">
+        <img src="{{group.image}}" alt="Group Image"/>
+        <h4>
+            {{group.name}}
+        </h4>
+    </div>
+
+    <ul class="top-buttons bottom-space in-settings" ng-show="isGroupAdmin">
+        <li ng-class="{'active': tab == 'General'}" ng-click="gotoTab('General')"><i class="icon-road icon-white"></i></li>
+
+        <li ng-class="{'active': tab == 'Members'}" ng-click="gotoTab('Members')"><i class="icon-group icon-white"></i><span ng-show="numberOfUsersWaiting > 0" class="badge posts-number">{{ numberOfUsersWaiting }}</span></li>
+
+        <li ng-class="{'active': tab == 'Meters'}" ng-click="gotoTab('Meters')"><i class="icon-signal icon-white"></i></li>
+    </ul>
+
+    <div ng-switch on="tab" ng-animate="'wave'">
+        <!-- Members -->
+        <span ng-switch-when="Members">
+            <div ng-show="isGroupAdmin" class="container-fluid top-space">
+                <ul class="members-list list">
+                    <li ng-repeat="member in group.members" class="list-item">
+                        <div class="member-type">
+                            <span ng-show="isAdmin(member)"><strong>Admin</strong></span>
+                            <span ng-class="{'semi-trasparent': !member.approved}" ng-hide="isAdmin(member)"><i class="icon-user"></i></span>
+                        </div>
+                        <div ng-class="{'semi-trasparent': !member.approved}" class="member-name">{{member.user.firstName}} {{member.user.lastName}}</div>
+                        <div class="member-buttons">
+                            <button ng-show="!member.approved" ng-click="confirmMember(member, group._id)" class="btn-small btn btn-info"><i  class="icon-ok"></i></button>
+                            <button ng-hide="isAdmin(member)" ng-click="deleteMember(member, group._id)" class="btn btn-danger btn-small"><i  class="icon-remove"></i></button>
+                        </div>
+                    </li>
+                </ul>
+
+                <button ng-click="gotoAddMember()" class="btn btn-success btn-block top-space">Add</button>
+            </div>
+        </span>
+
+        <!-- Meters -->
+        <span ng-switch-when="Meters">
+            <div ng-show="isGroupAdmin" class="container-fluid top-space">
+                <p ng-hide="group.meters.length">No Meters</p>
+                <ul class="meters-list list" ng-show="group.meters.length">
+                    <li class="list-item" ng-repeat="meter in group.meters">
+                        <div ng-click="gotoMeter(meter._id)" class="meter-name">{{meter.name}}</div>
+                        <p class="red pull-right" ng-show="meter.isDeleteError">Oops we have a problem..</p>
+                        <button ng-click="gotoMeter(meter._id)" class="btn btn-info btn-small"><i  class="icon-pencil"></i></button>
+                        <button ng-click="deleteMeter(meter, group._id)" class="btn btn-danger btn-small"><i  class="icon-remove"></i></button>
+                    </li>
+                </ul>
+
+                <button ng-click="gotoMeter()" class="top-space btn btn-success btn-block">Add</button>
+            </div>
+        </span>
+
+        <!-- General -->
+        <span ng-switch-default>
+            <div class="container-fluid top-space">
+                <div ng-hide="isGroupAdmin">
+                    <div group-address="group.address"></div>
+                </div>
+                <div ng-show="isGroupAdmin" class="row-fluid">
+                    <p>Address:</p>
+                    <input type="text" required class="input-block-level" placeholder="street" ng-model="group.address.street">
+                    <input type="number" required class="half-left" placeholder="House" ng-model="group.address.house">
+                    <input type="number" required class="half-right" placeholder="Apartment" ng-model="group.address.apartment">
+                    <input type="text"  required class="half-left" placeholder="city" ng-model="group.address.city">
+                    <input type="text" required class="half-right" placeholder="country" ng-model="group.address.country">
+                </div>
+
+                <div google-map address="group.addressString"></div>
+
+                <div ng-show="isGroupAdmin">
+                    <div image-uploader image="group.image" image-upload-settings="imageUploadSettings"></div>
+
+                    <div class="row-fluid">
+
+                        <div class="alert alert-error span12" ng-show="isSaveError">
+                            <strong>Oops Problem with the saving..</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </span>
+    </div>
+
+</div>
+
+
+<!-- Footer -->
+<%- include ../shared/footer.ejs %>

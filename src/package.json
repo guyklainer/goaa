@@ -1,15 +1,28 @@
 {
-    "name": "node-express-3.0-html5-boilerplate", 
-    "version": "0.2.0", 
-    "private": true, 
-    "dependencies": {
-        "express": "3.x", 
-        "jade": "0.x",
-        "less": "1.x",
-        "connect-assets": "2.x",
-        "colors": "0.x"
-    },
-    "engines": {
-        "node": "~0.8.x"
-    }
+  "name": "Goaa",
+  "version": "0.2.0-1",
+  "private": true,
+  "dependencies": {
+    "express": "3.x",
+    "less": "1.x",
+    "connect-assets": "2.x",
+    "colors": "0.x",
+    "ejs": "~0.8.3",
+    "passport": "~0.1.16",
+    "passport-local": "~0.1.6",
+    "supervisor": "~0.5.2",
+    "underscore": "~1.4.4",
+    "cron": "~1.0.1",
+    "knox": "~0.7.0",
+    "socket.io": "~0.9.14",
+    "nodemailer": "~0.4.1",
+    "mongoose": "~3.6.18"
+  },
+  "engines": {
+    "node": "~0.8.x"
+  },
+  "subdomain": "goaa",
+  "scripts": {
+    "start": "node app.js"
+  }
 }

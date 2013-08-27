@@ -1,0 +1,40 @@
+
+
+<!-- Footer -->
+<div ng-hide="hideBottomMenu" hidden-when-input-focus="" class="navbar navbar-fixed-bottom static">
+    <div class="navbar-inner">
+        <div class="continer">
+            <ul class="nav">
+                <li ng-click="" class="pull-left"><a title="Home" href="/home"><i class="icon-home icon-large"></i><p>Home</p></a></li>
+
+                <li ng-click="gotoGroupSettings()" ng-show="showSettings && numberOfUsersWaiting > 0" class="pull-right"><span class="badge posts-number settings">{{ numberOfUsersWaiting }}</span></li>
+                <li ng-click="gotoGroupSettings()" ng-show="showSettings" class="pull-right"><a title="Settings" href="#"><i class="icon-cog icon-large"></i><p>Settings</p></a></li>
+
+
+                <!--Home-->
+                <li ng-show="homePage"><a title="New Group" href="/createGroup"><i class="icon-plus icon-large"></i><p>New</p></a></li>
+                <li ng-show="homePage"><a title="Join Group" href="/joinGroup"><i class="icon-list-alt icon-large"></i><p>Join</p></a></li>
+                <li ng-show="homePage"><a title="Compose" href="/compose"><i class="icon-pencil icon-large"></i><p>Compose</p></a></li>
+
+                <!--Group Setting-->
+                <li ng-show="inSettings" ng-click="leaveGroup(group)" class="pull-right"><a title="Leave" href="#"><i class="icon-signout icon-large red"></i><p class="red">Leave</p></a></li>
+                <li ng-show="inSettings && isGroupAdmin" ng-click="saveChanges(group)" class="pull-right"><a title="Save" href="#"><i class="icon-save icon-large dark-blue"></i><p class="dark-blue">Save</p></a></li>
+
+                <!--&lt;!&ndash;Group&ndash;&gt;-->
+                <!--<li ng-click="switchView(partialEnum.news)" ng-show="groupPage"><a title="News" href="#"><i class="icon-home icon-large"></i><p>News</p></a></li>-->
+                <!--<li ng-click="switchView(partialEnum.gallery)" ng-show="groupPage"><a title="Gallery" href="#"><i class="icon-th icon-large"></i><p>Gallery</p></a></li>-->
+                <!--<li ng-click="switchView(partialEnum.meters)" ng-show="groupPage"><a title="Meters" href="#"><i class="icon-signal icon-large"></i><p>Meters</p></a></li>-->
+                <!--<li ng-click="switchView(partialEnum.todos)" ng-show="groupPage"><a title="Todos" href="#"><i class="icon-check icon-large"></i><p>Todos</p></a></li>-->
+
+                <!--<center class="top-buttons">-->
+                    <!--<div class="btn-group">-->
+                        <!--<button ng-class="{'btn-warning': view == 'news'}" ng-click="switchView(partialEnum.news)" class="btn btn-small"><i class="icon-home icon-white"></i> News</button>-->
+                        <!--<button ng-class="{'btn-warning': view == 'gallery'}" ng-click="switchView(partialEnum.gallery)" class="btn btn-small"><i class="icon-th icon-white"></i> Gallery</button>-->
+                        <!--<button ng-class="{'btn-warning': view == 'meters'}" ng-click="switchView(partialEnum.meters)" class="btn btn-small"><i class="icon-signal icon-white"></i> Meters</button>-->
+                        <!--<button ng-class="{'btn-warning': view == 'todos'}" ng-click="switchView(partialEnum.todos)" class="btn btn-small"><i class="icon-check icon-white"></i> Todos</button>-->
+                    <!--</div>-->
+                <!--</center>-->
+            </ul>
+        </div>
+    </div>
+</div>

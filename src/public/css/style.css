@@ -1,0 +1,741 @@
+/* import you bastard  */
+/*@import 'bacon';*/
+
+.simpleLink{
+    color: #000000;
+    text-decoration: none !important;
+}
+.headerBackground{
+    background-color: lightgray;
+}
+
+/******************************
+// Guy Klainer
+//******************************/
+
+/******************************
+// General
+//******************************/
+
+html {
+    background: url('../img/bg.png' ) rgba(245, 242, 220, 0.47);
+}
+
+body {
+    background-color: transparent;
+    padding-top: 60px;
+}
+
+.main {
+    margin-bottom: 90px;
+}
+
+a {
+    color: black;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.text-centered {
+    text-align: center;
+}
+
+a:hover, a:focus {
+    text-decoration: none;
+}
+
+.loader {
+    background: url('../img/loader.gif' ) no-repeat;
+    width: 16px;
+    height: 11px;
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
+
+.loader-helper {
+    position: relative;
+}
+
+.bottom-space {
+    margin-bottom: 20px;
+}
+
+.top-space {
+    margin-top: 20px;
+}
+
+.right-space {
+    margin-right: 20px;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.half-left {
+    width: 44%;
+    float: left;
+}
+
+.half-right {
+    width: 44%;
+    float: right;
+}
+
+.page-title {
+    margin-top: 0;
+    color: rgba(0, 0, 0, 0.64);
+    text-shadow: 1px 1px 0px rgba(128, 128, 128, 0.34);
+}
+
+.pull-right {
+    float: right !important;
+}
+
+.semi-trasparent {
+    opacity: 0.5;
+}
+
+.semi-trasparent:hover {
+    opacity: 1;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.view-enter, .view-leave {
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+
+    -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 300ms;
+    -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 300ms;
+    -o-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 300ms;
+    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 300ms;
+}
+
+.view-enter {
+    position:absolute;
+    left:500px;
+    width: 100%;
+}
+
+.view-enter-active {
+    left:0;
+    width: 100%;
+}
+
+.view-leave {
+    position:absolute;
+    left:0;
+    width: 100%;
+}
+
+.view-leave-active {
+    left:-500px;
+    width: 100%;
+}
+
+.wave-enter, .wave-leave {
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+
+    -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    -o-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+}
+
+.wave-enter {
+    margin-top: 30px;
+    position:absolute;
+    left:500px;
+    width: 87%;
+}
+
+.wave-enter-active {
+    left:10px;
+    width: 87%;
+}
+
+.wave-leave {
+    margin-top: 30px;
+    position:absolute;
+    left:10px;
+    width: 87%;
+}
+
+.wave-leave-active {
+    left:-500px;
+    width: 87%;
+}
+
+.thumbnail {
+    padding: 10px 4px
+}
+
+.snap-content {
+    padding: 60px 20px 0;
+    background: url('../img/bg.png' ) rgba(240, 240, 237, 1);
+    box-shadow: 3px 0 46px 11px black;
+}
+
+.snap-drawer {
+    background: url('../img/bg.png' ) rgba(68, 68, 67, 1);
+}
+
+.snap-toggle {
+    padding: 5px 10px;
+    opacity: 0.6;
+}
+
+.snap-drawer li {
+    font-weight: 200;
+    padding: 5% 5%;
+    border-top: 1px solid rgba(255, 255, 255, 0.46);
+    box-shadow: 0 0px 0px 1px black;
+    line-height: 14px;
+}
+
+.snap-drawer li a {
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.snap-drawer li a.active {
+    color: orange;
+}
+
+.snap-drawer li a.compose {
+    color: rgb(70, 159, 163);
+}
+
+.snap-drawer li a:hover {
+    background-color: transparent;
+}
+
+.snap-drawer .separator {
+    background: #EBF9C1;
+    padding: 5%;
+    border: 0;
+    font-weight: normal;
+    margin-top: 15%;
+    font-size: 16px;
+}
+
+.snap-drawer .logo {
+    width: 50px;
+    margin: 10px 0px;
+}
+
+.thumbnails, .bottom-padding {
+    padding-bottom: 60px;
+}
+
+/******************************
+// Colors
+//******************************/
+
+.red {
+    color: #a90a15;
+}
+
+.green{
+    color: green;
+}
+
+.blue{
+    color: #3f66ff;
+}
+
+.dark-blue {
+    color: #143FE7;
+}
+
+/******************************
+// Top Bar
+//******************************/
+
+.navbar a {
+    padding-top: 5px;
+    color: rgba(0, 0, 0, 0.64);
+}
+
+.navbar-fixed-top .navbar-inner {
+    min-height: 25px;
+}
+
+.navbar h4 {
+    margin: 0;
+}
+
+.navbar .logo {
+    padding: 0;
+    white-space: nowrap;
+}
+
+.navbar .back i {
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    border-radius: 30px;
+    padding: 3px 6px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.navbar .logo img {
+    height: 40px;
+}
+
+.navbar-inner {
+    padding: 0 10px;
+}
+
+
+/******************************
+// Bottom Bar
+//******************************/
+
+.navbar.static {
+    position: fixed;
+    margin: 0;
+}
+
+.navbar h4 {
+    margin: 0;
+}
+
+.navbar-fixed-bottom .nav li {
+    //border-right: 1px solid rgba(128, 128, 128, 0.25);
+}
+
+.navbar-fixed-bottom .nav li:last-child {
+    border-right: none;
+}
+
+.navbar-fixed-bottom .nav {
+    width: 100%;
+}
+
+.navbar-fixed-bottom .nav li a {
+    text-align: center;
+    padding: 10px 12px;
+}
+
+.navbar-fixed-bottom .nav li a p {
+    margin: 0;
+    font-size: 12px;
+}
+/******************************
+// Login
+//******************************/
+
+img.logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.form-signin input[type="text"], .form-signin input[type="password"], .form-signin input[type="url"] {
+    height: 40px;
+}
+
+/******************************
+// Groups
+//******************************/
+
+.list {
+    width: 100%;
+    margin: 0;
+    list-style-type: none;
+    border: 1px solid rgba(128, 128, 128, 0.26);
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.065);
+    background-color: #fafafa;
+    background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
+    background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
+    background-repeat: repeat-x;
+    overflow: hidden;
+}
+
+.list-item {
+    width: 96%;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.26);
+    padding: 1% 2%;
+    position: relative;
+    height: 35px;
+    cursor: pointer;
+    line-height: 35px;
+}
+
+.list-item:last-child {
+    border: none;
+}
+
+.list-item:nth-child(even) {
+background: rgba(151, 142, 142, 0.07);
+}
+
+.list-item i.icon-chevron-right {
+    opacity: 0.5;
+    position: absolute;
+    right: 15px;
+    top: 34%;
+}
+
+.list-item .badge {
+    position: absolute;
+    right: 40px;
+    top: 32%;
+    opacity: 0.7;
+    box-shadow: 1px 1px 0px rgba(128, 128, 128, 0.34);
+}
+
+.list-item i:hover,
+.list-item:hover i {
+    opacity: 1;
+}
+
+.list-item .img-continer {
+    height: 30px;
+    overflow: hidden;
+    width: 50px;
+}
+
+.list-item .title {
+    font-size: 16px;
+    margin-left: 20px;
+    float: left;
+}
+
+input[type="search"].search-group {
+    width: 93%;
+    padding: 10px;
+}
+
+.loader-helper .icon-search {
+    position: absolute;
+    right: 10px;
+    top: -4px;
+    opacity: 0.5;
+}
+
+.cover-image-wrapper {
+    width: 115%;
+    margin: -20px 0 0px -20px;
+    position: relative;
+    max-height: 160px;
+    overflow: hidden;
+}
+
+.cover-image-wrapper img {
+    width: 100%;
+}
+
+.cover-image-wrapper h4 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: white;
+    font-weight: normal;
+    width: 100%;
+    background: rgba(128, 128, 128, 0.69);
+    padding: 2%;
+    margin: 0;
+}
+
+.google-map-wrapper {
+    box-shadow: 0px 0px 15px 1px gray;
+}
+
+.google-map {
+    height: 150px;
+    width: 100%;
+}
+
+.address p {
+    margin: 0;
+}
+
+button.compose {
+    margin-top: -30px;
+    float: right;
+}
+
+.members-list .member-type {
+    width: 20%;
+    float: left;
+    margin-right: 2%;
+    text-align: center;
+}
+
+.members-list .member-name {
+    width: 45%;
+    float: left;
+}
+
+.members-list .member-buttons {
+    width: 30%;
+    float: right;
+    text-align: right;
+}
+
+.meters-list .meter-name {
+    width: 74%;
+    padding-left: 5px;
+    float: left;
+}
+
+.meters-list .meter-remove {
+    width: 30%;
+    float: right;
+    text-align: right;
+}
+
+ul.top-buttons {
+    margin-left: -20px;
+    list-style: none;
+    width: 115%;
+    float: left;
+    text-align: center;
+    background: rgba(29, 44, 122, 0.6);
+}
+
+ul.top-buttons li {
+    margin: 2% 8% 0;
+    float: left;
+    color: white;
+    font-size: 23px;
+    width: 9%;
+    position: relative;
+    
+}
+
+ul.top-buttons.in-settings li {
+    margin: 2% 12% 0;
+}
+
+ul.top-buttons li.active {
+    border-bottom: 3px solid orange;
+
+}
+
+.badge.posts-number {
+    position: absolute;
+    top: -15px;
+    background: #EE1C18;
+    border: 1px solid white;
+    padding: 2px 5px;
+    border-radius: 15px;
+}
+
+.badge.posts-number.settings {
+    top: 0px;
+    right: 5px;
+}
+
+
+/******************************
+// Posts
+//******************************/
+.post-details {
+    color: rgba(87, 66, 44, 0.87);
+    font-weight: normal;
+    padding: 0 0 2% 0;
+    margin: 0;
+    margin-top: -10px;
+}
+
+.post-content {
+    padding: 0 2%;
+    color: rgb(73, 72, 72);
+}
+
+.post-image-small {
+    width: 100px;
+    margin: 0 5% 0 2%;
+    box-shadow: 0 0 5px 1px gray;
+}
+
+.post-image {
+    margin: 0 auto;
+    float: none;
+    display: block;
+}
+
+/******************************
+// Upload image
+//******************************/
+.upload-area .group-image {
+    width: 130px;
+    max-height: 130px;
+    border-radius: 10px;
+    box-shadow: 0px 0 10px 1px gray;
+    background: rgba(255, 255, 255, 0.55);
+}
+
+.group-image-wrapper {
+    position: relative;
+    width: 130px;
+    margin: 0 auto;
+}
+
+.upload-area .img-wrapper {
+    position: relative;
+    float: left;
+}
+
+.upload-area .image-loader {
+    background: rgba(0, 0, 0, 0.51);
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.upload-area .image-loader img {
+    position: absolute;
+    top: 43%;
+    left: 41%;
+    width: 25px;
+}
+
+/******************************
+// Boiler meter
+//******************************/
+.temp {
+    height: 47px;
+    bottom: 139px;
+    position: absolute;
+    width: 9px;
+    margin: 0 52px;
+}
+
+.temp div {
+    background: #C53439;
+    bottom: 0px;
+    position: absolute;
+    width: 9px;
+}
+
+.temp-helper {
+    background: #C53439;
+    border-radius: 10px;
+    bottom: 50px;
+    position: absolute;
+    width: 9px;
+    margin: 0 52px;
+    height: 91px;
+}
+
+.temp-wrapper {
+    height: 304px;
+    width: 114px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 1px gray;
+    position: relative;
+    background: url(../img/temp-small.jpg ) no-repeat center top;
+    margin: 20px 0;
+}
+
+.number{
+    font-size: 22px;
+}
+
+.water-number {
+    background-color: white;
+    float: left;
+}
+
+.number-image {
+    background: url(../img/water.jpg);
+    height: 140px;
+    background-size: 200px;
+    width: 140px;
+    margin: 0 auto;
+    padding-top: 60px;
+    padding-left: 60px;
+}
+
+.ac {
+    background: url(../img/ac.jpg ) no-repeat center top;
+    width: 500px;
+    height: 190px;
+    background-size: 500px;
+    position: relative;
+}
+
+.ac-temp {
+    position: absolute;
+    top: 65px;
+    left: 243px;
+    background: white;
+    color: red;
+}
+
+.temp-input {
+    width: 50px;
+    margin-top: 5px;
+}
+
+/******************************
+// Boiler meter
+//******************************/
+.todo-done .todo-text {
+    text-decoration: line-through;
+}
+
+.todo-label {
+    margin-top: 7px;
+}
+
+.todo-label input {
+    margin: 0px;
+}
+
+
+input.ng-invalid.ng-dirty{
+    background-color: pink;
+}
+
+.upload-area .progress {
+    width: 100%;
+}
+
+.todo-large-input{
+    width: 50%;
+}
+
+.todos .input-append {
+    width: 100%;
+}
+
+.todos .input-append input {
+    width: 67%;
+}
+
+.todos .input-append button {
+    width: 27%;
+}
+
+/*input.ng-valid.ng-dirty{*/
+    /*background-color: lightgreen;*/
+/*}*/
+
+/*body { padding-top: 95px; !important }                 *//*added by oryan for navbar space */
+/*@media screen and (max-width: 768px) {      *//*added by oryan for navbar space */
+  /*body { padding-top: 0px; !important }*/
+/*}*/
