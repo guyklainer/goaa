@@ -11,7 +11,7 @@ var Todo = new Schema({
 });
 
 var Post = new Schema({
-    userID      : { type : Schema.ObjectId, ref : 'User' },
+    user        : { type : Schema.ObjectId, ref : 'User' },
     username    : String,
     data        : String,
     image       : String,

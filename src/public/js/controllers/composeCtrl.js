@@ -6,7 +6,7 @@ app.controller('ComposeCtrl', ['$scope', 'blockui', '$http', '$location','$timeo
          $scope.compose = {
              data :"",
              groupID:"",
-             userID:account.user()._id,
+             user:account.user()._id,
              image: ""
 
          };

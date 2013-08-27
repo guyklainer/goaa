@@ -34,7 +34,7 @@ module.exports.getGroupByName = function( req, res ){
 
     var groupName   = req.body.name;
 
-    Group.findOne( { name: groupName } ).populate( "members.user" ).exec( function( err, group ) {
+    Group.findOne( { name: groupName } ).populate( "members.user").populate( "posts.user" ).exec( function( err, group ) {
 
         if( err ){
             res.json( utils.createResult( false, err, "dbError" ) );

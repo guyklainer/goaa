@@ -16,6 +16,9 @@
                 <li ng-show="homePage"><a title="Join Group" href="/joinGroup"><i class="icon-list-alt icon-large"></i><p>Join</p></a></li>
                 <li ng-show="homePage"><a title="Compose" href="/compose"><i class="icon-pencil icon-large"></i><p>Compose</p></a></li>
 
+                <!--Group Setting-->
+                <li ng-show="inSettings" ng-click="leaveGroup(group)" class="pull-right"><a title="Leave" href="#"><i class="icon-signout icon-large red"></i><p class="red">Leave</p></a></li>
+                <li ng-show="inSettings" ng-click="saveChanges(group)" class="pull-right"><a title="Save" href="#"><i class="icon-save icon-large dark-blue"></i><p class="dark-blue">Save</p></a></li>
 
                 <!--&lt;!&ndash;Group&ndash;&gt;-->
                 <!--<li ng-click="switchView(partialEnum.news)" ng-show="groupPage"><a title="News" href="#"><i class="icon-home icon-large"></i><p>News</p></a></li>-->

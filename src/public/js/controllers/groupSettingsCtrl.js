@@ -19,6 +19,7 @@ angular.module('App').controller('GroupSettingsCtrl', ['$scope', '$location', 'a
             });
         }
 
+        $scope.inSettings   = true;
         $scope.isGroupAdmin = false;
         $scope.tabs         = ['General', 'Members', 'Meters'];
         $scope.tab          = $scope.tabs[0];
