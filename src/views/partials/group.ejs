@@ -34,7 +34,7 @@
         </span>
 
         <span ng-switch-when="meters">
-            <div class="container-fluid top-space">
+            <div class="container-fluid top-space bottom-padding">
                 <ul class="list" ng-hide="isLoading || isShowNoMeters(group.meters, isLoading)">
                     <li class="list-item" ng-click="gotoMeter(meter)" ng-repeat="meter in group.meters">
                         <a href="#" class="title">
@@ -67,7 +67,7 @@
                 </center>
 
 
-                <div class="row-fluid">
+                <div class="row-fluid bottom-padding">
                     <ul class="list" ng-show="group.todos.length > 0">
                         <li class="list-item" ng-class="{'todo-done': item.isDone}" ng-repeat="item in group.todos">
                             <span class="pull-right">

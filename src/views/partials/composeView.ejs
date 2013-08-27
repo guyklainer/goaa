@@ -9,7 +9,7 @@
 
 <center>
     <div class="container-fluid">
-        <form class="form-signin" ng-submit="makeCompose()" enctype="multipart/form-data">
+        <form class="form-signin bottom-padding" ng-submit="makeCompose()" enctype="multipart/form-data">
             <select   ng-model="compose.groupID" class="span1">
                 <option ng-selected="isSelected(group)" ng-repeat="group in groups" value={{group._id}}>{{group.name}}</option>
             </select>
