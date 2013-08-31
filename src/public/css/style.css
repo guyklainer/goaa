@@ -241,7 +241,7 @@ a:hover, a:focus {
 }
 
 .thumbnails, .bottom-padding {
-    padding-bottom: 60px;
+    padding-bottom: 80px;
 }
 
 /******************************
@@ -493,7 +493,7 @@ button.compose {
 }
 
 .meters-list .meter-name {
-    width: 74%;
+    width: 70%;
     padding-left: 5px;
     float: left;
 }

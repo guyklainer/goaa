@@ -1,6 +1,6 @@
 "use strict";
 
-app.directive('reAuth', function() {
+app.directive('reAuth', function($location) {
     return {
         restrict: 'A',
         link: function(scope, element, attrs, controller){
@@ -9,19 +9,24 @@ app.directive('reAuth', function() {
 
             var login = element.find('#login-holder');
             var main = element.find('#content');
+            var isInLogin = $location.path().indexOf('login') != -1;
             log('login elements', login, main);
 
             login.hide();
 
             scope.$on('event:auth-loginRequired', function() {
                 NProgress.done();
-                login.slideDown('slow', function() {
-                    main.hide();
-                });
+                if (isInLogin){
+                    login.slideDown('slow', function() {
+                        main.hide();
+                    });
+                }
             });
             scope.$on('event:auth-loginConfirmed', function() {
-                main.show();
-                login.slideUp();
+                if (isInLogin) {
+                    main.show();
+                    login.slideUp();
+                }
             });
         }
     }

@@ -2,6 +2,8 @@
 // -- Module dependencies.
 var express     = require('express'),
     http        = require('http'),
+    logo        = require('./lib/logo'),
+    color       = require('colors'),
     passport    = require('passport'),
     fs          = require('fs'),
     mongoose    = require('mongoose');
@@ -38,6 +40,8 @@ mongoose.connect( settings.db.main, function( err ){
     }
 });
 
+// -- Only listen on $ node app.js
+logo.print();
 
 // -- Create the server
 var server      = http.createServer( app ),
@@ -46,8 +50,8 @@ var server      = http.createServer( app ),
 
 var port = process.env.PORT || settings.port;
 server.listen( port, function(){
-    console.log("Express server listening on port %d in %s mode  //", settings.port, env);
-    console.log('Using Express...');
+    console.log("Express server listening on "+" port %d ".bold.inverse.red+" in " + " %s mode ".bold.inverse.green + " //", settings.port, env);
+    //console.log('Using Express %s...', express.version.red.bold);
 });
 
 // -- socket.io
