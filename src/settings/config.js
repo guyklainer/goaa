@@ -28,9 +28,5 @@ module.exports.settings = {
     'debug'         : 0,
     'profile'       : 0,
     'db'            : { main: 'mongodb://goaa:goaa@dharma.mongohq.com:10039/Goaa', fallback: 'mongodb://localhost/goaa' },
-    'S3Key'         : 'AKIAI2RZRVF5BVXASAUA',
-    'S3Secret'      : '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',
-    'S3Bucket'      : 'goaa',
-    'S3ImagePrefix' : 'https://goaa.s3.amazonaws.com',
     'defaultAvatar' : '/img/logo.png'
 }
