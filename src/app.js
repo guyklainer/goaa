@@ -31,7 +31,7 @@ require('./settings/bootstrap').boot( app, passport );
 require('./settings/routes')( app, passport );
 
 // -- Connect to DB
-mongoose.connect( settings.db.main, function( err ){
+mongoose.connect( settings.db.fallback, function( err ){
     if( err ){
         mongoose.connect( settings.db.fallback, function( err ){
             if( err )

@@ -5,6 +5,7 @@ var express         = require( 'express' ),
     mongoose        = require( 'mongoose' ),
     User            = mongoose.model('User' ),
     conf            = require( './config' ),
+    path            = require( 'path' ),
     settings        = conf.settings;
 
 
@@ -65,7 +66,7 @@ module.exports.boot = function( app, passport ) {
          
          // -- Parses x-www-form-urlencoded request bodies (and json)
          app.use(express.cookieParser());
-         app.use(express.bodyParser());
+         app.use(express.bodyParser( { keepExtensions:true, uploadDir : path.join(static_root + '/uploads') } ) );
          app.use(express.methodOverride());
          
          // -- Static ressources

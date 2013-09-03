@@ -39,7 +39,11 @@
                 }
 
                 function error(response) {
-                    if (response.status === 401 && !response.config.ignoreAuthModule) {
+
+                    // checks if in the Login screen
+                    var isInLogin = window.location.href.indexOf('login') != -1;
+
+                    if (response.status === 401 && !response.config.ignoreAuthModule && !isInLogin) {
                         var deferred = $q.defer();
                         httpBuffer.append(response.config, deferred);
                         $rootScope.$broadcast('event:auth-loginRequired');
